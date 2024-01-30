@@ -1,4 +1,5 @@
 import time
+import unittest
 
 import pytest
 from openpyxl.reader.excel import load_workbook
@@ -9,7 +10,8 @@ from pageObjects.LoginPage import LoginPage
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
 
-class Test_001_Login:
+
+class TestLogin(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
     workbook = load_workbook("TestData/LoginData.xlsx")
 
@@ -23,13 +25,19 @@ class Test_001_Login:
 
     logger=LogGen.loggen()
 
-    @pytest.mark.regression
-    def test_homePageTitle(self,setup):
-        self.logger.info("*************** Test_001_Login *****************")
-        self.logger.info("****Started Home page title test ****")
-        self.driver = setup
+    def setUp(self):
+        self.logger = LogGen.loggen()
+        self.driver = webdriver.Chrome()  # Change to the appropriate driver
+        self.driver.maximize_window()
         self.logger.info("****Opening URL****")
         self.driver.get(self.baseURL)
+
+    def tearDown(self):
+        self.driver.quit()
+
+    @pytest.mark.regression
+    def test_homePageTitle(self):
+        self.logger.info("****Started Home page title test ****")
         act_title=self.driver.title
 
         if act_title=="InLynk - Business Digital Eco System":
@@ -43,12 +51,9 @@ class Test_001_Login:
             assert False
 
     @pytest.mark.regression
-    def test_login_inValid_Password(self, setup):
+    def test_login_inValid_Password(self):
 
         self.logger.info("****Started invalid Password Login Test****")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword("InLINK@!@#$")
@@ -66,13 +71,10 @@ class Test_001_Login:
             self.driver.close()
             assert False
 
-    @pytest.mark.regression
-    def test_login_inValid_Username(self, setup):
+    @pytest.mark.run
+    def test_login_inValid_Username(self):
 
         self.logger.info("****Started invalid Username Login Test****")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
         self.lp = LoginPage(self.driver)
         self.lp.setUserName("sohel@gmailxyz.com")
         self.lp.setPassword(self.password)
@@ -93,13 +95,10 @@ class Test_001_Login:
 
 
     @pytest.mark.sanity
-    @pytest.mark.regression
-    def test_login_Valid_UsernamePassword(self,setup):
+    @pytest.mark.smoke
+    def test_login_Valid_UsernamePassword(self):
 
         self.logger.info("****Started Login Test****")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -120,3 +119,6 @@ class Test_001_Login:
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']").click()
         self.driver.close()
+
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)
