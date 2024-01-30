@@ -14,13 +14,13 @@ import random
 
 class Test_003_AddCustomer:
     baseURL = ReadConfig.getApplicationURL()
-    username = ReadConfig.getUseremail()
+    # username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
     logger = LogGen.loggen()  # Logger
     path = ".//TestData/LoginData.xlsx"
 
-    @pytest.mark.sanity
-    @pytest.mark.regression
+    # @pytest.mark.sanity
+    @pytest.mark.run
     def test_addCustomer(self,setup):
         self.logger.info("************* Test_003_AddCustomer **********")
         self.driver=setup

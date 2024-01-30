@@ -1,5 +1,7 @@
 import time
-from telnetlib import EC
+import unittest
+
+# from telnetlib import EC
 
 import pytest
 from openpyxl.reader.excel import load_workbook
@@ -10,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pageObjects.LoginPage import LoginPage
+from testCases.conftest import setup
 from utilities.customLogger import LogGen
 from utilities.readProperties import ReadConfig
 from pageObjects.companySignUpPage import companySignUpPage
@@ -17,24 +20,23 @@ from pageObjects.randomGen import randomGen
 from selenium import webdriver
 from openpyxl import workbook
 
-class TestSignUp:
+
+class TestSignUp(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
     setSearchIndustryType = "Information Technology"
     password = ReadConfig.getPassword()
 
-    # @pytest.fixture(scope="class")
-    # def setup(self):
-    #     self.driver = webdriver.Chrome()  # Change to the appropriate driver
-    #     self.driver.maximize_window()
-    #     yield
-    #     self.driver.quit()
+    def setUp(self):
+        self.logger = LogGen.loggen()
+        self.driver = webdriver.Chrome()  # Change to the appropriate driver
+        self.driver.maximize_window()
+
+    def tearDown(self):
+        self.driver.quit()
 
     @pytest.mark.run(order=1)
-    def test_SignUpwithValid(self, setup):
-        self.logger = LogGen.loggen()
-        self.logger.info("****Opening URL****")
-        self.driver = setup
-        self.driver.maximize_window()
+    @pytest.mark.smoke
+    def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
         self.logger.info("******** Starting test_Sign Up with Valid ***********")
         self.logger.info("******** User is on Login page ***********")
@@ -109,9 +111,6 @@ class TestSignUp:
         captcha_found = False
         while attempts < captcha_retries:
             try:
-                # Your existing code for handling the CAPTCHA
-                # ...
-
 
                 # If CAPTCHA is successfully filled, set captcha_found to True
                 captcha_found = False  # Update this line accordingly
@@ -188,3 +187,6 @@ class TestSignUp:
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']").click()
         self.driver.close()
+
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)

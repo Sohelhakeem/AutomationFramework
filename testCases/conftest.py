@@ -16,14 +16,14 @@ def pytest_addoption(parser):    # This will get the value from CLI /hooks
     parser.addoption("--browser")
 
 @pytest.fixture()
-def browser(request):  # This will return the Browser value to setup method
+def browser(request):  # This will return the Browser value to se tup method
     return request.config.getoption("--browser")
 
 def pytest_configure(config):
     config._metadata = {
         'Project Name': 'nop Commerce',
         'Module Name': 'Customers',
-        'Tester': 'Pavan'
+        'Tester': 'Anand'
     }
 
 @pytest.fixture()
