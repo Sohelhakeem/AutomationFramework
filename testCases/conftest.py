@@ -23,7 +23,7 @@ def pytest_configure(config):
     config._metadata = {
         'Project Name': 'nop Commerce',
         'Module Name': 'Customers',
-        'Tester': 'Pavan'
+        'Tester': 'Anand'
     }
 
 @pytest.fixture()
