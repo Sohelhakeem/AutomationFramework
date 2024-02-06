@@ -66,6 +66,7 @@ class Test_Create_Recognition:
         time.sleep(2)
         if "Employee recognition has been successfully published" in self.driver.page_source:
             self.logger.info("********** content creation test is passed *********")
+            print(self,'--self')
 
         else:
             # Log and take a screenshot
