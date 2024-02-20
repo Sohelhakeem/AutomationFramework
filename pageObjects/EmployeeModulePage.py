@@ -1,5 +1,4 @@
 import time
-# from telnetlib import EC
 
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
@@ -23,6 +22,9 @@ class EmployeeModulePage:
     DD_ConfReject_xpath = "//button[normalize-space()='Reject']"
     Text_RejectedSuccessful_xpath = "//div[contains(text(),'Employee rejected successfully')]"
     Tab_Reject_xpath = "//button[normalize-space()='Rejected']"
+
+
+
 
     def __init__(self, driver):
         self.driver = driver
@@ -92,3 +94,5 @@ class EmployeeModulePage:
 
     def ClickConfReject(self):
         self.driver.find_element(By.XPATH, self.DD_ConfReject_xpath).click()
+
+

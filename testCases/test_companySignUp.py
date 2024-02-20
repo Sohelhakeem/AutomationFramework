@@ -19,7 +19,7 @@ from pageObjects.companySignUpPage import companySignUpPage
 from pageObjects.randomGen import randomGen
 from selenium import webdriver
 from openpyxl import workbook
-
+import re
 
 class TestSignUp(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
@@ -30,12 +30,13 @@ class TestSignUp(unittest.TestCase):
         self.logger = LogGen.loggen()
         self.driver = webdriver.Chrome()  # Change to the appropriate driver
         self.driver.maximize_window()
-
+        self.driver.implicitly_wait(20)
     def tearDown(self):
         self.driver.quit()
 
     @pytest.mark.run(order=1)
-    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
         self.logger.info("******** Starting test_Sign Up with Valid ***********")
@@ -89,7 +90,7 @@ class TestSignUp(unittest.TestCase):
         self.sp.clicksignupNow()
         time.sleep(2)
 
-# Execute JavaScript to open a new tab
+        # Execute JavaScript to open a new tab
         self.driver.execute_script("window.open('about:blank', '_blank');")
 
         # Perform actions in the new tab (if needed)
@@ -144,12 +145,23 @@ class TestSignUp(unittest.TestCase):
         # self.driver.switch_to.frame(iframeElement)
         self.logger.info("******** Email Copied ***********")
         time.sleep(1)
-        otp = self.driver.find_element(By.XPATH,
-                                       "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/h1[1]")
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
+
+        # This code is for Test Env
+        # otp = self.driver.find_element(By.XPATH,
+        #                                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/h1[1]")
+        # self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
+        # time.sleep(0.5)
+        # getOTP = otp.text
+        # print(getOTP)
+
+        # This code is for QA ENV
+        otp = self.driver.find_element(By.XPATH,"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]")
         time.sleep(0.5)
-        getOTP = otp.text
+        confirmation_code = otp.text
+        getOTP = re.search(r'\b\d+\b', confirmation_code).group()
         print(getOTP)
+
+
         self.logger.info("******** Switching back and entering the otp ***********")
         self.driver.switch_to.default_content()
 
@@ -157,7 +169,7 @@ class TestSignUp(unittest.TestCase):
 
         self.sp.setOtp(getOTP)
 
-        time.sleep(2)
+        time.sleep(1)
         self.logger.info("******** Verifying the OTP ***********")
         self.sp.clickVerifyButton()
         self.sp.clickContinueToLogin()

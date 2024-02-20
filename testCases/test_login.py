@@ -5,6 +5,8 @@ import pytest
 from openpyxl.reader.excel import load_workbook
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from pageObjects.LoginPage import LoginPage
 from utilities.readProperties import ReadConfig
@@ -35,6 +37,7 @@ class TestLogin(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
+    @pytest.mark.run(order=2)
     @pytest.mark.regression
     def test_homePageTitle(self):
         self.logger.info("****Started Home page title test ****")
@@ -50,6 +53,7 @@ class TestLogin(unittest.TestCase):
             self.driver.close()
             assert False
 
+    @pytest.mark.run(order=3)
     @pytest.mark.regression
     def test_login_inValid_Password(self):
 
@@ -71,7 +75,8 @@ class TestLogin(unittest.TestCase):
             self.driver.close()
             assert False
 
-    @pytest.mark.run
+    @pytest.mark.run(order=4)
+    @pytest.mark.regression
     def test_login_inValid_Username(self):
 
         self.logger.info("****Started invalid Username Login Test****")
@@ -94,12 +99,15 @@ class TestLogin(unittest.TestCase):
 
 
 
-    @pytest.mark.sanity
-    @pytest.mark.smoke
+    @pytest.mark.run(order=1)
+    @pytest.mark.regression
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_login_Valid_UsernamePassword(self):
 
         self.logger.info("****Started Login Test****")
         self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login Username:" + self.username + " and Password:" + self.password)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -116,8 +124,10 @@ class TestLogin(unittest.TestCase):
             self.driver.close()
             assert False
 
-        time.sleep(3)
-        self.driver.find_element(By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']").click()
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']"))
+        )
+        element.click()
         self.driver.close()
 
     if __name__ == '__main__':

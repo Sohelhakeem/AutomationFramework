@@ -1,4 +1,6 @@
 import time
+
+from selenium.webdriver import ActionChains, Keys
 # from telnetlib import EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,6 +30,16 @@ class AddEmployeesPage:
     button_Add_xpath = "//button[normalize-space()='Add']"
     button_Cancel_xpath = "//button[contains(text(),'Cancel')]"
     Verify_EmployeeCreatedText_xpath = "//div[contains(text(),'Employee created successfully')]"
+    EmployeeStatus_xpath = "(//span[@id='status'])[2]"
+    AdminStatus_xpath = "//span[text()='Admin']"
+    EmployeesStatus_xpath = "(//span[text()='Employees'])[2]"
+    GrantAdmin_xpath = "//button[normalize-space()='Grant team admin']"
+    RemoveAdmin_xpath = "//button[normalize-space()='Remove from Admin']"
+    buttonActive_xpath = "//span[text()='Active']"
+    buttonDeactivate_xpath = "//span[text()='Deactivate']"
+    text_reason_xpath = "//input[@type='text']"
+    confDeactivate_xpath = "//button[text()='Deactivate']"
+
 
     def __init__(self, driver):
         self.driver = driver
@@ -38,7 +50,6 @@ class AddEmployeesPage:
         element.click()
 
     def Text_EmployeeCreatedSuccessful(self):
-        time.sleep(2)
         DeptUpdatedSuccessful = self.driver.find_element(By.XPATH, self.Verify_EmployeeCreatedText_xpath)
         text = DeptUpdatedSuccessful.text  # Access 'text' as an attribute, not as a function
         return text
@@ -117,3 +128,58 @@ class AddEmployeesPage:
         self.driver.find_element(By.XPATH, self.text_empId_xpath).clear()
         self.driver.find_element(By.XPATH, self.text_empId_xpath).send_keys(activeSearchField)
 
+    def ClickEmployeeStatus(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.EmployeeStatus_xpath)))
+        element.click()
+    def ClickAdminStatus(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.AdminStatus_xpath)))
+        element.click()
+    def ClickEmployeesStatus(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.EmployeesStatus_xpath)))
+        element.click()
+    def ClickRemoveStatus(self):
+        # time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.RemoveAdmin_xpath)))
+        element.click()
+    def ClickGrantAdmin(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.GrantAdmin_xpath)))
+        element.click()
+    def ClickDD_Dept(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_Dept_xpath)))
+        element.click()
+    def ClickDD_Division(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_Division_xpath)))
+        element.click()
+    def ClickDD_Designation(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_Designation_xpath)))
+        element.click()
+    def ClickbuttonActive(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.buttonActive_xpath)))
+        element.click()
+    def ClickbuttonDeactivate(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.buttonDeactivate_xpath)))
+        element.click()
+    def setreasonText(self, text):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.text_reason_xpath)))
+        element.send_keys(text)
+    def ClickconfDeactivate(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.confDeactivate_xpath)))
+        element.click()
+
+    def perform_keyboard_actions(self):
+        actions = ActionChains(self.driver)
+        actions.send_keys(Keys.DOWN)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()

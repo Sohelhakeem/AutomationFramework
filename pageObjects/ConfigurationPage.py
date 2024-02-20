@@ -14,7 +14,7 @@ class ConfigurationPage:
     tab_Relations_xpath = "//button[normalize-space()='Relations']"
     NewBtn_xpath = "//button[normalize-space()='New']"
     text_Department_name_xpath = "//input[@id='outlined-basic']"
-    text_EnterDescription_xpath = "//textarea[@placeholder='Write summary about (120 characters)']"
+    text_EnterDescription_xpath = "//textarea[@placeholder='Write a summary about (120 characters)']"
     button_Create_xpath = "//button[normalize-space()='Create']"
     button_Cancel_xpath = "//button[normalize-space()='Cancel']"
     button_Update_xpath = "//button[normalize-space()='Update']"
@@ -150,8 +150,9 @@ class ConfigurationPage:
         element.click()
 
     def setDepartmentName(self, searchField):
-        self.driver.find_element(By.XPATH, self.text_Department_name_xpath).clear()
-        self.driver.find_element(By.XPATH, self.text_Department_name_xpath).send_keys(searchField)
+        department_name_element = self.driver.find_element(By.XPATH, self.text_Department_name_xpath)
+        department_name_element.clear()
+        department_name_element.send_keys(searchField)
 
     def setEnterDescription(self, searchField):
         self.driver.find_element(By.XPATH, self.text_EnterDescription_xpath).clear()

@@ -40,7 +40,7 @@ class LoginPage:
         time.sleep(4)
 
     def clickNewsFeed(self):
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 20)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_newsfeed_xpath)))
         element.click()
 
