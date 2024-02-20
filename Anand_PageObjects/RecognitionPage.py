@@ -137,7 +137,7 @@ class Recognitions:
     def selectbannertwo(self):
         element = self.driver.find_element(By.XPATH, self.button_selectbadgetwo_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
-        time.sleep(1)
+        time.sleep(2)
         element.click()
 
 
