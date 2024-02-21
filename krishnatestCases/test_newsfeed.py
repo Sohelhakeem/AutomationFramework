@@ -13,7 +13,8 @@ from utilities.customLogger import LogGen
 
 
 class Test_001_NewsFeed:
-    baseURL = ReadConfig.getApplicationURL()
+    # baseURL = ReadConfig.getApplicationURL()
+    baseURL = "v6xvrsx@mailcatch.com"
     username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
     whats = ReadConfig.getwhats()
@@ -241,7 +242,7 @@ class Test_001_NewsFeed:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed4.png")
             assert False
 
-    @pytest.mark.sanity
+    @pytest.mark.test
     @pytest.mark.regression
     @pytest.mark.run(order=4)
     # @pytest.mark.skip(reason="Skipping this test")

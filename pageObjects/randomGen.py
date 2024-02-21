@@ -6,15 +6,35 @@ class randomGen:
     def random_email(size=7, chars=string.ascii_lowercase + string.digits):
         prefix = random.choice(string.ascii_lowercase)  # Ensure the first character is an alphabet
         prefix += ''.join(random.choice(chars) for _ in range(size - 1))  # Generate remaining characters
-        suffix = "@mailcatch.com"
-        # suffix = "@yopmail.com"
+        # suffix = "@mailcatch.com"
+        suffix = "@yopmail.com"
         return prefix + suffix
 
 
+    # @staticmethod
+    # def random_first_name():
+    #     random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+    #     return f"Test{random_part}"  # Prefix "test" to the random part
+
     @staticmethod
     def random_first_name():
-        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
-        return f"Test{random_part}"  # Prefix "test" to the random part
+        # List of common first names
+        first_names = ['Alice', 'Bob', 'Charlie', 'David', 'Eva', 'Frank', 'Grace', 'Henry', 'Ivy', 'Jack',
+                       'Kate', 'Liam', 'Mia', 'Noah', 'Olivia', 'Parker', 'Quinn', 'Riley', 'Samuel', 'Taylor',
+                       'Uma', 'Victor', 'Willow', 'Xander', 'Yasmine', 'Zane', 'Abigail', 'Benjamin', 'Chloe',
+                       'Daniel', 'Emily', 'Finn', 'Gabriella', 'Hudson', 'Isabella', 'Jacob', 'Kylie', 'Lucas',
+                       'Madison', 'Nathan', 'Olivia', 'Peyton', 'Quentin', 'Rebecca', 'Sophia', 'Tyler', 'Ursula',
+                       'Violet', 'Wyatt', 'Xena', 'Yara', 'Zachary', 'Ava', 'Bryan', 'Cora', 'Dylan', 'Elena',
+                       'Felix', 'Gemma', 'Hector', 'Isla', 'Jason', 'Katherine', 'Leo', 'Megan', 'Nina', 'Oscar',
+                       'Penelope', 'Quincy', 'Rose', 'Sebastian', 'Tessa', 'Ulysses', 'Vivian', 'Winston', 'Ximena',
+                       'Yasmine', 'Zara', 'Amelia', 'Brody', 'Cecilia', 'Derek', 'Eliza', 'Fiona', 'Gavin', 'Harper',
+                       'Ian', 'Jasmine', 'Kai', 'Luna', 'Milo', 'Nora', 'Owen', 'Piper', 'Quincy', 'Rachel']
+
+        # Randomly select a name from the list
+        random_name = random.choice(first_names)
+
+        return random_name
+
 
     @staticmethod
     def random_company_name():
