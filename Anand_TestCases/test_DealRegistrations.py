@@ -18,7 +18,7 @@ class Test_Create_DealwithNetworkCompany:
     baseURL = ReadConfig.getApplicationURL()
     workbook = load_workbook("TestData/LoginData.xlsx")
     deptname = randomGen.random_first_name()
-    comapanyname="twocompany"
+    comapanyname="j industries"
     nameofcompany="Instavc Technologies"
     address="Q3-A4,Cyber Towers,Hi tech city"
     department="software "+deptname
