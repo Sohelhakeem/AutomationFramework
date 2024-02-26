@@ -240,7 +240,6 @@ class addEmployees(unittest.TestCase):
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, xpath))
         )
-        # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
 
         if element:
             self.logger.info(f"Found Employee name : {element.text}")

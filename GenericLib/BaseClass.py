@@ -30,7 +30,7 @@ class BaseClass(unittest.TestCase):
         except AssertionError:
             # Test failed, take a screenshot
             test_name = self.id().split(".")[-1]
-            screenshot_name = f".\\ScreenShots\\{test_name}_failure.png"
+            screenshot_name = f".\\Screenshots\\{test_name}_failure.png"
             self.take_screenshot(screenshot_name)
         finally:
             self.driver.quit()

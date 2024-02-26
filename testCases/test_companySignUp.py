@@ -1,8 +1,5 @@
 import time
 import unittest
-
-# from telnetlib import EC
-
 import pytest
 from openpyxl.reader.excel import load_workbook
 from openpyxl.workbook import Workbook

@@ -130,7 +130,7 @@ class TestSignUpEmailTry(unittest.TestCase):
                 print("StaleElementReferenceException occurred. Retrying...")
                 continue  # Retry the loop if StaleElementReferenceException occurs
             except TimeoutException:
-                time.sleep(0.1)
+                time.sleep(1)
 
         iframeElement = self.driver.find_element(By.ID, "emailframe")
         self.driver.switch_to.frame(iframeElement)
@@ -284,10 +284,6 @@ class TestSignUpEmailTry(unittest.TestCase):
             self.logger.error("********* Employee creation Test is Failed ***********")
             self.driver.close()
             assert False
-
-    if __name__ == '__main__':
-        unittest.main(verbosity=2)
-
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
