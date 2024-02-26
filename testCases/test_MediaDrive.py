@@ -43,6 +43,7 @@ class TestMediaDrive(BaseClass):
     logger = LogGen.loggen()
 
     @pytest.mark.regression
+    @pytest.mark.test
     @pytest.mark.skip("created a common method")
     @pytest.mark.run(order=1)
     def test_MediaDrive(self):
@@ -50,7 +51,7 @@ class TestMediaDrive(BaseClass):
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
-        self.lp.clickLogin()
+        # self.lp.clickLogin()
         self.lp.clickNewsFeed()
         self.md = mediaDrivePage(self.driver)
         self.md.clickMediaDrive()

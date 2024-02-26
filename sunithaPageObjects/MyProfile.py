@@ -26,7 +26,7 @@ class MyprofilePage:
     # Remove Banner image
     Banner_image_Remove_xpath = "//span[normalize-space()='Remove']"
     #update banner image
-    Banner_image_update_xpath = "//div[@id='basic-menu']//li[1]"
+    Banner_image_update_xpath = "//input[@id='updatePreview']"
 
     # --------------------------------Profile image uploading
     profile_image_id = "previewProfile"
@@ -47,7 +47,7 @@ class MyprofilePage:
     division_click_xpath = "//body/div[@role='presentation']/div[@role='presentation']/div[@role='dialog']/div[@class='MuiDialogContent-root css-1ty026z']/div[@class='flexCol pdngTMD brdrTSM']/div[3]/div[1]/div[1]"
     division_selection_click_xpath = "//li[@role='option']//span[@class='flexRow alignCntr capitalTxt wordBreakAll ellipseLen2'][normalize-space()='Mobile']"
     designation_clik_xpath = "//div[4]//div[1]//div[1]//div[1]//div[1]"
-    designation_selection_click_xpath = "//li[@role='option']//span[@class='flexRow alignCntr capitalTxt wordBreakAll ellipseLen2'][normalize-space()='IT engineer']"
+    designation_selection_click_xpath = "//span[normalize-space()='IT Engineer']"
     updateEdit_click_xpath = "//button[normalize-space()='Update']"
 
     # -----------------------------------OverView
@@ -86,7 +86,7 @@ class MyprofilePage:
     city_listbox_click_xpath = "//body/div[@role='presentation']/div[@role='presentation']/div[@role='dialog']/div[@class='MuiDialogContent-root css-1ty026z']/div[@class='flexCol']/div[@class='resColRow']/div[@class='MuiFormControl-root MuiFormControl-marginDense MuiFormControl-fullWidth css-47xwek']/div[@class='MuiFormControl-root MuiTextField-root css-i44wyl']/div[@class='MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-1v3mfg2']/div[1]"
     city_selection_click_xpath = "//li[normalize-space()='Adoni']"
     pincode_input_id = "pincode"
-    checkbox_click_xpath = "//input[@value='false']"
+    checkbox_click_xpath = "//span[@class='MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-9l3uo3']"
     saVe_button_click_xpath = "//button[normalize-space()='Save']"
 
     # -------------------------------------------Social Media Links
@@ -129,26 +129,24 @@ class MyprofilePage:
         self.driver.find_element(By.XPATH, self.newsFeed_click_xpath).click()
 
     def clickMyProfileModule(self):
-        # time.sleep(2)
+        time.sleep(2)
         # Scroll to bring the element into view
-        # element = self.driver.find_element(By.XPATH, self.MyProfile_click_xpath)
-        element = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, self.MyProfile_click_xpath))
-        )
+        element = self.driver.find_element(By.XPATH, self.MyProfile_click_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
-        time.sleep(0.5)
+        time.sleep(1)
         # Click the Company Sign Up button
         element.click()
-        # time.sleep(2)
+        time.sleep(2)
 
     # -------------------------------------Banner image uploading
-    def uploadBannerImage(self,BannerPath ):
+    def uploadBannerImage(self,absolute3 ):
         time.sleep(2)
         # self.driver.find_element(By.ID,self.Banner_image_click_id).send_keys(BannerPath)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.ID, self.Banner_image_click_id)))
-        element.send_keys(BannerPath)
+        element.send_keys(absolute3)
+        time.sleep(2)
 
     def SaveBannerImage(self):
         # time.sleep(5)
@@ -159,44 +157,47 @@ class MyprofilePage:
         time.sleep(2)
 
     def BannerImageEdit(self):
-        time.sleep(1)
+        time.sleep(3)
         # self.driver.find_element(By.XPATH,self.Banner_image_edit_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Banner_image_edit_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Banner_image_edit_xpath)))
+        # time.sleep(1)
         element.click()
+        time.sleep(1)
 
 
-    def BannerImageUpdate(self,Update_banner):
-        # time.sleep(5)
+
+    def BannerImageUpdate(self,absolute4):
+        time.sleep(1)
         # self.driver.find_element(By.XPATH, self.Banner_image_update_xpath).send_keys(self.Update_banner)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.Banner_image_update_xpath)))
-        element.send_keys(Update_banner)
+        element.send_keys(absolute4)
 
     def BannerImageRemove(self):
-        # time.sleep(3)
+        time.sleep(1)
         # self.driver.find_element(By.XPATH,self.Banner_image_Remove_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Banner_image_Remove_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Banner_image_Remove_xpath)))
         element.click()
         time.sleep(2)
 
     # ---------------------------------Profile image uploading
-    def setprofileImage(self,image_path):
+    def setprofileImage(self,absolute_path5):
+        time.sleep(2)
         # driver= webdriver.chrome
-        # time.sleep(2)
-        # self.driver.find_element(By.ID, self.profile_image_id).send_keys(image_path)
-        wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.ID, self.profile_image_id)))
-        element.send_keys(image_path)
+        self.driver.find_element(By.ID, self.profile_image_id).send_keys(absolute_path5)
+        # wait = WebDriverWait(self.driver, 10)
+        # element = wait.until(EC.presence_of_element_located((By.ID, self.profile_image_id)))
+        # element.send_keys(absolute_path)
 
     def saveProfileImage(self):
-        # time.sleep(3)
+        time.sleep(2)
         # self.driver.find_element(By.XPATH, self.Profile_image_save_button).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Profile_image_save_button)))
         element.click()
-        time.sleep(2)
+        time.sleep(1)
 
     def ProfileEditButton(self):
         # time.sleep(5)
@@ -204,21 +205,24 @@ class MyprofilePage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Profile_image_edit_xpath)))
         element.click()
+        time.sleep(2)
+
 
     def ProfileRemove(self):
-        # time.sleep(5)
+        time.sleep(2)
         # self.driver.find_element(By.XPATH,self.Profile_image_Remove).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Profile_image_Remove)))
+        time.sleep(2)
         element.click()
 
 
-    def ProfileUpdate(self,Update_profile):
+    def ProfileUpdate(self,absolute_path6):
         # time.sleep(5)
         # self.driver.find_element(By.ID,self.profile_image_update_id).send.keys(Update_profile)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.ID, self.profile_image_update_id)))
-        element.send_keys(Update_profile)
+        element.send_keys(absolute_path6)
 
 
     # ---------------------------------------Required Details
@@ -237,7 +241,7 @@ class MyprofilePage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH,self.employeeID_input_xpath)))
         element.send_keys(empid)
-        # time.sleep(2)
+        time.sleep(1)
         # wait = WebDriverWait(self.driver, 10)
         # element = wait.until(EC.visibility_of_element_located((By.XPATH, self.employeeID_input_xpath)))
         # element.click()
@@ -245,7 +249,7 @@ class MyprofilePage:
 
 
     def clickDepartment(self):
-        # time.sleep(4)
+        time.sleep(1)
         # self.driver.find_element(By.XPATH, self.department_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.department_click_xpath)))
@@ -287,14 +291,15 @@ class MyprofilePage:
         element.click()
 
     def clickDesignationName (self):
-        # time.sleep(3)
+        time.sleep(2)
         # self.driver.find_element(By.XPATH, self.designation_selection_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.designation_selection_click_xpath)))
+        # time.sleep(1)
         element.click()
 
     def updateEdit (self):
-        # time.sleep(4)
+        time.sleep(1)
         # self.driver.find_element(By.XPATH, self.updateEdit_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.updateEdit_click_xpath)))
@@ -341,8 +346,8 @@ class MyprofilePage:
 
     def setlastName(self,lastName):
         # time.sleep(2)
-        self.driver.find_element(By.ID, self.lastName_input_id).send_keys(Keys.CONTROL + 'a')
-        # self.driver.find_element(By.ID, self.lastName_input_id).send_keys(lastName)
+        # self.driver.find_element(By.ID, self.lastName_input_id).send_keys(Keys.CONTROL + 'a')
+        self.driver.find_element(By.ID, self.lastName_input_id).send_keys(lastName)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.ID, self.lastName_input_id)))
         element.send_keys(lastName)

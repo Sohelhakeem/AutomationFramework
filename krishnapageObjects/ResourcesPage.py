@@ -1,3 +1,4 @@
+import asyncio
 import time
 
 from selenium.webdriver import ActionChains, Keys
@@ -99,12 +100,16 @@ class Resources:
 
     def setcategorydescription(self, categorydescription):
         self.driver.find_element(By.XPATH, self.categorydescription_xpath).send_keys(categorydescription)
+        time.sleep(2)
 
     def clickoncategorypublic(self):
-        category_public_element = WebDriverWait(self.driver, 20).until(
+
+            time.sleep(2)
+            category_public_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.categorypublic_xpath))
         )
-        category_public_element.click()
+
+            category_public_element.click()
 
     def clickoncategoryenable(self):
         category_enable_element = WebDriverWait(self.driver, 20).until(
@@ -119,6 +124,7 @@ class Resources:
         category_save_element.click()
 
     def setcategorysearch(self, categorysearch):
+        time.sleep(1)
         category_search_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.categorysearch_xpath))
         )
@@ -128,6 +134,7 @@ class Resources:
         self.driver.find_element(By.XPATH,self.categoryclick_xpath).click()
 
     def clickonsubcategorynew(self):
+        time.sleep(2)
         self.driver.find_element(By.XPATH,self.subcategorynew_xpath).click()
 
     def clickonsubcategorybutton(self):
@@ -148,6 +155,7 @@ class Resources:
         self.driver.find_element(By.XPATH,self.subcategorydescription_xpath).send_keys(subcategorydescription)
 
     def clickonsubcategoryenable(self):
+        time.sleep(2)
         self.driver.find_element(By.XPATH,self.subcategoryenable_xpath).click()
 
     def clickonsubcategorysave(self):
@@ -172,6 +180,7 @@ class Resources:
         self.driver.find_element(By.XPATH,self.contentbannerimage_xpath).send_keys(absolute_path1)
 
     def clickonbannerimagesave(self):
+        time.sleep(1)
         self.driver.find_element(By.XPATH,self.bannerimagesave_xpath).click()
 
 
@@ -241,23 +250,42 @@ class Resources:
         section_image_path.click()
 
     def clickoncontentpublish(self):
+        time.sleep(1)
         self.driver.find_element(By.XPATH,self.contentpublish_xpath).click()
+        time.sleep(1)
 
     def clickonresources(self):
+        time.sleep(1)
+        WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.resources_xpath)))
         self.driver.find_element(By.XPATH,self.resources_xpath).click()
 
+
+
     def setresourcescategorysearch(self, resourcescategorysearch):
-        time.sleep(2)
+        time.sleep(3)
         category_search_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.resourcescategorysearch_xpath))
         )
         category_search_element.send_keys(resourcescategorysearch)
 
     def clickonlogout(self):
-        self.driver.find_element(By.XPATH,self.logout_xpath).click()
+        logout_button = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.logout_xpath))
+        )
+
+        # Click on the element
+        logout_button.click()
+        time.sleep(2)
 
     def clickonnetworkresources(self):
-        self.driver.find_element(By.XPATH,self.networkresources_xpath).click()
+        time.sleep(1)
+        network_resources_element = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.networkresources_xpath))
+        )
+
+        # Click on the element
+        network_resources_element.click()
 
     def setsearchcompanyname(self, companyname):
         companyname_search_element = WebDriverWait(self.driver, 20).until(
@@ -266,20 +294,40 @@ class Resources:
         companyname_search_element.send_keys(companyname)
 
     def clickoncompanyselect(self):
-        self.driver.find_element(By.XPATH,self.companyselect_xpath).click()
+        company_select_element = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.companyselect_xpath))
+        )
+
+        # Click on the element
+        company_select_element.click()
 
     def clickoncontents(self):
+        time.sleep(1)
         self.driver.find_element(By.XPATH,self.contents_xpath).click()
+        time.sleep(1)
 
     def setsearchcontents(self,searchcontents):
-        self.driver.find_element(By.XPATH,self.searchcontents_xpath).send_keys(searchcontents)
+        try:
+            asyncio.sleep(2)
+            WebDriverWait(self.driver, 20).until(
+                EC.visibility_of_element_located((By.XPATH, self.searchcontents_xpath).send_keys(searchcontents))
+        )
+        except Exception as e:
+            self.driver.find_element(By.XPATH,self.searchcontents_xpath).send_keys(searchcontents)
 
     def clickonsubcategoryclick(self):
         self.driver.find_element(By.XPATH,self.subcategoryclick_xpath).click()
 
     def clickoncategorypartner(self):
-        self.driver.find_element(By.XPATH,self.categorypartner_xpath).click()
-
+        try:
+            time.sleep(5)  # Add a sleep to wait for the banner to display (if needed)
+            WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, self.categorypartner_xpath))
+            ).click()
+        except Exception as e:
+            print("Exception occurred while waiting for or clicking the element:", e)
+            # Handle the exception as needed, such as clicking the element without waiting
+            self.driver.find_element(By.XPATH, self.categorypartner_xpath).click()
     def clickoncategoryshare(self):
         self.driver.find_element(By.XPATH,self.categoryshare_xpath).click()
 
@@ -319,6 +367,7 @@ class Resources:
 
         # Click on the element
         contentmanagement_breadcrumb.click()
+        time.sleep(1)
 
     def clickoncategoryedit(self):
         time.sleep(2)
@@ -367,6 +416,7 @@ class Resources:
         section_update.click()
 
     def clickoncontentdelete(self):
+        time.sleep(1)
         delete_button = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.contentdelete_xpath))
         )
@@ -375,14 +425,20 @@ class Resources:
         delete_button.click()
 
     def clickoncontentconfirmdelete(self):
+        time.sleep(2)
         confirmdelete_button = WebDriverWait(self.driver,20).until(
             EC.element_to_be_clickable((By.XPATH, self.contentconfirmdelete_xpath))
         )
 
         confirmdelete_button.click()
+        time.sleep(1)
 
     def clickonsubcategorydelete(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.subcategorydelete_xpath))
+        )
         self.driver.find_element(By.XPATH,self.subcategorydelete_xpath).click()
+        time.sleep(1)
 
 
 

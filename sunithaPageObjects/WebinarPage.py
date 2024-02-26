@@ -1,8 +1,10 @@
 import time
 from telnetlib import EC
+from selenium.webdriver.support import expected_conditions as EC
+
 
 # import self
-from selenium.webdriver import Keys
+from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from urllib3.util import wait
@@ -13,12 +15,13 @@ class WebinarPage:
     textbox_password_name = "password"
     button_login_xpath = "//button[normalize-space()='Login']"
     newsFeed_click_xpath = "//div[@class='resNavLink activeLink']"
-    TrainingAndWebinar_click_xpath = "(//span[contains(text(),'Training & Webinar')])[1]"
-    New_button_xpath = "//button[@id='create new']"
+    TrainingAndWebinar_click_xpath = "//span[text()='Training & Webinar']"
+    New_button_xpath = "//div[@class='flexAutoRow pointer pdngLSM webSearch']//button[@id='create new']"
     Webinar_RadioButton_xpath = "//span[normalize-space()='Webinar']"
     Title_input_id = "title"
     Description_input_id = "description"
-    Date_Time_click_xpath = "//button[@aria-label='Choose date, selected date is Feb 8, 2024']//*[name()='svg']"
+    Date_Time_click_xpath = "(//button[@type='button'])[4]"
+    nextmonth_xpath = "//button[@title='Next month']"
     select_date_click_xpath = "//button[normalize-space()='25']"
     calendar_hours_click_xpath = "//div[@class='MuiClock-squareMask css-1umqo6f']"
     normal_path_click_xpath = "//div[@class='flexCol pdngXS oneFiveSelect']"
@@ -26,7 +29,7 @@ class WebinarPage:
     time_click_xpath = "//li[normalize-space()='02']"
     minutes_list_click_id = "minutes"
     select_minutes_click_xpath = "//li[normalize-space()='03']"
-    Toggle_button_click_xpath = "//input[@type='checkbox']"
+    Toggle_button_click_xpath = "//input[@class='PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3']"
     Limit_seats_input_xpath = "//input[@id='noOfSeats']"
     Add_CoHost_click_xpath = "//div[@class='flexRow respdngVSM']//input[@id='employee']"
     select_CoHost_click_xpath = "//div[@class='flexRow respdngSM brdrBSM ']//div[@class='flexAutoRow']//*[name()='svg']"
@@ -95,8 +98,17 @@ class WebinarPage:
     Training_PTS_xpath = "//div[@class='MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-18yqadl']//input[@id='search']"
     TodayMeeting_start_xpath = "//button[contains(@class,'MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation whiteTxt css-1wkmqsn')]"
 
-#start the meeting___________
-    select_todayDate_click_xpath = "//button[normalize-space()='24']"
+    #start the meeting___________
+    select_todayDate_click_xpath = "//button[normalize-space()='14']"
+    manualTime_input_xpath = "//input[@id=':r9:']"
+    current_time_xpath = "//div[@class='MuiClock-squareMask css-1umqo6f']"
+
+    #Book the meeting from employee side______________
+    BookSeat_linkTest_xpath = "//button[text()='Book a seat']"
+    Logout_linkTest_xpath = "//div[@class='flexMinWidthCol pdngXS']"
+    CloseToaster_button_xpath = "//div[@class='flexRow alignCntr justifyEnd poniter']//*[name()='svg']"
+
+
 
 
 
@@ -121,33 +133,36 @@ class WebinarPage:
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_login_xpath)))
         element.click()
         time.sleep(2)
-
        # self.driver.find_element(By.XPATH, self.button_login_xpath).click()
 
 
 
     def clickTAndWModule(self):
-        # time.sleep(2)
+        time.sleep(1)
         # Scroll to bring the element into view
-        element = self.driver.find_element(By.XPATH, self.TrainingAndWebinar_click_xpath)
+        element = WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.TrainingAndWebinar_click_xpath))
+        )
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
-        # time.sleep(1)
         element.click()
-        # time.sleep(2)
+        time.sleep(1)
 
     def NewButton(self):
-        # wait = WebDriverWait(self.driver, timeout=10)
-        # element = wait.until(EC.visibility_of_element_located((By.XPATH, self.New_button_xpath)))
-        # element.click()
-        time.sleep(1)
-        self.driver.find_element(By.XPATH, self.New_button_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 20)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.New_button_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.New_button_xpath).click()
 
 
 
     def WebinarRadioButton(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH,self.Webinar_RadioButton_xpath).click()
+        wait = WebDriverWait(self.driver, 5)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Webinar_RadioButton_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Webinar_RadioButton_xpath).click()
 
 
     def setTitle(self, Tittle):
@@ -170,46 +185,78 @@ class WebinarPage:
 
     def DateTime(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH, self.Date_Time_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Date_Time_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Date_Time_click_xpath).click()
+
+    def clickonnextmonth(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.nextmonth_xpath).click()
 
     def selectDate(self):
         time.sleep(2)
-        self.driver.find_element(By.XPATH, self.select_date_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.select_date_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.select_date_click_xpath).click()
 
 
 
     def calendarHours(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH, self.calendar_hours_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.calendar_hours_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.calendar_hours_click_xpath).click()
 
 
     def NormalPath(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH, self.normal_path_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.normal_path_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.normal_path_click_xpath).click()
 
     def Hrs(self):
         time.sleep(1)
-        self.driver.find_element(By.ID, self.hrs_list_click_id).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.ID, self.hrs_list_click_id)))
+        element.click()
+        # self.driver.find_element(By.ID, self.hrs_list_click_id).click()
 
 
     def SelectHours(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH, self.time_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.time_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.time_click_xpath).click()
 
 
     def minutes(self):
         time.sleep(1)
-        self.driver.find_element(By.ID, self.minutes_list_click_id).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.ID, self.minutes_list_click_id)))
+        element.click()
+        # self.driver.find_element(By.ID, self.minutes_list_click_id).click()
 
 
     def SelectMinutes(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH, self.select_minutes_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.select_minutes_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.select_minutes_click_xpath).click()
 
 
     def ToggleButton(self):
-        self.driver.find_element(By.XPATH, self.Toggle_button_click_xpath).click()
-        time.sleep(1)
+        time.sleep(4)
+        time.sleep(4)  # Consider removing this sleep if not necessary
+        wait = WebDriverWait(self.driver, 20)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Toggle_button_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Toggle_button_click_xpath).click()
 
     def LimitSeats(self, LimitSeats):
         time.sleep(1)
@@ -227,44 +274,69 @@ class WebinarPage:
         time.sleep(1)
 
     def selectCoHost(self):
-        self.driver.find_element(By.XPATH, self.select_CoHost_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.select_CoHost_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.select_CoHost_click_xpath).click()
+
 
     def AddPanelist(self,panelist):
         self.driver.find_element(By.XPATH,self.Add_panelist_input_xpath).send_keys(panelist)
         time.sleep(1)
 
     def SelectPanelist(self):
-        self.driver.find_element(By.XPATH,self.Select_panelist_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Select_panelist_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Select_panelist_xpath).click()
 
     def manufacturer(self):
-        self.driver.find_element(By.XPATH, self.participants_manufacturer_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.participants_manufacturer_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.participants_manufacturer_click_xpath).click()
 
     def shareHolder(self):
-        self.driver.find_element(By.XPATH, self.participants_shareHolder_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.participants_shareHolder_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.participants_shareHolder_click_xpath).click()
 
     def vendor(self):
-        self.driver.find_element(By.XPATH, self.participants_vendor_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.participants_vendor_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.participants_vendor_click_xpath).click()
 
     def partner(self):
-        self.driver.find_element(By.XPATH, self.participants_partner_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.participants_partner_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.participants_partner_click_xpath).click()
 
     def distributor(self):
-        self.driver.find_element(By.XPATH, self.participants_distributor_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.participants_distributor_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.participants_distributor_click_xpath).click()
 
     def memberEMail(self, Email):
         self.driver.find_element(By.XPATH, self.memberSearch_input_click_xpath).send_keys(Email)
         time.sleep(1)
 
     def setAddEmail(self):
-        self.driver.find_element(By.XPATH, self.AddEmail_button_click_xpath).click()
         time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.AddEmail_button_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.AddEmail_button_click_xpath).click()
 
     def PublicEnable(self):
         element = self.driver.find_element(By.XPATH,self.PublicEnable_click_xpath)
@@ -282,109 +354,153 @@ class WebinarPage:
         # Wait for a short while to ensure the element is clickable
         time.sleep(2)
         self.driver.find_element(By.XPATH, self.Schedule_button_click_xpath).click()
+        time.sleep(2)
 
         #Webinar Past Tab___________________________
 
     def PastTab(self):
         time.sleep(2)
-        self.driver.find_element(By.ID, self.Past_tab_button_id).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.ID, self.Past_tab_button_id)))
+        element.click()
+        # self.driver.find_element(By.ID, self.Past_tab_button_id).click()
 
     def JanMonth(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH, self.Date_janMonth_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Date_janMonth_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Date_janMonth_xpath).click()
 
 
     def JanDate(self):
         time.sleep(2)
-        self.driver.find_element(By.XPATH, self.Date_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Date_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Date_click_xpath).click()
 
 
     def PastViewButton(self):
-        #wait = WebDriverWait(self.driver, timeout=10)
-        #element = wait.until(EC.visibility_of_element_located((By.XPATH, self.View_pastSession_xpath)))
-        #element.click()
         time.sleep(2)
-        self.driver.find_element(By.XPATH, self.View_pastSession_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.View_pastSession_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.View_pastSession_xpath).click()
 
     def ChatHistory(self):
         time.sleep(2)
-        # wait = WebDriverWait(self.driver, 10)
-        # element = wait.until(EC.visibility_of_element_located((By.XPATH, self.ChatHistory_click_xpath)))
-        # element.click()
-        self.driver.find_element(By.XPATH, self.ChatHistory_click_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.ChatHistory_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.ChatHistory_click_xpath).click()
+
 
     def CloseChatHistrory(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.CloseChatHistory_click_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.CloseChatHistory_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.CloseChatHistory_click_xpath).click()
 
     def ViewPollHistory(self):
-        #wait = WebDriverWait(self.driver,timeout=10)
-        #element = wait.until(EC.visibitity_of_element_located((By.XPATH,self.ViewPollHistory_click_xpath)))
-        #element.click()
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.ViewPollHistory_click_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.ViewPollHistory_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.ViewPollHistory_click_xpath).click()
 
     def ClosePollHistory(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.closePollHistory_click_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.closePollHistory_click_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.closePollHistory_click_xpath).click()
 
     def PastSessionBreadcrumb(self):
-        #wait = WebDriverWait(self.driver,timeout=10)
-        #element = wait.until(EC.visibility_of_element_located((By.XPATH,self.PastSessions_breadCrumb_xpath)))
-        #element.click()
-        time.sleep(3)
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.PastSessions_breadCrumb_xpath)))
+        element.click()
 
-        self.driver.find_element(By.XPATH,self.PastSessions_breadCrumb_xpath).click()
+        # self.driver.find_element(By.XPATH,self.PastSessions_breadCrumb_xpath).click()
 
 
 
         #Past Session search Bar____________________________________
     def PastSearch(self,PastTabSearch):
-        time.sleep(3)
+        time.sleep(2)
         self.driver.find_element(By.ID,self.Search_pastSessions_id).send_keys(PastTabSearch)
 
 
     def SessionCard(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self. Session_card_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Session_card_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self. Session_card_xpath).click()
 
 
     def SessionCardClose(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.sessionCard_close_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.sessionCard_close_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.sessionCard_close_xpath).click()
 
 
         #calendar click on jan 17
     def calendarjan17(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.calendar_jan17_xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.calendar_jan17_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.calendar_jan17_xpath).click()
 
             # Past Tab Filter
 
     def PastTabFilter(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.Past_Filter_Xpath).click()
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Past_Filter_Xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Past_Filter_Xpath).click()
 
     def TrainingCheckBox(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.Training_checkBox_xpath).click()
+        time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Training_checkBox_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Training_checkBox_xpath).click()
 
     def ApplyButton(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.Apply_button_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Apply_button_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Apply_button_xpath).click()
 
         #UPCOMING TAB########
     def UpcomingTab(self):
         time.sleep(3)
-        self.driver.find_element(By.ID,self.UpcomingTab_button_id).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.ID, self.UpcomingTab_button_id)))
+        element.click()
+        # self.driver.find_element(By.ID,self.UpcomingTab_button_id).click()
 
     def CalendarFeb(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.Calendar_Feb_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Calendar_Feb_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Calendar_Feb_xpath).click()
 
     def UpcomingFeb25(self):
         time.sleep(2)
-        self.driver.find_element(By.XPATH,self.Upcoming_Feb_25).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Upcoming_Feb_25)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Upcoming_Feb_25).click()
 
 
     def searchWebinarMeeting(self,web):
@@ -392,13 +508,21 @@ class WebinarPage:
         self.driver.find_element(By.XPATH,self.search_WebinarMeeting_xpath).send_keys(web)
 
     def SessionEdit(self):
-        time.sleep(4)
-        self.driver.find_element(By.XPATH,self.Session_Edit_xpath).click()
+        time.sleep(3)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Session_Edit_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Session_Edit_xpath).click()
+        time.sleep(2)
 
 
     def editListbox(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.edit_listbox_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.edit_listbox_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.edit_listbox_xpath).click()
+
     def EditTitle(self,Tittle):
         time.sleep(3)
         self.driver.find_element(By.ID, self.Title_input_id).send_keys(Keys.CONTROL, 'a',
@@ -423,7 +547,10 @@ class WebinarPage:
 
     def UpdateConfirm(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.UpdateConfirm_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.UpdateConfirm_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.UpdateConfirm_xpath).click()
 
 
     #def Moreaction(self):
@@ -431,66 +558,79 @@ class WebinarPage:
 
     def copyLink(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.copy_link_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.copy_link_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.copy_link_xpath).click()
 
     def copyInvitation(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.copy_invitation_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.copy_invitation_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.copy_invitation_xpath).click()
 
     def CopyButton(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH, self.Copy_Button_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Copy_Button_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Copy_Button_xpath).click()
 
     def CancelCard(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH, self.CancelCard_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.CancelCard_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.CancelCard_xpath).click()
 
     def ViewRegistrants(self):
         time.sleep(3)
-        #wait = WebDriverWait(self.driver, timeout=10)
-        #element = wait.until(EC.visibility_of_element_located((By.XPATH,self.ViewRegistrants_xpath)))
-        #element.click()
-
-        self.driver.find_element(By.XPATH,self.ViewRegistrants_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.ViewRegistrants_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.ViewRegistrants_xpath).click()
 
 
     def BreadCrumb(self):
         time.sleep(5)
-        #wait = WebDriverWait(self.driver, timeout=10)
-        #element = wait.until(EC.visibility_of_element_located((By.XPATH,self.BreadCrumb_Xpath)))
-        #element.click()
-
-        self.driver.find_element(By.XPATH,self.BreadCrumb_Xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.BreadCrumb_Xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.BreadCrumb_Xpath).click()
 
 
 
 
     def DeleteSession(self):
-        #wait = WebDriverWait(self.driver, timeout=10)
-        #element = wait.until(EC.visibility_of_element_located((By.XPATH,self.DeleteSession_xpath)))
-       # element.click()
         time.sleep(1)
-
-        self.driver.find_element(By.XPATH,self.DeleteSession_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.DeleteSession_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.DeleteSession_xpath).click()
 
     def DeleteWebinar(self):
-        #wait = WebDriverWait(self.driver, timeout=10)
-        #element = wait.until(EC.visibility_of_element_located((By.XPATH,self.Delete_Webinar_xpath)))
-        #element.click()
         time.sleep(1)
-
-        self.driver.find_element(By.XPATH,self.Delete_Webinar_xpath).click()
-        time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Delete_Webinar_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Delete_Webinar_xpath).click()
 
         #Training session---------------------------------------------
 
     def WebinarCheckbox(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.Webinar_checkbox_xpath).click()
+        time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Webinar_checkbox_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Webinar_checkbox_xpath).click()
 
     def TriningJan26(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.Trining_jan26_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Trining_jan26_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.Trining_jan26_xpath).click()
 
     def TrainingSearch(self,Training):
         time.sleep(3)
@@ -503,11 +643,58 @@ class WebinarPage:
 
     def TodayMeetingStart(self):
         time.sleep(3)
-        self.driver.find_element(By.XPATH,self.TodayMeeting_start_xpath).send_keys()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.TodayMeeting_start_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH,self.TodayMeeting_start_xpath).send_keys()
 
-    def todayDate(self):
-        time.sleep(3)
-        self.driver.find_element(By.XPATH,self.select_todayDate_click_xpath).click()
+    # def todayDate(self):
+    #     time.sleep(3)
+    #     wait = WebDriverWait(self.driver, 10)
+    #     element = wait.until(EC.visibility_of_element_located((By.XPATH, self.select_todayDate_click_xpath)))
+    #     element.click()
+    #     # self.driver.find_element(By.XPATH,self.select_todayDate_click_xpath).click()
+    def manualTimeinput(self, manualtime):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH, self.manualTime_input_xpath).send_keys(Keys.CONTROL, 'a',
+                                                                              Keys.DELETE)
+
+        self.driver.find_element(By.XPATH,self.manualTime_input_xpath).send_keys(manualtime)
+        time.sleep(2)
+
+
+    # def currentTime(self,):
+        # time.sleep(2)
+        # wait = WebDriverWait(self.driver, 10)
+        # element = wait.until(EC.visibility_of_element_located((By.XPATH, self.current_time_xpath)))
+        # element.click()
+        # self.driver.find_element(By.XPATH,self.current_time_xpath).click()
+
+
+    def BookSeat(self):
+        time.sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.BookSeat_linkTest_xpath)))
+        time.sleep(1)
+        element.click()
+
+    def CloseToaster(self):
+        time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.CloseToaster_button_xpath)))
+        element.click()
+
+    def Logout(self):
+        time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Logout_linkTest_xpath)))
+        element.click()
+
+
+
+
+
+
 
 
 

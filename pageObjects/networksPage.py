@@ -15,8 +15,14 @@ class networksPage:
     # Click_CompanyName_xpath = "//span[contains(text(),'TestXeeRW Innovations Private Limited')]"
     Button_Connect_xpath = "//button[contains(text(),'Connect')]"
     Button_Follow_xpath = "//button[contains(text(),'Follow')]"
+    Button_following_xpath = "//button[contains(text(),'Following')]"
+    Button_Unfollow_xpath = "//button[normalize-space()='Unfollow']"
+    Button_Block_xpath = "//span[contains(text(),'BLOCK')]"
+    Button_Unblock_xpath = "//button[contains(text(),'UnBlock')]"
+    Button_Confirm_Unblock_xpath = "//button[normalize-space()='UnBlock']"
+    Button_Confirm_Block_xpath = "//button[normalize-space()='BLOCK']"
     DD_selectDropDown_xpath = "//div[@aria-haspopup='listbox']"
-    DD_Manufacturer_xpath = "//span[contains(text(),'Manufacturer')]"
+    DD_Manufacturer_xpath = "//div[@id='menu-']//li[1]//span[1]"
     DD_share_holder_xpath = "//span[normalize-space()='share holder']"
     DD_vendor_xpath = "//span[normalize-space()='vendor']"
     DD_partner_xpath = "//span[normalize-space()='partner']"
@@ -39,80 +45,183 @@ class networksPage:
         self.driver = driver
 
     def clickNetworks(self):
-        self.driver.find_element(By.XPATH, self.module_Networks_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.module_Networks_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.module_Networks_xpath).click()
 
-    def setsearchField(self, username):
+    def setsearchField(self, companyName):
         time.sleep(2)
         search_field = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, self.searchField_xpath))
         )
         search_field.clear()
-        search_field.send_keys(username)
+        search_field.send_keys(companyName)
         time.sleep(1)
 
     def clickPendingTab(self):
-        self.driver.find_element(By.XPATH, self.tab_Pending_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.tab_Pending_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.tab_Pending_xpath).click()
 
     def clickFOLLOWTab(self):
-        self.driver.find_element(By.XPATH, self.tab_FOLLOW_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.tab_FOLLOW_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.tab_FOLLOW_xpath).click()
 
     def clickBlocklistTab(self):
-        self.driver.find_element(By.XPATH, self.tab_Blocklist_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.tab_Blocklist_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.tab_Blocklist_xpath).click()
     def clickSelectRM(self):
-        self.driver.find_element(By.XPATH, self.icon_SelectRM_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.icon_SelectRM_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.icon_SelectRM_xpath).click()
 
     def clickInviteTab(self):
-        self.driver.find_element(By.XPATH, self.Button_Invite_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Invite_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Invite_xpath).click()
 
     # def clickCompanyName(self):
     #     self.driver.find_element(By.ID, self.Click_CompanyName_xpath).click()
     def clickConnectButton(self):
-        self.driver.find_element(By.XPATH, self.Button_Connect_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Connect_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Connect_xpath).click()
     def clickFollowButton(self):
-        self.driver.find_element(By.XPATH, self.Button_Follow_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Follow_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Follow_xpath).click()
+
+    def clickFollowingButton(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_following_xpath)))
+        element.click()
+
+    def clickUnfollowButton(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Unfollow_xpath)))
+        element.click()
+
+    def ClickBlockCompany(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Block_xpath)))
+        element.click()
+
+    def ClickConfirmBlock(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Confirm_Block_xpath)))
+        element.click()
+
+    def ClickUnblockCompany(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Unblock_xpath)))
+        element.click()
+
+    def ClickConfirmUnblock(self):
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Confirm_Unblock_xpath)))
+        element.click()
+
     def clickDropDownList(self):
         element = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, self.DD_selectDropDown_xpath))
+            EC.presence_of_element_located((By.XPATH, self.DD_selectDropDown_xpath))
         )
         element.click()
     def clickManufacturer(self):
         time.sleep(0.5)
-        self.driver.find_element(By.XPATH, self.DD_Manufacturer_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_Manufacturer_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.DD_Manufacturer_xpath).click()
     def clickshareHolder(self):
-        self.driver.find_element(By.XPATH, self.DD_share_holder_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_share_holder_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.DD_share_holder_xpath).click()
     def clickvendor(self):
-        self.driver.find_element(By.XPATH, self.DD_vendor_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_vendor_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.DD_vendor_xpath).click()
 
     def clickpartner(self):
-        self.driver.find_element(By.XPATH, self.DD_partner_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_partner_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.DD_partner_xpath).click()
     def clickdistributor(self):
-        self.driver.find_element(By.XPATH, self.DD_distributor_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_distributor_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.DD_distributor_xpath).click()
     def setRM_searchField(self , name):
-        self.driver.find_element(By.XPATH, self.Text_RM_searchField_xpath).send_keys(name)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Text_RM_searchField_xpath)))
+        element.send_keys(name)
+        # self.driver.find_element(By.XPATH, self.Text_RM_searchField_xpath).send_keys(name)
 
     def clickcheckbox(self):
-        self.driver.find_element(By.XPATH, self.checkbox_xpath).click()
+        element = self.driver.find_element(By.XPATH, self.checkbox_xpath)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+        element.click()
+        # wait = WebDriverWait(self.driver, 10)
+        # element = wait.until(EC.visibility_of_element_located((By.XPATH, self.checkbox_xpath)))
+        # element.click()
+        # self.driver.find_element(By.XPATH, self.checkbox_xpath).click()
     def clickButtonConnect2(self):
-        self.driver.find_element(By.XPATH, self.ButtonConnect2_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.ButtonConnect2_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.ButtonConnect2_xpath).click()
 
     def clickCancelButton(self):
-        self.driver.find_element(By.XPATH, self.ButtonCancel_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.ButtonCancel_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.ButtonCancel_xpath).click()
 
     def clickApproveButton(self):
-        self.driver.find_element(By.XPATH, self.Button_Approve_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Approve_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Approve_xpath).click()
     def clickRejectButton(self):
-        self.driver.find_element(By.XPATH, self.Button_Reject_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Reject_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Reject_xpath).click()
         time.sleep(2)
 
     def clickAcceptButton(self):
-        self.driver.find_element(By.XPATH, self.Button_Accept_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Accept_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Accept_xpath).click()
     def clickOKButton(self):
-        self.driver.find_element(By.XPATH, self.Button_OK_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_OK_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_OK_xpath).click()
 
     def setTextarea (self, text):
-        self.driver.find_element(By.XPATH, self.textarea_xpath).send_keys(text)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.textarea_xpath)))
+        element.send_keys(text)
+        # self.driver.find_element(By.XPATH, self.textarea_xpath).send_keys(text)
     def clickReject2Button (self):
-        self.driver.find_element(By.XPATH, self.Button_Reject2_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Reject2_xpath)))
+        element.click()
+        # self.driver.find_element(By.XPATH, self.Button_Reject2_xpath).click()
 
     def Text_Connection_rejected_successfully(self):
         DeptUpdatedSuccessful = self.driver.find_element(By.XPATH, self.RejectEmployeeText_xpath)

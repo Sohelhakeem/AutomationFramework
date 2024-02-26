@@ -4,6 +4,7 @@ from telnetlib import EC
 import pytest
 import time
 
+from openpyxl.reader.excel import load_workbook
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -16,11 +17,38 @@ from pageObjects.randomGen import randomGen
 
 class Test_001_Resources:
     baseURL = ReadConfig.getApplicationURL()
-    username = ReadConfig.getUseremail()
+    # username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
-    usernames2 = ReadConfig.getuseremails2()
-    usernames1 = ReadConfig.getuseremails1()
-    usernames = ReadConfig.getuseremails()
+    # usernames2 = ReadConfig.getuseremails2()
+    # usernames1 = ReadConfig.getuseremails1()
+    # usernames = ReadConfig.getuseremails()
+
+    workbook = load_workbook("TestData/LoginData.xlsx")
+
+    # Access the active worksheet
+    worksheet = workbook.active
+
+    username = worksheet["A2"].value
+    usernames = worksheet["E2"].value
+    usernames1 = worksheet["I2"].value
+    usernames2 = worksheet["I3"].value
+
+
+    workbook.close()
+    wb = load_workbook("TestData/LoginData.xlsx")
+
+    # Select the active worksheet
+    ws = wb.active
+
+    # Update the existing cells with new data
+    ws['A2'] = username
+    ws['E2'] = usernames
+    ws['I2'] = usernames1
+    ws['I3'] = usernames2
+
+
+    # Save the workbook
+    wb.save("TestData/LoginData.xlsx")
     relative_seven = "Files/seven.jpg"
     absolute_path7 = os.path.abspath(relative_seven)
     categorydescription = "This description is Our free tool lets you easily create unique descriptions for your product pages. Just enter the product name and let our Frase AI do its magic."
@@ -44,11 +72,18 @@ class Test_001_Resources:
     sectionimagedescription = "image preview text description presented here"
     companyname = "all company"
 
-    logger = LogGen.loggen()
 
-    @pytest.mark.sanity
+
+
+
+
+    logger = LogGen.loggen()  # Logger
+
+    @pytest.mark.Ganga
     @pytest.mark.regression
-    @pytest.mark.skip(reason="Skipping this test")
+    @pytest.mark.run(order=1)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.skip(reason="Skipping this test")
     def test_categorycreationforcompany(self, setup):
         self.logger.info("************* Test_001_categorycreation **********")
         self.driver = setup
@@ -66,6 +101,7 @@ class Test_001_Resources:
         contenttitle = randomGen.random_contenttitle()
         contentsectionname = randomGen.random_contentsectionname()
 
+
         self.logger.info("************** category creation test started ************")
         self.rs = Resources(self.driver)
         self.rs.clickoncontentmanagement()
@@ -79,7 +115,6 @@ class Test_001_Resources:
         self.rs.clickoncategorysave()
         time.sleep(3)
         self.logger.info("************** category creation test completed ************")
-
         # act_Text = self.driver.find_element(By.XPATH,("//div[contains(text(),'Category created successfully')]"))
         #
         # if act_Text == "Category created successfully":
@@ -95,16 +130,14 @@ class Test_001_Resources:
         def check_category_creation_status(self):
             try:
                 success_message_element = WebDriverWait(self.driver, 20).until(
-                    EC.presence_of_element_located(
-                        (By.XPATH, "//div[contains(text(),'Category created successfully')]"))
+                    EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Category created successfully')]"))
                 )
                 assert "Category created successfully" in success_message_element.text
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
-
         time.sleep(2)
         self.logger.info("************** subcategory creation test started ************")
         self.rs.setcategorysearch(categorytitle)
@@ -119,6 +152,8 @@ class Test_001_Resources:
         self.rs.clickonsubcategorysave()
         self.logger.info("************** subcategory creation test completed ************")
 
+
+
         def check_subcategory_creation_status(self):
             try:
                 success_message_element = WebDriverWait(self.driver, 20).until(
@@ -129,9 +164,8 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
-
         # time.sleep(3)
         self.logger.info("********** content creation test is started *********")
         self.rs.clickonsubcategorynew()
@@ -166,16 +200,15 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_content creation.png")
             assert False
         time.sleep(3)
         self.rs.clickonresources()
-        time.sleep(3)
         self.rs.setresourcescategorysearch(categorytitle)
         time.sleep(2)
-        self.driver.find_element(By.XPATH, "//span[text()='" + categorytitle + "']").click()
+        self.driver.find_element(By.XPATH, "//span[text()='"+categorytitle+"']").click()
         time.sleep(3)
-        self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
+        self.driver.find_element(By.XPATH,"//h4[normalize-space()='"+contenttitle+"']").click()
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
             self.logger.info("********** content verification test is passed *********")
@@ -183,46 +216,42 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_contentverificationinmyresources.png")
             assert False
         time.sleep(3)
         self.rs.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserNames1(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(3)
         self.logger.info("************* relationcompanyLogin succesful **********")
         self.rs.clickonresources()
-        time.sleep(3)
         self.rs.clickonnetworkresources()
-        time.sleep(3)
         self.rs.setsearchcompanyname(self.companyname)
-        time.sleep(3)
         self.rs.clickoncompanyselect()
-        time.sleep(3)
         self.rs.clickoncontents()
-        time.sleep(3)
         self.rs.setsearchcontents(contenttitle)
-        time.sleep(3)
+        time.sleep(2)
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
             self.logger.info("********** content verification test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categorycreationforcompany.png")
             assert False
         time.sleep(3)
 
     @pytest.mark.sanity
     @pytest.mark.regression
-    @pytest.mark.skip(reason="Skipping this test")
+    @pytest.mark.run(order=2)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.skip(reason="Skipping this test")
     def test_categorycreationforemployee(self, setup):
-        self.logger.info("************* Test_001_categorycreation **********")
+        self.logger.info("************* Test_002_categorycreation **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -274,7 +303,7 @@ class Test_001_Resources:
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(2)
@@ -301,7 +330,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         # time.sleep(3)
@@ -338,7 +367,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_content creation.png")
             assert False
         time.sleep(3)
         self.rs.clickonresources()
@@ -355,7 +384,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_contentverificationinmyresources.png")
             assert False
         time.sleep(3)
         self.rs.clickonlogout()
@@ -376,19 +405,23 @@ class Test_001_Resources:
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
             self.logger.info("********** content verification test is passed *********")
+            self.driver.close()
+
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categorycreationforemployee.png")
             assert False
         time.sleep(3)
 
     @pytest.mark.sanity
     @pytest.mark.regression
-    @pytest.mark.skip(reason="Skipping this test")
+    @pytest.mark.run(order=3)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.skip(reason="Skipping this test")
     def test_categorycreationforhierarchy(self, setup):
-        self.logger.info("************* Test_001_categorycreation **********")
+        self.logger.info("************* Test_003_categorycreation **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -405,6 +438,8 @@ class Test_001_Resources:
         subcategorytitle2 = randomGen.random_subcategorytitle2()
         subcategorytitle3 = randomGen.random_subcategorytitle3()
         subcategorytitle4 = randomGen.random_subcategorytitle4()
+
+
 
         self.logger.info("************** category creation test started ************")
         self.rs = Resources(self.driver)
@@ -442,7 +477,7 @@ class Test_001_Resources:
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(2)
@@ -469,9 +504,8 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
-
         time.sleep(3)
         self.logger.info("************** subcategory1 creation test started ************")
         self.rs.setcategorysearch(subcategorytitle)
@@ -497,7 +531,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory1 creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory1 creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(3)
@@ -525,7 +559,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory2 creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory2 creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(3)
@@ -553,7 +587,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory3 creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory3 creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(3)
@@ -581,7 +615,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory4 creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory4 creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(3)
@@ -592,18 +626,22 @@ class Test_001_Resources:
         time.sleep(3)
         if "You have reached the last subcategory, cannot go inside" in self.driver.page_source:
             self.logger.info("********** content verification test is passed *********")
+            self.driver.close()
+
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categorycreationforhierarchy.png")
             assert False
 
     @pytest.mark.sanity
     @pytest.mark.regression
-    @pytest.mark.skip(reason="Skipping this test")
+    @pytest.mark.run(order=4)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.skip(reason="Skipping this test")
     def test_categorycreationforrelationcompany(self, setup):
-        self.logger.info("************* Test_001_categorycreation **********")
+        self.logger.info("************* Test_004_categorycreation **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -656,7 +694,7 @@ class Test_001_Resources:
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(2)
@@ -683,7 +721,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         # time.sleep(3)
@@ -720,7 +758,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_content creation.png")
             assert False
         time.sleep(3)
         self.rs.clickonresources()
@@ -737,7 +775,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryverificationinmyresources.png")
             assert False
         time.sleep(3)
         self.rs.clickonlogout()
@@ -764,19 +802,23 @@ class Test_001_Resources:
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
             self.logger.info("********** content verification test is passed *********")
+            self.driver.close()
+
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categorycreationforrelationcompany.png")
             assert False
         time.sleep(3)
 
-    @pytest.mark.sanity
+    @pytest.mark.krishna
     @pytest.mark.regression
-    @pytest.mark.skip(reason="Skipping this test")
+    @pytest.mark.run(order=5)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.skip(reason="Skipping this test")
     def test_categoryshare(self, setup):
-        self.logger.info("************* Test_001_categorycreation **********")
+        self.logger.info("************* Test_005_categorycreation **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -828,7 +870,7 @@ class Test_001_Resources:
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(2)
@@ -855,7 +897,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         # time.sleep(3)
@@ -885,16 +927,18 @@ class Test_001_Resources:
         # self.rs.setsectionimagedescription(self.sectionimagedescription)
         self.rs.clickonsectionsave()
         self.rs.clickoncontentpublish()
-        time.sleep(3)
+        WebDriverWait(self.driver, 20).until(
+            lambda driver: "Content created successfully" in driver.page_source
+        )
         if "Content created successfully" in self.driver.page_source:
             self.logger.info("********** content creation test is passed *********")
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_content creation.png")
             assert False
-        time.sleep(3)
+        # time.sleep(3)
         self.rs.clickonresources()
         time.sleep(3)
         self.rs.setresourcescategorysearch(categorytitle)
@@ -909,7 +953,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryverificationinmyresources.png")
             assert False
         time.sleep(3)
         self.rs.clickonlogout()
@@ -940,7 +984,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryforrelationcompany.png")
             assert False
         time.sleep(3)
         self.rs.clickonlogout()
@@ -984,18 +1028,22 @@ class Test_001_Resources:
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
             self.logger.info("********** content verification test is passed *********")
+            self.driver.close()
+
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content verification test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryforrelationcompany.png")
             assert False
 
-    @pytest.mark.sanity
+    @pytest.mark.krishna
     @pytest.mark.regression
+    @pytest.mark.run(order=6)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_categoryedit(self, setup):
-        self.logger.info("************* Test_001_categorycreation **********")
+        self.logger.info("************* Test_006_categorycreation **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -1047,7 +1095,7 @@ class Test_001_Resources:
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(2)
@@ -1074,7 +1122,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         # time.sleep(3)
@@ -1111,7 +1159,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_content creation.png")
             assert False
         time.sleep(3)
         self.rs.clickoncontentmanagementbreadcrumb()
@@ -1128,7 +1176,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_Category update.png")
             assert False
         self.rs.clickonsubcategoryedit()
         self.rs.clickonsubcategorydisable()
@@ -1140,7 +1188,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_Subcategory update.png")
             assert False
         self.rs.clickoncontentviewmore()
         self.rs.clickonsectionedit()
@@ -1149,19 +1197,23 @@ class Test_001_Resources:
         time.sleep(3)
         if "Section updated successfully" in self.driver.page_source:
             self.logger.info("********** content creation test is passed *********")
+            self.driver.close()
+
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_Section update.png")
             assert False
         time.sleep(3)
 
-    @pytest.mark.sanity
+    @pytest.mark.Gangas
     @pytest.mark.regression
+    # @pytest.mark.run(order=7)
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_categorydelete(self, setup):
-        self.logger.info("************* Test_001_categorycreation **********")
+        self.logger.info("************* Test_007_categorycreation **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -1213,7 +1265,7 @@ class Test_001_Resources:
                 self.logger.info("********** Category creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** Category creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_category creation.png")
                 assert False, f"Category creation failed: {e}"
 
         time.sleep(2)
@@ -1240,7 +1292,7 @@ class Test_001_Resources:
                 self.logger.info("********** subcategory creation test is passed *********")
             except Exception as e:
                 self.logger.error("************** subcategory creation test is failed **********")
-                self.driver.save_screenshot(".\\Screenshots\\" + "test_category_creation.png")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
 
         # time.sleep(3)
@@ -1277,16 +1329,14 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_content creation.png")
             assert False
         time.sleep(3)
         self.rs.clickoncontentmanagementbreadcrumb()
-        time.sleep(3)
         self.rs.setcategorysearch(categorytitle)
         self.rs.clickoncategoryclick()
         self.rs.clickoncontentviewmore()
         self.rs.clickoncontentdelete()
-        time.sleep(3)
         self.rs.clickoncontentconfirmdelete()
         time.sleep(3)
         if "Content and its sections deleted successfully" in self.driver.page_source:
@@ -1295,7 +1345,7 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_contentdelete.png")
             assert False
         time.sleep(3)
         self.rs.clickonsubcategorydelete()
@@ -1307,18 +1357,45 @@ class Test_001_Resources:
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategorydelete.png")
             assert False
         time.sleep(3)
         self.rs.clickonsubcategorydelete()
         self.rs.clickoncontentconfirmdelete()
-        time.sleep(3)
+        WebDriverWait(self.driver, 20).until(
+            lambda driver: "Category deleted successfully" in driver.page_source
+        )
+
         if "Category deleted successfully" in self.driver.page_source:
             self.logger.info("********** content creation test is passed *********")
+            self.driver.close()
+
 
         else:
             # Log and take a screenshot
             self.logger.error("************** content creation test is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_categorydelete.png")
             assert False
-        time.sleep(3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

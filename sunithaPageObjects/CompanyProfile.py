@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 
+
 class LoginPage:
     textbox_username_name = "email"
     textbox_password_name = "password"
@@ -35,11 +36,13 @@ class LoginPage:
     click_office_details_button = "//button[@aria-label='Official details']"
     textbox_company_name = "nameOfCompany"
     inputfield_orgname_id = "typeOfOrg"
-    Remove_industry_xpath = "//span[2]//div[1]"
+    Remove_industry_xpath = "//*[@data-testid='CancelIcon']"
+
     inputfield_industry_id = "industry"
-    button_industry_name_xpath = "//body[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]/div[4]/div[2]/div[2]/button[1]"
-    button_calendar_xpath = "//button[@aria-label='Choose date, selected date is Dec 1, 2023']"
-    button_date_xpath = "//button[normalize-space()='1']"
+    button_industry_name_xpath = "(//*[@data-testid='AddIcon'])[3]"
+    button_calendar_css = "svg[data-testid='CalendarIcon']"
+    buttonpreviousmonth_xpath = "//button[@title='Previous month']"
+    button_date_xpath = "//button[normalize-space()='12']"
     input_website_id = "website"
     button_save_xpath = "//button[normalize-space()='Save']"
 
@@ -48,8 +51,8 @@ class LoginPage:
     button_edit_xpath = "//button[@aria-label='Edit']"
     textarea_company_summary_id = "desc"
     textarea_address_id = "address"
-    button_dropdown_id = "rfs-btn"
-    select_india_xpath = "//span[@class='ReactFlagsSelect-module_selectOptionValue__vS99-']//span[@class='ReactFlagsSelect-module_label__27pw9'][normalize-space()='India']"
+    country_dropdown_xpath = "//button[@id='rfs-btn']"
+    select_india_xpath = "(//li[@role='option'])[2]"
     textarea_contact_id = "contactPerson"
     listbox_state_id = "state"
     select_sate_ap_xpath = "//li[normalize-space()='Andhra Pradesh']"
@@ -87,29 +90,31 @@ class LoginPage:
 
     # ____________________Banner Image
 
-    def BannerImageClick(self, BannerPath):
-        time.sleep(1)
+    def BannerImageClick(self, absolute_path3):
+        time.sleep(2)
         wait = WebDriverWait(self.driver, 20)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.BannerImageClick_button_xpath)))
-        element.send_keys(BannerPath)
+        element.send_keys(absolute_path3)
 
     def SaveBannerImage(self):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 3)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.SaveBannerImage_button_xpath)))
         element.click()
+        time.sleep(1)
 
     def EditBanner(self):
-        time.sleep(1)
+        time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.EditBanner_click_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.EditBanner_click_xpath)))
+        time.sleep(1)
         element.click()
 
-    def UploadBannerImageAgain(self, Upload_AgainBanner):
+    def UploadBannerImageAgain(self, absolute_path4):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.UploadBannerImageAgain_xpath)))
-        element.send_keys(Upload_AgainBanner)
+        element.send_keys(absolute_path4)
 
     def BannerImageRemove(self):
         time.sleep(1)
@@ -118,11 +123,11 @@ class LoginPage:
         element.click()
 
     # ----------------------------Profile Image Uploading
-    def ProfileImageClick(self, ProfilePath):
+    def ProfileImageClick(self, absolute_path5):
         time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.ProfileImageClick_button_xpath)))
-        element.send_keys(ProfilePath)
+        element.send_keys(absolute_path5)
 
     def SaveProfileImage(self):
         time.sleep(1)
@@ -136,11 +141,11 @@ class LoginPage:
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.EditProfile_click_xpath)))
         element.click()
 
-    def UploadProfileImage(self, UpdateProfile_Again):
+    def UploadProfileImage(self, absolute_path6):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.UploadProfileImageAgain_xpath)))
-        element.send_keys(UpdateProfile_Again)
+        element.send_keys(absolute_path6)
 
     def ProfileImageRemove(self):
         time.sleep(1)
@@ -176,6 +181,7 @@ class LoginPage:
         element.click()"""
 
     def clickCompanyProfile(self):
+        time.sleep(2)
 
         wait = WebDriverWait(self.driver, 20)
         # Scroll to bring the element into view
@@ -219,18 +225,27 @@ class LoginPage:
         wait = WebDriverWait(self.driver, 5)
         element = wait.until(EC.presence_of_element_located((By.ID, self.inputfield_industry_id)))
         element.send_keys(industry)
+        time.sleep(2)
 
     def clickIndustryName(self):
-        time.sleep(1)
-        wait = WebDriverWait(self.driver, 5)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_industry_name_xpath)))
-        element.click()
+        time.sleep(2)
+        # wait = WebDriverWait(self.driver, 5)
+        # element = wait.until(EC.element_to_be_clickable((By.XPATH, self.button_industry_name_xpath)))
+        # element.click()
+        self.driver.find_element(By.XPATH,self.button_industry_name_xpath).click()
 
     def clickCalendar(self):
-        time.sleep(1)
+        time.sleep(2)
         wait = WebDriverWait(self.driver, 5)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_calendar_xpath)))
+        element = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, self.button_calendar_css)))
+        # time.sleep(1)
         element.click()
+        time.sleep(1)
+
+
+    def clickonpreviousmonth(self):
+        time.sleep(2)
+        self.driver.find_element(By.XPATH,self.buttonpreviousmonth_xpath).click()
 
     def clickDate(self):
         time.sleep(1)
@@ -262,9 +277,9 @@ class LoginPage:
         element.click()
 
     def clickEdit(self):
-        time.sleep(1)
+        time.sleep(3)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_edit_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.button_edit_xpath)))
         element.click()
 
     def setCompanySummary(self, companysummary):
@@ -284,22 +299,26 @@ class LoginPage:
         element = wait.until(EC.presence_of_element_located((By.ID, self.textarea_address_id)))
         element.send_keys(address)
 
-    def setdropdown(self):
-        time.sleep(1)
-        wait = WebDriverWait(self.driver, 5)
-        element = wait.until(EC.visibility_of_element_located((By.ID, self.button_dropdown_id)))
-        element.click()
 
-    """def setindia(self):
-        self.driver.find_element(By.XPATH, self.select_india_xpath).click()
-        time.sleep(2)"""
+    def countrydropdown(self):
+        wait = WebDriverWait(self.driver, 20)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.country_dropdown_xpath)))
+        # Click the Company Sign Up button
+        element.click()
+        time.sleep(1)
+
+
+    def clickonselectindia(self):
+        time.sleep(1)
+        wait = WebDriverWait(self.driver,10)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH,self.select_india_xpath)))
+        element.click()
 
     def clickState(self):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 5)
         element = wait.until(EC.visibility_of_element_located((By.ID, self.textarea_contact_id)))
         element.click()
-
     def clickstatelistbox(self):
         time.sleep(1)
         self.driver.find_element(By.ID, self.listbox_state_id).click()
@@ -309,7 +328,7 @@ class LoginPage:
         time.sleep(2)
 
     def selectState(self):
-        time.sleep(1)
+        time.sleep(2)
         wait = WebDriverWait(self.driver, 5)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.select_sate_ap_xpath)))
         element.click()
@@ -358,17 +377,17 @@ class LoginPage:
     def AwardsEdit(self):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 5)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Awards_button_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.Awards_button_xpath)))
         actions = ActionChains(self.driver)
         actions.move_to_element(element).perform()
         time.sleep(1)
         element.click()
 
-    def ClickPreview(self, awards_path):
-        time.sleep(1)
+    def ClickPreview(self, absolute_path7):
+        time.sleep(2)
         wait = WebDriverWait(self.driver, 5)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.Click_preview_xpath)))
-        element.send_keys(awards_path)
+        element.send_keys(absolute_path7)
 
     def TitleInput(self, awardTitle):
         time.sleep(1)
@@ -384,7 +403,7 @@ class LoginPage:
 
         # ____________________________Social Media Links
 
-    def clicksocialMediaLinks(self, ):
+    def clicksocialMediaLinks(self):
 
         # Scroll to bring the element into view
         # wait = WebDriverWait(self.driver, 10)
@@ -454,6 +473,8 @@ class LoginPage:
         element = self.driver.find_element(By.XPATH, self.Network_click_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
         time.sleep(1)
         element.click()
 
@@ -484,3 +505,4 @@ class LoginPage:
         wait = WebDriverWait(self.driver, 5)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.NewsFeed_xpath)))
         element.click()
+        time.sleep(1)

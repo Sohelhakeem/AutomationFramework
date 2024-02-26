@@ -1,6 +1,7 @@
 import time
 
 from selenium.webdriver import ActionChains, Keys
+from selenium.webdriver.common import keys
 from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.common.by import By
@@ -26,8 +27,8 @@ class Certification:
     secondanswer_xpath = "//input[@placeholder='Type the answer 2']"
     categoryselect_xpath = "//body/div[@id='root']/div[@class='baseBlockCntnr']/div[@class='flexCol fullHeight']/div[@class=' innerMainCntnr sideNav']/div[@class='flexCol']/div[@class='flexCol respdngSM']/div[@class='pdngSM']/div[@class='flexCol whiteBg pdngSM']/div[@class='resColRow']/div[@class='QuestionBankRight pdngHXS']/div[@class='flexCol pdngXS ']/div[2]/div[1]/div[1]/div[1]/div[1]/label[1]/span[1]/span[1]"
     selectanswer_xpath = "(//div[@class='flexAutoRow alignCntr'])[2]"
-    selectmarkingsystem_xpath = "//div[contains(@class,'MuiFormControl-root MuiFormControl-fullWidth css-tzsjye')]//div[@id='demo-simple-select']"
-    selectmarkingsystemoption_xpath = "//li[normalize-space()='TE']"
+    selectmarkingsystem_xpath = "//div[@class='MuiFormControl-root MuiFormControl-fullWidth css-tzsjye']//div[1]//div[1]"
+    selectmarkingsystemoption_xpath = "(//li[@role='option'])[1]"
     selectacronym_xpath = "//div[@class='flexWrap']//div[1]//span[1]"
     unpublished_xpath = "//body[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[7]/button[1]"
     publish_xpath = "//span[text()='Publish']"
@@ -37,6 +38,48 @@ class Certification:
     questionpublish_xpath = "//button[normalize-space()='Publish']"
     templates_xpath = "//span[normalize-space()='Templates']"
     templateedit_xpath = "//div[@class='templatemediaOverlay certHover']"
+    templatename_xpath = "//input[@name='title']"
+    logoimg_xpath = "//input[@id='logo']"
+    imgsave_xpath = "(//button[text()='Save'])[2]"
+    programname_xpath = "//input[@placeholder='Program Name']"
+    categoryname_xpath = "//input[@id='category']"
+    sign_xpath = "//input[@id='sign']"
+    signname_xpath = "//input[@name='signName']"
+    signdesignation_xpath = "//input[@name='signDesignation']"
+    templatesave_xpath = "//button[normalize-space()='Save']"
+    edittemplate_xpath = "//div[@class='flexAutoRow pdngHXXS alignCntr']//span[@class='flexInline primaryTxt pointer']"
+    templatepublish_xpath = "//button[normalize-space()='Publish']"
+    certification_xpath = "//span[normalize-space()='Certification']"
+    certificationname_xpath = "//input[@type='text']"
+    certificationdescription_xpath = "//textarea[@id='description']"
+    public_xpath = "//input[@id='public']"
+    selectmarkingsystemfield_xpath = "//div[@class='flexRow pdngVXS']//div[@class='MuiFormControl-root MuiFormControl-fullWidth css-tzsjye']//div[1]//div[1]"
+    acronymselect_xpath = "//div[@id='menu-']//li[1]"
+    # questionnumber_xpath  = "//*[@id='65c4a09577573e35c431acd2']"
+    questionnumber_xpath  = "(//input[@type='text'])[2]"
+    marks_xpath = "(//input[@type='text'])[4]"
+    reapply_xpath = "(//input[@type='text'])[5]"
+    minutes_xpath = "(//div[text()='00'])[2]"
+    minutestime_xpath = "//li[normalize-space()='03']"
+    options_xpath = "//div[text()='A , B']"
+    selectoption_xpath = "//li[normalize-space()='I , II']"
+    selecttemplate_xpath = "//div[@id='demo-simple-select-Template']"
+    templateclick_xpath = "//div[@id='menu-']//li[1]"
+    certificatesave_xpath = "//button[normalize-space()='SAVE']"
+    certificateconfirmsave_xpath = "(//button[text()='SAVE'])[2]"
+    certificateedit_xpath  = "//div[@class='flexInline alignCntr']//span[@class='flexInline primaryTxt pointer']"
+    certificatepublish_xpath = "//button[normalize-space()='Publish']"
+    certificateconfirmpublish_xpath = "(//button[text()='Publish'])[2]"
+    myexams_xpath = "//button[normalize-space()='My exams']"
+    getcertificate_xpath = "//button[text()='GET CERTIFICATE']"
+    examcheckbox_xpath = "//input[@type='checkbox']"
+    certificatedelete_xpath = "//div[@class='flexInline pdngHXXS alignCntr']//span[@class='flexInline primaryTxt pointer']"
+    certificateconfirmdelete_xpath = "//button[normalize-space()='Delete']"
+    templatedelete_xpath = "(//*[name()='svg'][@aria-label='Delete'])[1]"
+    questionbankdelete_xpath = "(//span[@class='flexInline'])[4]"
+    acronymdelete_xpath = "//tbody//div[2]//span[1]"
+
+
 
 
 
@@ -65,12 +108,21 @@ class Certification:
 
     def clickonsave(self):
         self.driver.find_element(By.XPATH,self.save_xpath).click()
+        time.sleep(1)
 
 
     def setsearch(self,search):
+        time.sleep(2)
+        WebDriverWait(self.driver,10).until(
+            EC.element_to_be_clickable((By.XPATH,self.search_xpath))
+        )
         self.driver.find_element(By.XPATH,self.search_xpath).send_keys(search)
 
     def clickonacronymedit(self):
+        time.sleep(2)
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.acronymedit_xpath))
+        )
         self.driver.find_element(By.XPATH,self.acronymedit_xpath).click()
 
     def clickonacronympublish(self):
@@ -102,14 +154,16 @@ class Certification:
 
     def clickonselectanswer(self):
         time.sleep(2)
-        self.driver.find_element(By.XPATH, self.selectanswer_xpath).click()
+        # self.driver.find_element(By.XPATH, self.selectanswer_xpath).click()
         selectanswer_button = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, self.categoryselect_xpath))
+            EC.element_to_be_clickable((By.XPATH, self.selectanswer_xpath))
         )
 
         selectanswer_button.click()
+        time.sleep(3)
 
     def clickonselectmarkingsystem(self):
+        time.sleep(2)
         select_markingsystem = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.selectmarkingsystem_xpath))
         )
@@ -121,11 +175,16 @@ class Certification:
         select_markingsystem = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.selectmarkingsystem_xpath))
         )
+        time.sleep(2)
+        self.driver.find_element(By.XPATH,self.selectmarkingsystem_xpath).click()
 
         # Click on the radio button
-        select_markingsystem.click()
 
     def clickonselectmarkingsystemoption(self):
+        time.sleep(2)
+        # WebDriverWait(self.driver,20).until(
+        #     EC.element_to_be_clickable((By.XPATH,self.selectmarkingsystemoption_xpath))
+        # )
         self.driver.find_element(By.XPATH,self.selectmarkingsystemoption_xpath).click()
 
     def clickonselectacronym(self):
@@ -146,6 +205,7 @@ class Certification:
         select_acronym.click()
 
     def clickonquestionsave(self):
+        time.sleep(1)
         # self.driver.find_element(By.XPATH,self.save_xpath).click()
         question_save = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.save_xpath))
@@ -229,7 +289,7 @@ class Certification:
         # element = WebDriverWait(self.driver, 20).until(
         #     EC.element_to_be_clickable((By.XPATH, self.templateedit_xpath))
         # )
-
+        time.sleep(2)
         # Perform mouseover action
         hover_element = WebDriverWait(self.driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, self.templateedit_xpath))
@@ -243,6 +303,316 @@ class Certification:
 
         # Click on the target element
         hover_element.click()
+
+    def settemplatename(self,templatename):
+        self.driver.find_element(By.XPATH,self.templatename_xpath).send_keys(templatename)
+
+    def setlogoimg(self,absolutepath_5):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.logoimg_xpath).send_keys(absolutepath_5)
+
+    def clickonimgsave(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.imgsave_xpath).click()
+        time.sleep(1)
+
+    def setprogramname(self,programname):
+        WebDriverWait(self.driver,20).until(
+            EC.presence_of_element_located((By.XPATH,self.programname_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.programname_xpath).send_keys(programname)
+
+    def setcategoryname(self,categoryname):
+        WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.categoryname_xpath))
+        )
+        self.driver.find_element(By.XPATH, self.categoryname_xpath).send_keys(categoryname)
+
+    def setsign(self,absolutepath_3):
+        sign_img = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.sign_xpath))
+        )
+        # Scroll to the radio button
+        actions = ActionChains(self.driver)
+        actions.move_to_element(sign_img).perform()
+
+        sign_img = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.sign_xpath))
+        )
+        sign_img.send_keys(absolutepath_3)
+
+    def setsignname(self,signname):
+        WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.signname_xpath))
+        )
+        self.driver.find_element(By.XPATH, self.signname_xpath).send_keys(signname)
+
+    def setsigndesignation(self,signdesignation):
+        WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.signdesignation_xpath))
+        )
+        self.driver.find_element(By.XPATH, self.signdesignation_xpath).send_keys(signdesignation)
+
+    def clickontemplatesave(self):
+        template_save = WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.templatesave_xpath))
+        )
+        # Scroll to the radio button
+        actions = ActionChains(self.driver)
+        actions.move_to_element(template_save).perform()
+        template_save.click()
+
+    def clickonedittemplate(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.edittemplate_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.edittemplate_xpath).click()
+
+    def clickontemplatepublish(self):
+        template_publish = WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.templatepublish_xpath))
+        )
+        # Scroll to the radio button
+        actions = ActionChains(self.driver)
+        actions.move_to_element(template_publish).perform()
+        template_publish.click()
+
+    def clickoncertification(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.certification_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.certification_xpath).click()
+
+    def setcertificationname(self,certificatename):
+        WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.certificationname_xpath))
+        )
+        self.driver.find_element(By.XPATH, self.certificationname_xpath).send_keys(certificatename)
+
+    def setcertificationdescription(self,certificationdescription):
+        WebDriverWait(self.driver,20).until(
+            EC.presence_of_element_located((By.XPATH,self.certificationdescription_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.certificationdescription_xpath).send_keys(certificationdescription)
+
+
+
+    def clickonpublic(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.public_xpath).click()
+
+    def clickonselectmarkingsystemfield(self):
+        time.sleep(1)
+        element = self.driver.find_element(By.XPATH, self.selectmarkingsystemfield_xpath)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
+        element.click()
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+        # self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+        time.sleep(1)
+
+
+
+    def clickonacronymselect(self):
+        acronym_select = WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.acronymselect_xpath))
+        )
+
+        acronym_select.click()
+        time.sleep(1)
+    def clickonquestionnumber(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.questionnumber_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.questionnumber_xpath).click()
+        # time.sleep(2)
+
+    def setquestionnumber(self,questionnumber):
+        question_number = WebDriverWait(self.driver,20).until(
+            EC.visibility_of_element_located((By.XPATH,self.questionnumber_xpath))
+
+        )
+        # question_number.click()
+
+        # self.driver.find_element(By.XPATH, self.questionnumber_xpath).send_keys(keys.Control+"a", question_number)
+        question_number.send_keys(Keys.CONTROL, 'a')
+
+        # Then, send the desired value to the input field
+        question_number.send_keys(questionnumber)
+    def setMarks(self,marks):
+        pass_marks = WebDriverWait(self.driver,20).until(
+            EC.visibility_of_element_located((By.XPATH,self.marks_xpath))
+
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", pass_marks)
+        time.sleep(0.5)
+        pass_marks.send_keys(Keys.CONTROL, 'a')
+
+        # Then, send the desired value to the input field
+        pass_marks.send_keys(marks)
+
+
+    def setreapply(self,reapply):
+        reapply_marks = WebDriverWait(self.driver,20).until(
+            EC.visibility_of_element_located((By.XPATH,self.reapply_xpath))
+
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", reapply_marks)
+        time.sleep(0.5)
+        reapply_marks.send_keys(Keys.CONTROL, 'a')
+
+        # Then, send the desired value to the input field
+        reapply_marks.send_keys(reapply)
+
+    def clickonminutes(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.minutes_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.minutes_xpath).click()
+
+    def clickonminutestime(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.minutestime_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.minutestime_xpath).click()
+
+    def clickonoptions(self):
+        # WebDriverWait(self.driver,20).until(
+        #     EC.element_to_be_clickable((By.XPATH,self.options_xpath))
+        # )
+        self.driver.find_element(By.XPATH,self.options_xpath).click()
+
+    def clickonselectoption(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.selectoption_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.selectoption_xpath).click()
+
+    def clickonselecttemplate(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.selecttemplate_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.selecttemplate_xpath).click()
+
+    def clickontemplateclick(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.templateclick_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.templateclick_xpath).click()
+
+    def clickoncertificatesave(self):
+        element = self.driver.find_element(By.XPATH, self.certificatesave_xpath)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+
+        # Wait for a short while to ensure the element is clickable
+        time.sleep(1)
+
+        # Click on the element
+        element.click()
+
+    def clickoncertificateconfirmsave(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.certificateconfirmsave_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.certificateconfirmsave_xpath).click()
+
+    def clickoncertificateedit(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.certificateedit_xpath).click()
+
+    def clickoncertificatepublish(self):
+        time.sleep(2)
+        element = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[text()='Certificate template']"))
+        )
+
+        # Scroll the publish button into view
+        # actions = ActionChains(self.driver)
+        # actions.move_to_element(publish_button).perform()
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+        #
+        time.sleep(1)
+
+        publish_button = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, self.certificatepublish_xpath))
+        )
+        #
+        # # Click on the publish button
+        publish_button.click()
+        # self.driver.find_element(By.XPATH,self.certificatepublish_xpath).click()
+        # publish_button = WebDriverWait(self.driver, 20).until(
+        #     EC.element_to_be_clickable((By.XPATH, self.certificatepublish_xpath))
+        # )
+        #
+        # # Scroll to the publish button using WebDriver actions
+        # actions = ActionChains(self.driver)
+        # actions.move_to_element(publish_button).perform()
+        #
+        # # Click on the publish button
+        # publish_button.click()
+
+    def clickoncertificateconfirmpublish(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.certificateconfirmpublish_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.certificateconfirmpublish_xpath).click()
+
+    def clickonmyexams(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.myexams_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.myexams_xpath).click()
+
+    def clickongetcertificate(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.getcertificate_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.getcertificate_xpath).click()
+
+    def clickonexamcheckbox(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.examcheckbox_xpath).click()
+
+    def clickoncertificatedelete(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.certificatedelete_xpath).click()
+
+    def clickoncertificateconfirmdelete(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.certificateconfirmdelete_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.certificateconfirmdelete_xpath).click()
+
+    def clickontemplatedelete(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.templatedelete_xpath).click()
+
+    def clickonquestionbankdelete(self):
+        WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.questionbankdelete_xpath))
+        )
+        self.driver.find_element(By.XPATH,self.questionbankdelete_xpath).click()
+
+    def clickonacronymdelete(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.acronymdelete_xpath).click()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

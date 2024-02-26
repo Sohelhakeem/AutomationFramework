@@ -20,7 +20,7 @@ class TestLogin(unittest.TestCase):
     worksheet = workbook.active
 
     username = worksheet["A2"].value
-    RMname = worksheet["A8"].value
+    RMname = worksheet["F10"].value
     password = ReadConfig.getPassword()
     CompanyManufacture = worksheet["H2"].value
     EmailManufacture = worksheet["I2"].value
@@ -46,8 +46,10 @@ class TestLogin(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    @pytest.mark.smoke(order=1)
+    # @pytest.mark.smoke(order=1)
     # @pytest.mark.skip(reason="skip for now")
+    # @order(1)
+    @pytest.mark.run(order=1)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_RejectConnectionCompanyAsManufacturer(self):
         self.logger.info("****Started Network Connection Test****")
@@ -64,11 +66,12 @@ class TestLogin(unittest.TestCase):
         # Verifying and Clicking on the company
         self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
         self.np.clickConnectButton()
+        time.sleep(2)
         self.np.clickDropDownList()
-        # self.np.clickManufacturer()
-        self.np.clickdistributor()
-        self.np.setRM_searchField(self.RMname)
-        self.np.clickSelectRM()
+        self.np.clickManufacturer()
+        # self.np.clickdistributor()
+        # self.np.setRM_searchField(self.RMname)
+        # self.np.clickSelectRM()
         self.np.clickcheckbox()
         self.np.clickButtonConnect2()
         # List of error texts to validate
@@ -112,21 +115,22 @@ class TestLogin(unittest.TestCase):
         self.np.clickRejectButton()
         self.np.setTextarea(companyName)
         self.np.clickReject2Button()
-        time.sleep(3)
+        time.sleep(4)
         act_Text = self.np.Text_Connection_rejected_successfully()
         if act_Text == "Connection rejected successfully":
             assert True
-            self.logger.info("********* Employee creation Test is Passed ***********")
+            self.logger.info("********* Company Connection rejected Successfully ***********")
             self.driver.close()
         else:
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_createDept.png")
-            self.logger.error("********* Employee creation Test is Failed ***********")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "connection_reject_fail.png")
+            self.logger.error("********* Company reject fail ***********")
             self.driver.close()
             assert False
 
-    @pytest.mark.smoke(order=2)
+    @pytest.mark.run(order=4)
+    # @pytest.mark.smoke(order=2)
     @pytest.mark.skip(reason="skip for now")
-    @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_ConnectionCompanyAsManufacturer(self):
         self.logger.info("****Started Network Connection Test****")
         self.lp = LoginPage(self.driver)
@@ -142,6 +146,7 @@ class TestLogin(unittest.TestCase):
         # Verifying and Clicking on the company
         self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
         self.np.clickConnectButton()
+        time.sleep(2)
         self.np.clickDropDownList()
         self.np.clickManufacturer()
         self.np.setRM_searchField(self.RMname)
@@ -173,13 +178,13 @@ class TestLogin(unittest.TestCase):
         # Read data from specific cells
         wb = load_workbook("TestData/LoginData.xlsx")
         ws = wb.active
-        CompEmail = ws['I2'].value
-        companyName = ws['C2'].value
+        EmailManufacture = ws['F12'].value
+        companyName = ws['F19'].value
 
         self.lp = LoginPage(self.driver)
         self.logger.info(
-            "Entering Requested company Credentials for Approve request Username:" + CompEmail + " and Password:" + self.password)
-        self.lp.setUserName(CompEmail)
+            "Entering Requested company Credentials for Approve request Username:" + EmailManufacture + " and Password:" + self.password)
+        self.lp.setUserName(EmailManufacture)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.np.clickNetworks()
@@ -187,8 +192,54 @@ class TestLogin(unittest.TestCase):
         self.np.setsearchField(companyName)
         self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
         self.np.clickApproveButton()
-        self.np.clickAcceptButton()
+        time.sleep(4)
+        # self.np.clickAcceptButton()
 
+        # Verify_texts = [
+        #     "Network Connections",
+        # ]
+        #
+        # # Find elements containing error texts and validate
+        # for text in Verify_texts:
+        #     error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+        #
+        #     if error_elements:
+        #         self.logger.info(f"Found error text: {text}")
+        #         assert True
+        #
+        #     else:
+        #         self.logger.info(f"Error text not found: {text}")
+        #         self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
+        #         self.driver.close()
+        #         assert False
+
+    @pytest.mark.run(order=5)
+    # @pytest.mark.smoke(order=2)
+    @pytest.mark.skip(reason="skip for now")
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    def test_ConnectionCompanyAsPartner(self):
+        self.logger.info("****Started Network Connection Test****")
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+
+        self.lp.clickLogin()
+        self.np = networksPage(self.driver)
+        self.np.clickNetworks()
+        self.np.setsearchField(self.CompanyPartner)
+        # Verifying and Clicking on the company
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyPartner + "')]").click()
+        self.np.clickConnectButton()
+        time.sleep(2)
+        self.np.clickDropDownList()
+        self.np.clickpartner()
+        self.np.setRM_searchField(self.RMname)
+        self.np.clickSelectRM()
+        self.np.clickcheckbox()
+        self.np.clickButtonConnect2()
+        # List of error texts to validate
         Verify_texts = [
             "Network Connections",
         ]
@@ -207,5 +258,309 @@ class TestLogin(unittest.TestCase):
                 self.driver.close()
                 assert False
 
-    if __name__ == '__main__':
-        unittest.main(verbosity=2)
+        self.np.clickOKButton()
+        self.lp.clickLogout()
+        self.logger.info("******** Entering Requested company credentials for Network Connection ***********")
+        # Read data from specific cells
+        wb = load_workbook("TestData/LoginData.xlsx")
+        ws = wb.active
+        EmailPartner = ws['F14'].value
+        companyName = ws['F19'].value
+
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering Requested company Credentials for Approve request Username:" + EmailPartner + " and Password:" + self.password)
+        self.lp.setUserName(EmailPartner)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.np.clickNetworks()
+        self.np.clickPendingTab()
+        self.np.setsearchField(companyName)
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        self.np.clickApproveButton()
+        time.sleep(4)
+        # self.np.clickAcceptButton()
+
+        # Verify_texts = [
+        #     "Network Connections",
+        # ]
+        #
+        # # Find elements containing error texts and validate
+        # for text in Verify_texts:
+        #     error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+        #
+        #     if error_elements:
+        #         self.logger.info(f"Found error text: {text}")
+        #         assert True
+        #
+        #     else:
+        #         self.logger.info(f"Error text not found: {text}")
+        #         self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
+        #         self.driver.close()
+        #         assert False
+
+    @pytest.mark.run(order=6)
+    # @pytest.mark.smoke(order=2)
+    @pytest.mark.skip(reason="skip for now")
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    def test_ConnectionCompanyAsDistributor(self):
+        self.logger.info("****Started Network Connection Test****")
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+
+        self.lp.clickLogin()
+        self.np = networksPage(self.driver)
+        self.np.clickNetworks()
+        self.np.setsearchField(self.CompanyDistributor)
+        # Verifying and Clicking on the company
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyDistributor + "')]").click()
+        self.np.clickConnectButton()
+        time.sleep(2)
+        self.np.clickDropDownList()
+        time.sleep(1)
+        self.np.clickshareHolder()
+        self.np.setRM_searchField(self.RMname)
+        self.np.clickSelectRM()
+        self.np.clickcheckbox()
+        self.np.clickButtonConnect2()
+        # List of error texts to validate
+        Verify_texts = [
+            "Network Connections",
+        ]
+
+        # Find elements containing error texts and validate
+        for text in Verify_texts:
+            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+
+            if error_elements:
+                self.logger.info(f"Found error text: {text}")
+                assert True
+
+            else:
+                self.logger.info(f"Error text not found: {text}")
+                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
+                self.driver.close()
+                assert False
+
+        self.np.clickOKButton()
+        self.lp.clickLogout()
+        self.logger.info("******** Entering Requested company credentials for Network Connection ***********")
+        # Read data from specific cells
+        wb = load_workbook("TestData/LoginData.xlsx")
+        ws = wb.active
+        EmailDistributor = ws['F16'].value
+        companyName = ws['F19'].value
+
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering Requested company Credentials for Approve request Username:" + EmailDistributor + " and Password:" + self.password)
+        self.lp.setUserName(EmailDistributor)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.np.clickNetworks()
+        self.np.clickPendingTab()
+        self.np.setsearchField(companyName)
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        self.np.clickApproveButton()
+        time.sleep(4)
+        # self.np.clickAcceptButton()
+
+        # Verify_texts = [
+        #     "Network Connections",
+        # ]
+        #
+        # # Find elements containing error texts and validate
+        # for text in Verify_texts:
+        #     error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+        #
+        #     if error_elements:
+        #         self.logger.info(f"Found error text: {text}")
+        #         assert True
+        #
+        #     else:
+        #         self.logger.info(f"Error text not found: {text}")
+        #         self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
+        #         self.driver.close()
+        #         assert False
+
+
+
+    # @pytest.mark.smoke(order=3)
+    @pytest.mark.run(order=2)
+    @pytest.mark.skip(reason="skip for now")
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    def test_follow_and_unfollow_company(self):
+        self.logger.info("****Started Network Connection Test****")
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+
+        self.lp.clickLogin()
+        self.np = networksPage(self.driver)
+        self.np.clickNetworks()
+        self.np.setsearchField(self.CompanyManufacture)
+        # Verifying and Clicking on the company
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
+        self.np.clickFollowButton()
+        time.sleep(1)
+        self.driver.back()
+        self.np.clickFOLLOWTab()
+        time.sleep(1)
+        if "Following" in self.driver.page_source:
+            self.logger.info("********** Following company successfully *********")
+
+        else:
+                # Log and take a screenshot
+            self.logger.error("************** following company is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+            assert False
+        self.lp.clickLogout()
+        self.logger.info("******** Entering Requested company credentials for Network Connection ***********")
+        # Read data from specific cells
+        wb = load_workbook("TestData/LoginData.xlsx")
+        ws = wb.active
+        CompEmail = ws['F12'].value
+        companyName = ws['F19'].value
+        CompanyManufacture=ws['F11'].value
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering Requested company Credentials for Approve request Username:" + CompEmail + " and Password:" + self.password)
+        self.lp.setUserName(CompEmail)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.np.clickNetworks()
+        self.np.clickFOLLOWTab()
+        time.sleep(1)
+        self.np.setsearchField(companyName)
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        time.sleep(3)
+        if "Follow" in self.driver.page_source:
+            self.logger.info("********** Following company successfully *********")
+
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** following company is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+            assert False
+        self.lp.clickLogout()
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+
+        self.lp.clickLogin()
+        self.np = networksPage(self.driver)
+        self.np.clickNetworks()
+        self.np.clickFOLLOWTab()
+        self.np.setsearchField(self.CompanyManufacture)
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + CompanyManufacture + "')]").click()
+        time.sleep(2)
+        if "Following" in self.driver.page_source:
+            self.logger.info("********** Successfully see the page *********")
+
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** following company is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+            assert False
+        time.sleep(2)
+        self.np.clickFollowingButton()
+        self.np.clickUnfollowButton()
+        time.sleep(2)
+
+    @pytest.mark.run(order=3)
+    @pytest.mark.skip(reason="skip for now")
+    def test_block_and_unblock_the_followed_company(self):
+        self.logger.info("****Started Network Connection Test****")
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+
+        self.lp.clickLogin()
+        self.np = networksPage(self.driver)
+        self.np.clickNetworks()
+        self.np.setsearchField(self.CompanyManufacture)
+        # Verifying and Clicking on the company
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
+        time.sleep(2)
+        self.np.clickFollowButton()
+        time.sleep(1)
+        self.driver.back()
+        self.np.clickFOLLOWTab()
+        time.sleep(2)
+        if "Following" in self.driver.page_source:
+            self.logger.info("********** Following company successfully *********")
+
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** following company is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+            assert False
+        self.lp.clickLogout()
+        self.logger.info("******** Entering Requested company credentials for Network Connection ***********")
+        # Read data from specific cells
+        wb = load_workbook("TestData/LoginData.xlsx")
+        ws = wb.active
+        CompEmail = ws['F12'].value
+        companyName = ws['F19'].value
+        CompanyManufacture = ws['F11'].value
+        self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering Requested company Credentials for Approve request Username:" + CompEmail + " and Password:" + self.password)
+        self.lp.setUserName(CompEmail)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.np.clickNetworks()
+        self.np.clickFOLLOWTab()
+        time.sleep(1)
+        self.np.setsearchField(companyName)
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        time.sleep(1)
+        self.driver.back()
+        self.np.ClickBlockCompany()
+        self.np.ClickConfirmBlock()
+        time.sleep(3)
+        if "You have blocked "+ companyName +"" in self.driver.page_source:
+            self.logger.info("********** Following company successfully *********")
+
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** following company is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+            assert False
+
+        self.np.clickBlocklistTab()
+        time.sleep(1)
+        self.np.setsearchField(companyName)
+        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        time.sleep(3)
+        self.np.ClickUnblockCompany()
+        self.np.ClickConfirmUnblock()
+        time.sleep(3)
+        if "You have unblocked "+ companyName +"" in self.driver.page_source:
+            self.logger.info("********** Following company successfully *********")
+
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** following company is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+            assert False
+
+
+
+
+
+
+
+
+
+        if __name__ == '__main__':
+             unittest.main(verbosity=2)
+
