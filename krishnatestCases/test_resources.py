@@ -29,7 +29,7 @@ class Test_001_Resources:
     worksheet = workbook.active
 
     username = worksheet["A2"].value
-    usernames = worksheet["E8"].value
+    usernames = worksheet["B6"].value
     usernames1 = worksheet["I2"].value
     usernames2 = worksheet["I3"].value
     companyname  = worksheet["C2"].value
@@ -44,7 +44,7 @@ class Test_001_Resources:
 
     # Update the existing cells with new data
     ws['A2'] = username
-    ws['E8'] = usernames
+    ws['B6'] = usernames
     ws['I2'] = usernames1
     ws['I3'] = usernames2
     ws['C2'] = companyname
