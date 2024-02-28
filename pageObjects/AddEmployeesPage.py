@@ -17,13 +17,13 @@ class AddEmployeesPage:
     text_phoneNumber_xpath = "//input[@type='tel']"
     text_empId_xpath = "//input[@name='series']"
     DD_Dept_xpath = "//div[@id='demo-simple-select']"
-    button_AddDept_xpath = "(//button[@type='button'])[15]"
+    button_AddDept_xpath = "//button[text()='Add department']"
     button_DoneAddDept_xpath = "//button[contains(text(),'Done')]"
     DD_Division_xpath = "(//div[@id='demo-simple-select'])[2]"
-    button_AddDivision_xpath = "(//button[@type='button'])[17]"
+    button_AddDivision_xpath = "//button[text()='Add division']"
     text_Division_xpath = "(//input[@id='outlined-basic'])[2]"
     DD_Designation_xpath = "(//div[@id='demo-simple-select'])[3]"
-    button_AddDesignation_xpath = "(//button[@type='button'])[18]"
+    button_AddDesignation_xpath = "//button[text()='Add designation']"
     DD_CountryDD_xpath = "(//button[@aria-haspopup='listbox'])[2]"
     DD_state_xpath = "//div[@id='state']"
     DD_city_xpath = "//div[@id='city']"
@@ -83,7 +83,7 @@ class AddEmployeesPage:
         self.driver.find_element(By.XPATH, self.text_Division_xpath).clear()
         self.driver.find_element(By.XPATH, self.text_Division_xpath).send_keys(searchField)
     def clickAddDeptButton(self):
-        time.sleep(2)
+        # time.sleep(2)
         # Scroll to bring the element into view
         element = self.driver.find_element(By.XPATH, self.button_AddDept_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
@@ -99,14 +99,29 @@ class AddEmployeesPage:
         self.driver.find_element(By.XPATH, self.button_DoneAddDept_xpath).click()
 
     def clickAddDivisionButton(self):
-        self.driver.find_element(By.XPATH, self.button_AddDivision_xpath).click()
+        # self.driver.find_element(By.XPATH, self.button_AddDivision_xpath).click()
+        # time.sleep(1.5)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_AddDivision_xpath))
+        )
+        element.click()
 
     def clickAddDesignation(self):
-        self.driver.find_element(By.XPATH, self.button_AddDesignation_xpath).click()
+        # self.driver.find_element(By.XPATH, self.button_AddDesignation_xpath).click()
+        # time.sleep(1.5)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.button_AddDesignation_xpath))
+        )
+        element.click()
 
     def setActiveSearchField(self, activeSearchField):
-        self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).clear()
-        self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).send_keys(activeSearchField)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.text_activeSearchField_xpath))
+        )
+        element.clear()
+        element.send_keys(activeSearchField)
+        # self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).clear()
+        # self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).send_keys(activeSearchField)
 
     def setFullname(self, activeSearchField):
         self.driver.find_element(By.XPATH, self.text_fullname_xpath).clear()
@@ -155,15 +170,15 @@ class AddEmployeesPage:
         element.click()
     def ClickDD_Division(self):
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_Division_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.DD_Division_xpath)))
         element.click()
     def ClickDD_Designation(self):
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.DD_Designation_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.DD_Designation_xpath)))
         element.click()
     def ClickbuttonActive(self):
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.buttonActive_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.buttonActive_xpath)))
         element.click()
     def ClickbuttonDeactivate(self):
         wait = WebDriverWait(self.driver, 10)

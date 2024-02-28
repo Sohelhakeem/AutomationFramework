@@ -29,9 +29,11 @@ class Test_001_Resources:
     worksheet = workbook.active
 
     username = worksheet["A2"].value
-    usernames = worksheet["E2"].value
+    usernames = worksheet["E8"].value
     usernames1 = worksheet["I2"].value
     usernames2 = worksheet["I3"].value
+    companyname  = worksheet["C2"].value
+
 
 
     workbook.close()
@@ -42,9 +44,10 @@ class Test_001_Resources:
 
     # Update the existing cells with new data
     ws['A2'] = username
-    ws['E2'] = usernames
+    ws['E8'] = usernames
     ws['I2'] = usernames1
     ws['I3'] = usernames2
+    ws['C2'] = companyname
 
 
     # Save the workbook
@@ -70,7 +73,7 @@ class Test_001_Resources:
     contentdescription = "This content description is Our free tool lets you easily create unique descriptions for your product pages. Just enter the product name and let our Frase AI do its magic."
     contentsectiondescription = "Welcome to our free and intuitive description creation tool! Simplify the process of crafting compelling product page descriptions by leveraging the power of our Frase AI. Just input the product name, and let our innovative tool work its "
     sectionimagedescription = "image preview text description presented here"
-    companyname = "all company"
+    # companyname = "all company"
 
 
 
@@ -79,7 +82,8 @@ class Test_001_Resources:
 
     logger = LogGen.loggen()  # Logger
 
-    @pytest.mark.Ganga
+    @pytest.mark.sanity
+    @pytest.mark.test
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -221,7 +225,7 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* relationcompanyLogin succesful **********")
@@ -246,7 +250,7 @@ class Test_001_Resources:
         time.sleep(3)
 
     @pytest.mark.sanity
-    @pytest.mark.regression
+    @pytest.mark.babi
     @pytest.mark.run(order=2)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
@@ -390,7 +394,7 @@ class Test_001_Resources:
         self.rs.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -781,7 +785,7 @@ class Test_001_Resources:
         self.rs.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames2(self.usernames2)
+        self.lp.setUserName(self.usernames2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -959,7 +963,7 @@ class Test_001_Resources:
         self.rs.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1007,7 +1011,7 @@ class Test_001_Resources:
         self.rs.clickoncategoryclose()
         self.rs.clickonlogout()
         time.sleep(3)
-        self.lp.setUserNames2(self.usernames2)
+        self.lp.setUserName(self.usernames2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1207,9 +1211,9 @@ class Test_001_Resources:
             assert False
         time.sleep(3)
 
-    @pytest.mark.Gangas
+    @pytest.mark.Gang
     @pytest.mark.regression
-    # @pytest.mark.run(order=7)
+    @pytest.mark.run(order=7)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_categorydelete(self, setup):

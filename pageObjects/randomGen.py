@@ -6,11 +6,16 @@ class randomGen:
     def random_email(size=7, chars=string.ascii_lowercase + string.digits):
         prefix = random.choice(string.ascii_lowercase)  # Ensure the first character is an alphabet
         prefix += ''.join(random.choice(chars) for _ in range(size - 1))  # Generate remaining characters
-        # suffix = "@mailcatch.com"
-        suffix = "@yopmail.com"
+        suffix = "@mailcatch.com"
+        # suffix = "@yopmail.com"
         return prefix + suffix
 
 
+    @staticmethod
+    def random_Ranfirst_name(size=7, chars=string.ascii_lowercase + string.digits):
+        prefix = random.choice(string.ascii_lowercase)  # Ensure the first character is an alphabet
+        prefix += ''.join(random.choice(chars) for _ in range(size - 1))  # Generate remaining characters
+        return prefix
     # @staticmethod
     # def random_first_name():
     #     random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
@@ -178,5 +183,11 @@ class randomGen:
     @staticmethod
     def random_acronym2():
         prefix = 'e'  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_certificationname():
+        prefix = 'Certificate'  # Assuming '9' as the fixed prefix
         random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
         return f'{prefix}{random_part}'
