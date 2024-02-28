@@ -14,8 +14,8 @@ class NewsFeed:
     post_xpath = "//button[text()='Post']"
     logout_xpath = "//span[text()='Log out']"
     public_xpath = "//input[@id='public']"
-    employeechck_xpath = "//input[@class='PrivateSwitchBase-input css-1m9pwf3']"
-    partnerchck_xpath = "(//input[@class='PrivateSwitchBase-input css-1m9pwf3'])[4]"
+    employeechck_xpath = "//div[@class='flexCol brdrBSM']//div[1]//div[1]"
+    partnerchck_xpath = "//span[normalize-space()='partner']"
     statuschck_xpath = "//input[@id='activeType']"
     threedots_xpath = "//div[@class='flexAutoRow alignCntr justifyCntr']"
     archive_xpath = "(//li[@class='MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-1slzbpg'])[2]"
@@ -86,9 +86,10 @@ class NewsFeed:
 
         # Send keys to the text box
         text_box.send_keys(whats)
+        time.sleep(2)
 
     def clickonpost(self):
-        time.sleep(2)
+        time.sleep(3)
         post_button = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.post_xpath))
         )
@@ -129,7 +130,7 @@ class NewsFeed:
         # public_button.click()
 
     def clickonemp(self):
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element(By.XPATH,self.employeechck_xpath).click()
 
     def clickonpartner(self):
@@ -273,10 +274,12 @@ class NewsFeed:
     def clickonbookmark(self):
         time.sleep(1)
         self.driver.find_element(By.XPATH,self.bookmark_xpath).click()
+        time.sleep(1)
 
     def clickonexplore(self):
         time.sleep(1)
         self.driver.find_element(By.XPATH,self.explore_xpath).click()
+        time.sleep(1)
 
     def clickonremove(self):
         time.sleep(1)
