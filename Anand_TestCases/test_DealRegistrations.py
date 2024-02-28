@@ -50,8 +50,8 @@ class Test_Create_DealwithNetworkCompany:
     valueofdeal="92826"
     reason="Present deal items are not available"
     accountmanager="persona"
-    search="two"
-    searchtwo="meet"
+    search="j industries"
+    searchtwo="mahindra"
 
     # Access the active worksheet
     worksheet = workbook.active
@@ -76,6 +76,7 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
+        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** OEM Company Login successfully *********")
 
@@ -84,7 +85,7 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** OEM Company Login failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "OEM_login_fail.png")
             assert False
-        time.sleep(5)
+
         self.deal=dealregistration(self.driver)
         self.deal.clickdealtab()
         if "Deal registration" in self.driver.page_source:
@@ -117,7 +118,7 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(1)
+        time.sleep(2)
         if "Deal Opportunity Created" in self.driver.page_source:
             self.logger.info("********** Deal Created Successfully *********")
 
@@ -138,9 +139,10 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** OEM Company Logout failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "OEM_logout_fail.png")
             assert False
-        self.lp.setUserName1(self.username1)
+        self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
+        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** partner Company Login successfully *********")
 
@@ -149,7 +151,7 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** partner Company Login failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "partner_login_fail.png")
             assert False
-        time.sleep(1)
+
         self.deal.clickdealtab()
         self.deal.networkdeals()
         if "Deal registration" in self.driver.page_source:
@@ -196,7 +198,7 @@ class Test_Create_DealwithNetworkCompany:
             self.driver.save_screenshot(".\\Screenshots\\" + "approved_deal_fail.png")
             assert False
 
-    @pytest.mark.skip(reason="skipping this Test")
+    # @pytest.mark.skip(reason="skipping this Test")
     def test_deal_Create_Reject_Relation_Company(self,setup):
         self.logger.info("****TC_02 Verify the OEM Company Create The Deal and reject the deal by partner company****")
         self.driver = setup
@@ -206,6 +208,7 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
+        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** OEM Company Login successfully *********")
 
@@ -214,7 +217,7 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** OEM Company Login failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "OEM_login_fail.png")
             assert False
-        time.sleep(1)
+
         self.deal=dealregistration(self.driver)
         self.deal.clickdealtab()
         if "Deal registration" in self.driver.page_source:
@@ -267,10 +270,10 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** OEM Company Logout failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "OEM_logout_fail.png")
             assert False
-        self.lp.setUserName1(self.username1)
+        self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** partner Company Login successfully *********")
 
@@ -327,7 +330,7 @@ class Test_Create_DealwithNetworkCompany:
             assert False
 
 
-    @pytest.mark.skip(reason="skipping this Test")
+    # @pytest.mark.skip(reason="skipping this Test")
     def test_deal_Create_Edit_Approve_Through_Notification(self, setup):
         self.logger.info("****TC_03 Create a Deal with OEM Company and Approve the Deal through Notification ****")
         self.driver = setup
@@ -337,6 +340,7 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
+        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** OEM Company Login successfully *********")
 
@@ -345,7 +349,7 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** OEM Company Login failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "OEM_login_fail.png")
             assert False
-        time.sleep(1)
+
         self.deal = dealregistration(self.driver)
         self.deal.clickdealtab()
         if "Deal registration" in self.driver.page_source:
@@ -398,10 +402,10 @@ class Test_Create_DealwithNetworkCompany:
             self.logger.error("************** OEM Company Logout failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "OEM_logout_fail.png")
             assert False
-        self.lp.setUserName1(self.username1)
+        self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickonnotification()
 
         # changes excel sheet data
@@ -409,7 +413,7 @@ class Test_Create_DealwithNetworkCompany:
         wb = load_workbook("TestData/LoginData.xlsx")
         ws = wb.active
         department = ws['A16'].value
-        element = self.driver.find_element(By.XPATH, "//span[text()='Anand N created a new deal with Instavc Technologies in Department "+department +"']")
+        element = self.driver.find_element(By.XPATH, "//span[text()='Anand Mahindra created a new deal with Instavc Technologies in Department "+department +"']")
         # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
 
         if element:
@@ -430,7 +434,7 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.closeapprovedtab()
         time.sleep(1)
 
-    @pytest.mark.skip(reason="skipping this Test")
+    # @pytest.mark.skip(reason="skipping this Test")
     def test_deal_Reject_Through_Notification(self, setup):
         self.logger.info("****Started Login Test****")
         self.driver = setup
@@ -440,7 +444,7 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal = dealregistration(self.driver)
         self.deal.clickdealtab()
         self.deal.clickonnewdeal()
@@ -474,10 +478,10 @@ class Test_Create_DealwithNetworkCompany:
         time.sleep(2)
         self.lp.clickLogout()
         time.sleep(2)
-        self.lp.setUserName1(self.username1)
+        self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(6)
+        time.sleep(4)
         self.deal.clickonnotification()
 
         # changes excel sheet data
@@ -485,7 +489,7 @@ class Test_Create_DealwithNetworkCompany:
         wb = load_workbook("TestData/LoginData.xlsx")
         ws = wb.active
         departmentfour = ws['C16'].value
-        element = self.driver.find_element(By.XPATH, "//span[text()='Anand N created a new deal with Instavc Technologies in Department "+departmentfour +"']")
+        element = self.driver.find_element(By.XPATH, "//span[text()='Anand Mahindra created a new deal with Instavc Technologies in Department "+departmentfour +"']")
         # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
 
         if element:
@@ -509,7 +513,7 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.clickonreject()
         time.sleep(3)
 
-    @pytest.mark.skip(reason="skipping this Test")
+    # @pytest.mark.skip(reason="skipping this Test")
     def test_deal_Create_Verify_Relation_Manager_and_Approve_Check_Relation_manager(self,setup):
         self.logger.info("****Started Login Test****")
         self.driver = setup
@@ -520,7 +524,7 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Super admin Login successfully **********")
-        time.sleep(2)
+        time.sleep(4)
         self.deal=dealregistration(self.driver)
         self.deal.clickdealtab()
         self.deal.clickonnewdeal()
@@ -545,13 +549,13 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(4)
+        time.sleep(2)
         self.deal.okaybutton()
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username2)
+        self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -559,10 +563,10 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.selectnewdeal()
         time.sleep(2)
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username1)
+        self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -574,10 +578,10 @@ class Test_Create_DealwithNetworkCompany:
         time.sleep(1)
         self.deal.closeapprovedtab()
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username2)
+        self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -586,7 +590,7 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.selectnewdeal()
         time.sleep(2)
 
-    @pytest.mark.skip(reason="skipping this Test")
+    # @pytest.mark.skip(reason="skipping this Test")
     def test_deal_Create_Verify_Relation_Manager_and_Approve_Check_Relation_manager_Verify_My_Deals(self, setup):
         self.logger.info("****Started Login Test****")
         self.driver = setup
@@ -597,7 +601,7 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Super admin Login successfully **********")
-        time.sleep(1)
+        time.sleep(4)
         self.deal = dealregistration(self.driver)
         self.deal.clickdealtab()
         self.deal.clickonnewdeal()
@@ -622,13 +626,13 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(4)
+        time.sleep(2)
         self.deal.okaybutton()
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username2)
+        self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -638,10 +642,10 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.selectnewdeal()
         time.sleep(2)
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username1)
+        self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -654,10 +658,10 @@ class Test_Create_DealwithNetworkCompany:
         time.sleep(1)
         self.deal.closeapprovedtab()
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username2)
+        self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -668,10 +672,10 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.selectnewdeal()
         time.sleep(2)
         self.lp.clickLogout()
-        self.lp.setUserName1(self.username)
+        self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(1)
+        time.sleep(4)
         self.deal.clickdealtab()
         time.sleep(1)
         self.deal.searchmydealcompany(self.search)
