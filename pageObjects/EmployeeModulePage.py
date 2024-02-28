@@ -38,13 +38,22 @@ class EmployeeModulePage:
         self.driver.find_element(By.XPATH, self.Tab_Reject_xpath).click()
 
     def setPendingSearchField(self, Password):
-        self.driver.find_element(By.XPATH, self.text_PendingSearchField_xpath).clear()
-        self.driver.find_element(By.XPATH, self.text_PendingSearchField_xpath).send_keys(Password)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.text_PendingSearchField_xpath))
+        )
+        element.clear()
+        element.send_keys(Password)
         time.sleep(3)
+        # self.driver.find_element(By.XPATH, self.text_PendingSearchField_xpath).clear()
+        # self.driver.find_element(By.XPATH, self.text_PendingSearchField_xpath).send_keys(Password)
+        # time.sleep(3)
 
     def setRejectedSearchField(self, Password):
-        self.driver.find_element(By.XPATH, self.text_RejectedSearchField_xpath).clear()
-        self.driver.find_element(By.XPATH, self.text_RejectedSearchField_xpath).send_keys(Password)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.text_RejectedSearchField_xpath))
+        )
+        element.clear()
+        element.send_keys(Password)
         time.sleep(3)
 
     def setEmpId(self, Password):

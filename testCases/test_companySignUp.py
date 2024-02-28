@@ -3,11 +3,12 @@ import unittest
 import pytest
 from openpyxl.reader.excel import load_workbook
 from openpyxl.workbook import Workbook
-from selenium.common import NoSuchElementException
+from selenium.common import NoSuchElementException, StaleElementReferenceException, TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-
+from selenium.webdriver.support import expected_conditions as EC
+from pageObjects.companyListingPage import companyListingPage
 from pageObjects.LoginPage import LoginPage
 from testCases.conftest import setup
 from utilities.customLogger import LogGen
@@ -33,6 +34,7 @@ class TestSignUp(unittest.TestCase):
 
     @pytest.mark.run(order=1)
     @pytest.mark.regression
+    @pytest.mark.test
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
@@ -95,69 +97,56 @@ class TestSignUp(unittest.TestCase):
         self.driver.switch_to.window(self.driver.window_handles[1])
         self.logger.info("******** Opening new url in another tab for Email OTP ***********")
         time.sleep(1)
-        self.driver.get("https://yopmail.com/")
+        self.driver.get("http://mailcatch.com/en/disposable-email")
         time.sleep(1)
-        yopmail = self.driver.find_element(By.XPATH, "//input[@id='login']")
+        yopmail = self.driver.find_element(By.XPATH, "//input[@name='box']")
         yopmail.send_keys(email + Keys.ENTER)
         time.sleep(1)
-        iframeElement = self.driver.find_element(By.ID, "ifmail")
+
+        reload_button = self.driver.find_element(By.XPATH, "//img[@title='Reload']")
+
+        # Click the Reload button every second until the subject is displayed or a maximum time is reached
+        max_wait_time = 60  # Set your maximum wait time in seconds
+        start_time = time.time()
+
+        while time.time() - start_time < max_wait_time:
+            reload_button.click()
+
+            try:
+                # Check if the subject is displayed
+                subject = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//td[@class='subject']"))
+                )
+                subject.click()
+                break  # Break out of the loop if subject is displayed
+            except StaleElementReferenceException:
+                print("StaleElementReferenceException occurred. Retrying...")
+                continue  # Retry the loop if StaleElementReferenceException occurs
+            except TimeoutException:
+                time.sleep(1)
+
+        iframeElement = self.driver.find_element(By.ID, "emailframe")
         self.driver.switch_to.frame(iframeElement)
 
-        # here appears the captcha
-        captcha_retries = 3
-        attempts = 0
-        captcha_found = False
-        while attempts < captcha_retries:
-            try:
-
-                # If CAPTCHA is successfully filled, set captcha_found to True
-                captcha_found = False  # Update this line accordingly
-
-                # Verify the presence of specific text
-                text_element = self.driver.find_element(By.XPATH, "//div[@class='b alc r_message']")
-                if text_element.text == "Complete the CAPTCHA to continue":
-                    captcha_found = True
-                    break  # Exit the loop if expected text is found
-
-            except NoSuchElementException:
-                # No CAPTCHA found, continue with the rest of the steps
-                captcha_found = False  # Update this line accordingly
-                break
-
-            except Exception as e:
-                print(f"Error occurred: {e}")
-                attempts += 1
-                time.sleep(2)
-
-            if captcha_found:
-                print("Expected text found. Rerunning the test.")
-                self.test_SignUpwithValid(setup)  # Rerun the test method
-
-            else:
-                print("Expected text not found. Continuing with the code.")
-                # Continue with the remaining steps of your test script
-                time.sleep(2)  # Add any necessary wait times or other steps
-
-        # iframeElement = self.driver.find_element(By.ID, "ifmail")
-        # self.driver.switch_to.frame(iframeElement)
-        self.logger.info("******** Email Copied ***********")
-        time.sleep(1)
-
-        # This code is for Test Env
-        # otp = self.driver.find_element(By.XPATH,
-        #                                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/h1[1]")
-        # self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
-        # time.sleep(0.5)
-        # getOTP = otp.text
-        # print(getOTP)
-
-        # This code is for QA ENV
-        otp = self.driver.find_element(By.XPATH,"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]")
+        # Code outside the loop will be executed after the loop or when a TimeoutException occurs
+        otp = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//body"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
         time.sleep(0.5)
+
         confirmation_code = otp.text
         getOTP = re.search(r'\b\d+\b', confirmation_code).group()
         print(getOTP)
 
+        # This code is for QA ENV
+        otp = self.driver.find_element(By.XPATH, "//body")
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
+        time.sleep(0.5)
+
+        confirmation_code = otp.text
+        getOTP = re.search(r'\b\d+\b', confirmation_code).group()
+        print(getOTP)
 
         self.logger.info("******** Switching back and entering the otp ***********")
         self.driver.switch_to.default_content()
@@ -166,7 +155,7 @@ class TestSignUp(unittest.TestCase):
 
         self.sp.setOtp(getOTP)
 
-        time.sleep(1)
+        time.sleep(2)
         self.logger.info("******** Verifying the OTP ***********")
         self.sp.clickVerifyButton()
         self.sp.clickContinueToLogin()
@@ -199,3 +188,66 @@ class TestSignUp(unittest.TestCase):
 
     if __name__ == '__main__':
         unittest.main(verbosity=2)
+
+
+    @pytest.mark.run(order=2)
+    @pytest.mark.regression
+    # @pytest.mark.test
+    # @pytest.mark.flaky(rerun=3, rerun_delay=2)
+    def test_ListingSignUpCompany(self):
+        Url = "https://preprodanalytics.inlynk.com/license"
+        username = "sowjanyapreprod@yopmail.com"
+        password = "Inlink@123"
+        self.driver.get(Url)
+        self.lp = LoginPage(self.driver)
+        self.clp = companyListingPage(self.driver)
+        self.clp.setUserName(username)
+        self.clp.setPassword(password)
+        self.lp.clickLogin()
+
+        self.clp.clickLicense()
+        wb = load_workbook("TestData/LoginData.xlsx")
+
+        # Select the active worksheet
+        ws = wb.active
+        company = ws['C2'].value
+        self.clp.setsearchFiled(company)
+        xpath = "//span[contains(text(),'" + company + "')]"
+        # Use WebDriverWait to wait for the element to be present
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+
+        if element:
+            self.logger.info(f"Found Employee name : {element.text}")
+            assert True
+            # self.driver.quit()
+        else:
+            self.logger.info(f"Employee name not found: {element.text}")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_Employee_StatusAndRole.png")
+            self.driver.close()
+            self.driver.quit()
+            assert False
+
+        element.click()
+        self.clp.clicksubscription()
+        self.clp.clickedit()
+        time.sleep(3)
+        self.clp.clicklisted()
+        self.clp.clickupdate()
+        xpath = self.clp.ListedToast
+        # Use WebDriverWait to wait for the element to be present
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+
+        if element:
+            self.logger.info(f"Found Employee name : {element.text}")
+            assert True
+            # self.driver.quit()
+        else:
+            self.logger.info(f"Employee name not found: {element.text}")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_Employee_StatusAndRole.png")
+            self.driver.close()
+            self.driver.quit()
+            assert False
