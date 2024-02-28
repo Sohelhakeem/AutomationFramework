@@ -44,8 +44,8 @@ class Test_001_Certification:
     worksheet = workbook.active
 
     username = worksheet["A2"].value
-    usernames4 = worksheet["E2"].value
-    usernames5 = worksheet["I2"].value
+    usernames4 = worksheet["I2"].value
+    usernames5 = worksheet["E8"].value
 
 
     workbook.close()
@@ -57,8 +57,8 @@ class Test_001_Certification:
 
     # Update the existing cells with new data
     ws['A2'] = username
-    ws['E2'] = usernames4
-    ws['I2'] = usernames5
+    ws['I2'] = usernames4
+    ws['E8'] = usernames5
 
 
     # Save the workbook
@@ -66,7 +66,7 @@ class Test_001_Certification:
 
     logger = LogGen.loggen()  # Logger
 
-    @pytest.mark.sanity
+    @pytest.mark.babi
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     # @pytest.mark.skip(reason="Skipping this test")
@@ -516,6 +516,7 @@ class Test_001_Certification:
         time.sleep(3)
         if "Updated and published successfully" in self.driver.page_source:
             self.logger.info("********** certification update test is passed *********")
+            self.driver.close()
 
 
         else:
@@ -541,7 +542,7 @@ class Test_001_Certification:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserNames4(self.usernames4)
+        self.lp.setUserName(self.usernames4)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Login succesful **********")
@@ -594,7 +595,7 @@ class Test_001_Certification:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserNames5(self.usernames5)
+        self.lp.setUserName(self.usernames5)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Login succesful **********")

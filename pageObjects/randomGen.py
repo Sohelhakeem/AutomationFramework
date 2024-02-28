@@ -180,3 +180,9 @@ class randomGen:
         prefix = 'e'  # Assuming '9' as the fixed prefix
         random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
         return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_certificationname():
+        prefix = 'Certificate'  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f'{prefix}{random_part}'

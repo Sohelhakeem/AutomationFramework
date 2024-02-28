@@ -89,6 +89,7 @@ class Certification:
 
 
     def clickoncertificationprogramme(self):
+        time.sleep(1)
         self.driver.find_element(By.XPATH,self.certificationprogramme_xpath).click()
 
     def clickonmarkingsystem(self):
@@ -117,6 +118,7 @@ class Certification:
             EC.element_to_be_clickable((By.XPATH,self.search_xpath))
         )
         self.driver.find_element(By.XPATH,self.search_xpath).send_keys(search)
+        time.sleep(2)
 
     def clickonacronymedit(self):
         time.sleep(2)
@@ -317,6 +319,7 @@ class Certification:
         time.sleep(1)
 
     def setprogramname(self,programname):
+        time.sleep(1)
         WebDriverWait(self.driver,20).until(
             EC.presence_of_element_located((By.XPATH,self.programname_xpath))
         )
@@ -354,6 +357,7 @@ class Certification:
         self.driver.find_element(By.XPATH, self.signdesignation_xpath).send_keys(signdesignation)
 
     def clickontemplatesave(self):
+        time.sleep(1)
         template_save = WebDriverWait(self.driver,20).until(
             EC.element_to_be_clickable((By.XPATH,self.templatesave_xpath))
         )
@@ -361,6 +365,7 @@ class Certification:
         actions = ActionChains(self.driver)
         actions.move_to_element(template_save).perform()
         template_save.click()
+        time.sleep(1)
 
     def clickonedittemplate(self):
         WebDriverWait(self.driver,20).until(
@@ -512,13 +517,15 @@ class Certification:
         element.click()
 
     def clickoncertificateconfirmsave(self):
+        time.sleep(1)
         WebDriverWait(self.driver,20).until(
             EC.element_to_be_clickable((By.XPATH,self.certificateconfirmsave_xpath))
         )
         self.driver.find_element(By.XPATH,self.certificateconfirmsave_xpath).click()
+        time.sleep(2)
 
     def clickoncertificateedit(self):
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element(By.XPATH,self.certificateedit_xpath).click()
 
     def clickoncertificatepublish(self):
@@ -563,6 +570,7 @@ class Certification:
             EC.element_to_be_clickable((By.XPATH,self.myexams_xpath))
         )
         self.driver.find_element(By.XPATH,self.myexams_xpath).click()
+        time.sleep(1)
 
     def clickongetcertificate(self):
         WebDriverWait(self.driver,20).until(
@@ -575,7 +583,7 @@ class Certification:
         self.driver.find_element(By.XPATH,self.examcheckbox_xpath).click()
 
     def clickoncertificatedelete(self):
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element(By.XPATH,self.certificatedelete_xpath).click()
 
     def clickoncertificateconfirmdelete(self):
