@@ -45,7 +45,7 @@ class Test_001_Certification:
 
     username = worksheet["A2"].value
     usernames4 = worksheet["I2"].value
-    usernames5 = worksheet["E8"].value
+    usernames5 = worksheet["B6"].value
 
 
     workbook.close()
@@ -58,7 +58,7 @@ class Test_001_Certification:
     # Update the existing cells with new data
     ws['A2'] = username
     ws['I2'] = usernames4
-    ws['E8'] = usernames5
+    ws['B6'] = usernames5
 
 
     # Save the workbook

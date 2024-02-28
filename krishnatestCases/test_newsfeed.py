@@ -34,10 +34,10 @@ class Test_001_NewsFeed:
     worksheet = workbook.active
 
     username = worksheet["A2"].value
-    usernames = worksheet["E8"].value
+    usernames = worksheet["B6"].value
     usernames1 = worksheet["I2"].value
     usernames2 = worksheet["I3"].value
-    usernames3 = worksheet["E11"].value
+    usernames3 = worksheet["D6"].value
 
     workbook.close()
     # Load the existing workbook
@@ -48,10 +48,10 @@ class Test_001_NewsFeed:
 
     # Update the existing cells with new data
     ws['A2'] = username
-    ws['E8'] = usernames
+    ws['B6'] = usernames
     ws['I2'] = usernames1
     ws['I3'] = usernames2
-    ws['E11'] = usernames3
+    ws['D6'] = usernames3
 
     # Save the workbook
     wb.save("TestData/LoginData.xlsx")
