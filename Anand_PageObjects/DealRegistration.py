@@ -75,6 +75,7 @@ class dealregistration:
         self.driver = driver
 
     def clickdealtab(self):
+        time.sleep(5)
         element = self.driver.find_element(By.XPATH, self.button_dealtab_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
 
@@ -131,16 +132,19 @@ class dealregistration:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.element_to_be_clickable((By.XPATH, self.select_state_xpath)))
         element.click()
+        time.sleep(2)
         # self.driver.find_element(By.XPATH,self.select_state_xpath).click()
 
     def citydropdown(self):
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.element_to_be_clickable((By.XPATH, self.dropdown_city_xpath)))
         element.click()
+        time.sleep(2)
         # self.driver.find_element(By.XPATH,self.dropdown_city_xpath).click()
 
     def selectcity(self):
         self.driver.find_element(By.XPATH,self.select_city_xpath).click()
+        time.sleep(2)
 
     def departmentname(self,department):
         element = self.driver.find_element(By.XPATH, self.text_departmentname_xpath)
@@ -202,8 +206,10 @@ class dealregistration:
         element.send_keys(valueofdeal)
 
     def savedeal(self):
-        self.driver.find_element(By.XPATH,self.button_savedeal_xpath).click()
-
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_savedeal_xpath)))
+        element.click()
+        time.sleep(3)
     def okaybutton(self):
         self.driver.find_element(By.XPATH,self.button_clickonokay_xpath).click()
 
@@ -221,11 +227,13 @@ class dealregistration:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_clickdealcompany_xpath)))
         element.click()
+        time.sleep(3)
 
     def selectnewdeal(self):
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_createddealselect_xpath)))
         element.click()
+        time.sleep(2)
 
     def selectnewdealtwo(self):
         wait = WebDriverWait(self.driver, 10)
@@ -266,6 +274,7 @@ class dealregistration:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.button_click_notification_xpath)))
         element.click()
+        time.sleep(5)
 
     def clickhere(self):
         wait = WebDriverWait(self.driver, 10)

@@ -83,7 +83,7 @@ class Test_001_Resources:
     logger = LogGen.loggen()  # Logger
 
     @pytest.mark.sanity
-    @pytest.mark.test
+    @pytest.mark.badhri
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -145,6 +145,7 @@ class Test_001_Resources:
         time.sleep(2)
         self.logger.info("************** subcategory creation test started ************")
         self.rs.setcategorysearch(categorytitle)
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclick()
         self.rs.clickonsubcategorynew()
         self.rs.clickonsubcategorybutton()
@@ -736,6 +737,7 @@ class Test_001_Resources:
         self.rs.clickonsubcategorynew()
         self.rs.clickoncontentnew()
         self.rs.clickonaddcategory()
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclose()
         self.rs.setcontentbannerimage(self.absolute_path1)
         self.rs.clickonbannerimagesave()
@@ -819,7 +821,7 @@ class Test_001_Resources:
             assert False
         time.sleep(3)
 
-    @pytest.mark.krishna
+    @pytest.mark.sohl
     @pytest.mark.regression
     @pytest.mark.run(order=5)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -1044,7 +1046,7 @@ class Test_001_Resources:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryforrelationcompany.png")
             assert False
 
-    @pytest.mark.krishna
+    @pytest.mark.sanity
     @pytest.mark.regression
     @pytest.mark.run(order=6)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
