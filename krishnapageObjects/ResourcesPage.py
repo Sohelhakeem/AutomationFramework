@@ -53,7 +53,7 @@ class Resources:
     contents_xpath="//button[normalize-space()='Contents']"
     searchcontents_xpath = "//input[@placeholder='Search Contents']"
     subcategoryclick_xpath = "//div[@class='flexCol CntimgOverlay pdngVSM categoryHover']"
-    categorypartner_xpath = "//div[contains(@role,'presentation')]//div[5]//div[1]//span[1]//input[1]"
+    categorypartner_xpath = "//div[contains(@role,'presentation')]//div[6]//div[1]//span[1]//input[1]"
     categoryshare_xpath = "//div[@class='flexWrap ']//div[1]//div[1]//div[1]//div[2]//div[1]//div[3]//div[1]"
     categorysharepublic_xpath = "//input[@id='public']"
     categoryshareaccessyes_xpath = "//button[normalize-space()='Yes']"
@@ -70,6 +70,7 @@ class Resources:
     contentdelete_xpath = "//div[@aria-label='Delete']"
     contentconfirmdelete_xpath = "//button[normalize-space()='Delete']"
     subcategorydelete_xpath = "//div[@aria-label='Delete']"
+    Closetoaster_xpath = "//button[@class='Toastify__close-button Toastify__close-button--light']//*[name()='svg']//*[name()='path' and contains(@fill-rule,'evenodd')]"
 
 
 
@@ -79,7 +80,11 @@ class Resources:
     def __init__(self, driver):
         self.driver = driver
 
-
+    def clickClosetoaster(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.Closetoaster_xpath))
+        )
+        element.click()
     def clickoncontentmanagement(self):
         self.driver.find_element(By.XPATH,self.ContentManagemaent_xpath).click()
 
@@ -195,6 +200,14 @@ class Resources:
         self.driver.find_element(By.XPATH,self.contentdescription_xpath).send_keys(contentdescription)
 
     def clickoncontentcanshare(self):
+        time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH,self.contentcanshare_xpath).click()
 
     def setcontentsectionname(self,contentsectionname):
@@ -212,7 +225,7 @@ class Resources:
 
         # Perform the scrolling action
         actions.perform()
-        time.sleep(4)
+        time.sleep(3)
         self.driver.find_element(By.XPATH,self.sectionimagepath_xpath).click()
         time.sleep(2)
         # section_image_path = WebDriverWait(self.driver, 20).until(
@@ -263,6 +276,7 @@ class Resources:
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.resources_xpath)))
         self.driver.find_element(By.XPATH,self.resources_xpath).click()
+        time.sleep(2)
 
 
 
@@ -292,10 +306,12 @@ class Resources:
         network_resources_element.click()
 
     def setsearchcompanyname(self, companyname):
+        time.sleep(1)
         companyname_search_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.searchcompanyname_xpath))
         )
         companyname_search_element.send_keys(companyname)
+        time.sleep(1)
 
     def clickoncompanyselect(self):
         time.sleep(2)
@@ -326,7 +342,7 @@ class Resources:
 
     def clickoncategorypartner(self):
         try:
-            time.sleep(5)  # Add a sleep to wait for the banner to display (if needed)
+            time.sleep(3)  # Add a sleep to wait for the banner to display (if needed)
             WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.XPATH, self.categorypartner_xpath))
             ).click()
@@ -420,6 +436,7 @@ class Resources:
         time.sleep(2)
 
         section_update.click()
+        time.sleep(2)
 
     def clickoncontentdelete(self):
         time.sleep(1)
