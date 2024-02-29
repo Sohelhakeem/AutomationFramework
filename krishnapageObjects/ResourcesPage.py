@@ -165,6 +165,10 @@ class Resources:
         self.driver.find_element(By.XPATH,self.contentnew_xpath).click()
 
     def clickonaddcategory(self):
+        time.sleep(1)
+        # WebDriverWait(self.driver,20).until(
+        #     EC.element_to_be_clickable((By.XPATH,self.addcategory_xpath))
+        # )
         self.driver.find_element(By.XPATH,self.addcategory_xpath).click()
 
     def clickoncategoryclose(self):
@@ -294,6 +298,7 @@ class Resources:
         companyname_search_element.send_keys(companyname)
 
     def clickoncompanyselect(self):
+        time.sleep(2)
         company_select_element = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.companyselect_xpath))
         )
@@ -307,6 +312,7 @@ class Resources:
         time.sleep(1)
 
     def setsearchcontents(self,searchcontents):
+        time.sleep(2)
         try:
             asyncio.sleep(2)
             WebDriverWait(self.driver, 20).until(

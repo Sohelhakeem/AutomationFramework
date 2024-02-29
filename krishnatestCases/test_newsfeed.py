@@ -34,10 +34,10 @@ class Test_001_NewsFeed:
     worksheet = workbook.active
 
     username = worksheet["A2"].value
-    usernames = worksheet["E2"].value
+    usernames = worksheet["B6"].value
     usernames1 = worksheet["I2"].value
     usernames2 = worksheet["I3"].value
-    usernames3 = worksheet["H2"].value
+    usernames3 = worksheet["D6"].value
 
     workbook.close()
     # Load the existing workbook
@@ -48,10 +48,10 @@ class Test_001_NewsFeed:
 
     # Update the existing cells with new data
     ws['A2'] = username
-    ws['E2'] = usernames
+    ws['B6'] = usernames
     ws['I2'] = usernames1
     ws['I3'] = usernames2
-    ws['H1'] = usernames3
+    ws['D6'] = usernames3
 
     # Save the workbook
     wb.save("TestData/LoginData.xlsx")
@@ -97,7 +97,7 @@ class Test_001_NewsFeed:
     # def tearDown(self):
     #     self.driver.quit()
 
-    @pytest.mark.krishna
+    @pytest.mark.tests
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     @pytest.mark.flaky(reruns=3,reruns_delay=2)
@@ -131,7 +131,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -180,7 +180,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -197,7 +197,7 @@ class Test_001_NewsFeed:
     @pytest.mark.test
     @pytest.mark.regression
     @pytest.mark.run(order=3)
-    @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforpartners(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -230,7 +230,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames2(self.usernames2)
+        self.lp.setUserName(self.usernames2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -324,7 +324,7 @@ class Test_001_NewsFeed:
             assert False
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* EmpLogin succesful **********")
@@ -376,7 +376,7 @@ class Test_001_NewsFeed:
             assert False
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* EmpLogin succesful **********")
@@ -468,7 +468,7 @@ class Test_001_NewsFeed:
             assert False
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* EmpLogin succesful **********")
@@ -518,7 +518,7 @@ class Test_001_NewsFeed:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeedforemployeesvideo.png")
             assert False
 
-    @pytest.mark.sanity
+    @pytest.mark.test
     @pytest.mark.regression
     @pytest.mark.run(order=10)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -553,7 +553,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -605,7 +605,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -668,7 +668,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1071,7 +1071,7 @@ class Test_001_NewsFeed:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserNames3(self.usernames3)
+        self.lp.setUserName(self.usernames3)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Login succesful **********")
@@ -1094,7 +1094,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1150,7 +1150,7 @@ class Test_001_NewsFeed:
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[1])
         self.driver.get(self.baseURL)
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)

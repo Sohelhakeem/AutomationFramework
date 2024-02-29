@@ -120,8 +120,11 @@ class ConfigurationPage:
         element.click()
 
     def setsearchField(self, searchField):
-        self.driver.find_element(By.XPATH, self.searchField_xpath).clear()
-        self.driver.find_element(By.XPATH, self.searchField_xpath).send_keys(Keys.CONTROL + "a", searchField)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.searchField_xpath)))
+        element.clear()
+        # element.send_keys(Keys.CONTROL + "a", searchField)
+        element.send_keys(searchField)
         time.sleep(1)
 
     def setRelationsearchField(self, searchRelation):
