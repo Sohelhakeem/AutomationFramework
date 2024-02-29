@@ -402,6 +402,7 @@ class MyprofilePage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.save_button_click_xpath)))
         element.click()
+        time.sleep(1)
 
 
         # ------------------------------Educational Details
