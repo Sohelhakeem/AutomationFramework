@@ -15,13 +15,14 @@ class WebinarPage:
     textbox_password_name = "password"
     button_login_xpath = "//button[normalize-space()='Login']"
     newsFeed_click_xpath = "//div[@class='resNavLink activeLink']"
-    TrainingAndWebinar_click_xpath = "//span[text()='Training & Webinar']"
+    TrainingAndWebinar_click_xpath = "(//span[contains(text(),'Training & Webinar')])[1]"
     New_button_xpath = "//div[@class='flexAutoRow pointer pdngLSM webSearch']//button[@id='create new']"
     Webinar_RadioButton_xpath = "//span[normalize-space()='Webinar']"
     Title_input_id = "title"
     Description_input_id = "description"
-    Date_Time_click_xpath = "(//button[@type='button'])[4]"
-    nextmonth_xpath = "//button[@title='Next month']"
+    # Date_Time_click_xpath = "//button[@aria-label='Choose date, selected date is Feb 14, 2024']//*[name()='svg']"
+    Date_Time_click_xpath="(//button[@type='button'])[4]"
+    Calendar_forward_arrow_xpath = "//button[@title='Next month']//*[name()='svg']"
     select_date_click_xpath = "//button[normalize-space()='25']"
     calendar_hours_click_xpath = "//div[@class='MuiClock-squareMask css-1umqo6f']"
     normal_path_click_xpath = "//div[@class='flexCol pdngXS oneFiveSelect']"
@@ -51,8 +52,8 @@ class WebinarPage:
 
     # Webinar Past Tab-----------------------------------------------------------------------------
     Past_tab_button_id = "past tab"
-    Date_janMonth_xpath = "//button[contains(text(),'‹')]"
-    Date_click_xpath = "//abbr[@aria-label='January 17, 2024']"
+    Date_FebMonth_xpath = "//button[contains(text(),'‹')]"
+    Date_click_xpath = "//abbr[@aria-label='February 28, 2024']"
     View_pastSession_xpath = "//button[normalize-space()='View']"
     ChatHistory_click_xpath = "//span[normalize-space()='View chat history']"
     CloseChatHistory_click_xpath = "//span[@aria-label='Close']"
@@ -73,8 +74,9 @@ class WebinarPage:
 
     #Webinar Upcomin Tab---------------------------------------------------------------------------------
     UpcomingTab_button_id = "upcoming tab"
+    MarchMonth_forward_arrow = "//button[contains(text(),'›')]"
     Calendar_Feb_xpath = "//button[28]"
-    Upcoming_Feb_25 = "//button[normalize-space()='25']"
+    Upcoming_March_25 = "//button[normalize-space()='25']"
     search_WebinarMeeting_xpath  = "//div[@class='MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart css-18yqadl']//input[@id='search']"
     Session_Edit_xpath = "(//*[name()='svg'][@class='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium pointer css-vubbuv'])[3]"
     edit_listbox_xpath = "//span[normalize-space()='Edit']"
@@ -138,11 +140,9 @@ class WebinarPage:
 
 
     def clickTAndWModule(self):
-        time.sleep(1)
+        time.sleep(2)
         # Scroll to bring the element into view
-        element = WebDriverWait(self.driver,20).until(
-            EC.element_to_be_clickable((By.XPATH,self.TrainingAndWebinar_click_xpath))
-        )
+        element = self.driver.find_element(By.XPATH, self.TrainingAndWebinar_click_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
         element.click()
@@ -190,9 +190,12 @@ class WebinarPage:
         element.click()
         # self.driver.find_element(By.XPATH, self.Date_Time_click_xpath).click()
 
-    def clickonnextmonth(self):
+    def CalendarforwardArrow(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH,self.nextmonth_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Calendar_forward_arrow_xpath)))
+        element.click()
+
 
     def selectDate(self):
         time.sleep(2)
@@ -251,8 +254,8 @@ class WebinarPage:
 
 
     def ToggleButton(self):
-        time.sleep(4)
-        time.sleep(4)  # Consider removing this sleep if not necessary
+        time.sleep(2)
+        # time.sleep(4)  # Consider removing this sleep if not necessary
         wait = WebDriverWait(self.driver, 20)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.Toggle_button_click_xpath)))
         element.click()
@@ -354,7 +357,6 @@ class WebinarPage:
         # Wait for a short while to ensure the element is clickable
         time.sleep(2)
         self.driver.find_element(By.XPATH, self.Schedule_button_click_xpath).click()
-        time.sleep(2)
 
         #Webinar Past Tab___________________________
 
@@ -365,15 +367,15 @@ class WebinarPage:
         element.click()
         # self.driver.find_element(By.ID, self.Past_tab_button_id).click()
 
-    def JanMonth(self):
+    def FebMonth(self):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Date_janMonth_xpath)))
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Date_FebMonth_xpath)))
         element.click()
         # self.driver.find_element(By.XPATH, self.Date_janMonth_xpath).click()
 
 
-    def JanDate(self):
+    def FebDate(self):
         time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Date_click_xpath)))
@@ -495,10 +497,17 @@ class WebinarPage:
         element.click()
         # self.driver.find_element(By.XPATH,self.Calendar_Feb_xpath).click()
 
-    def UpcomingFeb25(self):
+    def MarchMonth(self):
+        time.sleep(3)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.MarchMonth_forward_arrow)))
+        element.click()
+
+
+    def UpcomingMar25(self):
         time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Upcoming_Feb_25)))
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Upcoming_March_25)))
         element.click()
         # self.driver.find_element(By.XPATH,self.Upcoming_Feb_25).click()
 
@@ -508,12 +517,11 @@ class WebinarPage:
         self.driver.find_element(By.XPATH,self.search_WebinarMeeting_xpath).send_keys(web)
 
     def SessionEdit(self):
-        time.sleep(3)
+        time.sleep(4)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Session_Edit_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.Session_Edit_xpath)))
         element.click()
         # self.driver.find_element(By.XPATH,self.Session_Edit_xpath).click()
-        time.sleep(2)
 
 
     def editListbox(self):
@@ -551,6 +559,7 @@ class WebinarPage:
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.UpdateConfirm_xpath)))
         element.click()
         # self.driver.find_element(By.XPATH,self.UpdateConfirm_xpath).click()
+
 
 
     #def Moreaction(self):
@@ -674,7 +683,7 @@ class WebinarPage:
     def BookSeat(self):
         time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.BookSeat_linkTest_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.BookSeat_linkTest_xpath)))
         time.sleep(1)
         element.click()
 
@@ -689,6 +698,13 @@ class WebinarPage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Logout_linkTest_xpath)))
         element.click()
+
+
+
+
+
+
+
 
 
 

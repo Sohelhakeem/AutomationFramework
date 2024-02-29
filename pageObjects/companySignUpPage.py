@@ -169,13 +169,14 @@ class companySignUpPage:
         self.driver.find_element(By.XPATH, self.dd_country_xpath).click()
 
     def clickindia(self):
-        # wait = WebDriverWait(self.driver, 10)
-        # element = wait.until(EC.element_to_be_clickable((By.XPATH, self.dd_india_xpath)))
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.dd_india_xpath)))
+        element.click()
         # self.driver.execute_script("arguments[0].scrollIntoView();", element)
         # time.sleep(1)
         # self.driver.execute_script("arguments[0].click();", element)
 
-        self.driver.find_element(By.XPATH, self.dd_india_xpath).click()
+        # self.driver.find_element(By.XPATH, self.dd_india_xpath).click()
 
     def clickstatedd(self):
         time.sleep(3)

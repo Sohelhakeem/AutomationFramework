@@ -46,17 +46,6 @@ class Test_001_Login:
     # addressInput = "Hyderabad,Hitech city,Cyber towers"
     pinCode = randomGen.random_pinCode()
     urlInput = "www.instagram.com"
-    # relative_path = "sunithaTests/PhotosFile/4.jpg"
-    # Get the directory of the current script
-    # project_root = os.path.dirname(os.path.abspath(__file__))
-    # images_folder = "imageFiles"
-    # image_file = "4.jpg"
-    # image_path = os.path.join(project_root, images_folder, image_file)
-    # image_path = "PhotosFile/4.jpg"
-    # image_path = "C:/Users/HP/PycharmProjects/AutomationFramework/imageFiles/4.jpg"
-    # Update_profile = "C:/Users/HP/PycharmProjects/AutomationFramework/imageFiles/5.jpg"
-    # BannerPath = "C:/Users/HP/PycharmProjects/AutomationFramework/imageFiles/3.jpg"
-    # Update_banner = "C:/Users/HP/PycharmProjects/AutomationFramework/imageFiles/7.jpg"
     overviewText = randomGen.random_overviwDescription()
     # overviewTest = "PeopleLink provides solutions for various room types, including personal, huddle, conference, training & board that facilitate local or remote meetings using high-quality AV solutions, plug & play, remote control, and instant content sharing."
     empid = "8679"
@@ -87,7 +76,7 @@ class Test_001_Login:
     logger = LogGen.loggen()
 
     @pytest.mark.run(order=1)
-    @pytest.mark.regression
+    @pytest.mark.nitha
     # @pytest.mark.skip(reason="skipping this test")
     def test_BannerImage(self):  # def test_loginTitle(self):self #def test_ProfileUploading
         self.driver = webdriver.Chrome()
@@ -114,7 +103,7 @@ class Test_001_Login:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_BannerImage.png")
             self.logger.error("Page source:\n%s" % self.driver.page_source)
             assert False
-        time.sleep(1)
+        time.sleep(3)
         self.my.BannerImageEdit()
         self.my.BannerImageUpdate(self.absolute_path4)
         self.my.SaveBannerImage()
@@ -128,7 +117,7 @@ class Test_001_Login:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_BannerImage.png")
             self.logger.error("Page source:\n%s" % self.driver.page_source)
             assert False
-        time.sleep(1)
+        time.sleep(3)
         self.my.BannerImageEdit()
         self.my.BannerImageRemove()
         if "Banner image removed successfully" in self.driver.page_source:
@@ -147,7 +136,7 @@ class Test_001_Login:
         # Profile image uploading-----------------------------------------------------------------------
 
     @pytest.mark.run(order=2)
-    @pytest.mark.regression
+    @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_profileImages(self):
         self.driver = webdriver.Chrome()
@@ -208,7 +197,7 @@ class Test_001_Login:
 
     # Required Details------------------------------------------------------------------------------
     @pytest.mark.run(order=3)
-    @pytest.mark.krishna
+    @pytest.mark.ishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_RequiredDetails(self):
         self.driver = webdriver.Chrome()
@@ -234,7 +223,7 @@ class Test_001_Login:
         # self.my.clickDesignation()
         # self.my.clickDesignationName()
         self.my.updateEdit()
-        time.sleep(4)
+        time.sleep(3)
         if "Profile updated  successfully" in self.driver.page_source:
             self.logger.info("********* test_RequiredDetails Test is Passed ***********")
             self.driver.close()
@@ -289,7 +278,7 @@ class Test_001_Login:
         # Personal Details____________________________________________________________________________
 
     @pytest.mark.run(order=5)
-    @pytest.mark.regression
+    @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_PersonalDetails(self):
         self.driver = webdriver.Chrome()
@@ -330,7 +319,7 @@ class Test_001_Login:
 
     # Educational Details_________________________________________________________________________________
     @pytest.mark.run(order=6)
-    @pytest.mark.regression
+    @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_EducationalDetails(self):
         self.driver = webdriver.Chrome()
@@ -370,7 +359,7 @@ class Test_001_Login:
         # Address__________________________________________________________________________
 
     @pytest.mark.run(order=7)
-    @pytest.mark.regression
+    @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_Address(self):
         self.driver = webdriver.Chrome()
@@ -421,7 +410,7 @@ class Test_001_Login:
         # Social Media Links________________________________________
 
     @pytest.mark.run(order=8)
-    @pytest.mark.regression
+    @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_SocialMediaLinks(self):
         self.driver = webdriver.Chrome()

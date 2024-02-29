@@ -97,7 +97,7 @@ class Test_001_NewsFeed:
     # def tearDown(self):
     #     self.driver.quit()
 
-    @pytest.mark.tests
+    @pytest.mark.sanity
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     @pytest.mark.flaky(reruns=3,reruns_delay=2)
