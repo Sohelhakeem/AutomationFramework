@@ -170,11 +170,14 @@ class Test_001_Resources:
                 self.logger.error("************** subcategory creation test is failed **********")
                 self.driver.save_screenshot(".\\Screenshots\\" + "test_subcategory creation.png")
                 assert False, f"Category creation failed: {e}"
+
+
         # time.sleep(3)
         self.logger.info("********** content creation test is started *********")
         self.rs.clickonsubcategorynew()
         self.rs.clickoncontentnew()
         self.rs.clickonaddcategory()
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclose()
         self.rs.setcontentbannerimage(self.absolute_path1)
         self.rs.clickonbannerimagesave()

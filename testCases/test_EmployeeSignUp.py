@@ -251,7 +251,7 @@ class TestEmployeeSignUp:
                 assert False
 
     @pytest.mark.run(order=5)
-    @pytest.mark.test
+    # @pytest.mark.test
     # @pytest.mark.skip(reason="skip for now")
     def test_ApproveSignedUpEmployee(self, setup):
         # to use same class different test method
@@ -341,8 +341,8 @@ class TestEmployeeSignUp:
         element.click()
 
     @pytest.mark.run(order=3)
-    @pytest.mark.test
-    # def test_EmployeeSignUpWithValid(self, run_number, setup):
+    @pytest.mark.regression
+    @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_EmployeeSignUpValidWithoutDomainAdmin(self, setup):
         self.logger = LogGen.loggen()
         self.logger.info("****Opening URL****")

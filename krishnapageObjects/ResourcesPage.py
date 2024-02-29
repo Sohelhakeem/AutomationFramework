@@ -70,15 +70,16 @@ class Resources:
     contentdelete_xpath = "//div[@aria-label='Delete']"
     contentconfirmdelete_xpath = "//button[normalize-space()='Delete']"
     subcategorydelete_xpath = "//div[@aria-label='Delete']"
-
-
-
-
-
+    Closetoaster_xpath = "//button[@class='Toastify__close-button Toastify__close-button--light']//*[name()='svg']//*[name()='path' and contains(@fill-rule,'evenodd')]"
 
     def __init__(self, driver):
         self.driver = driver
 
+    def clickClosetoaster(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.Closetoaster_xpath))
+        )
+        element.click()
 
     def clickoncontentmanagement(self):
         self.driver.find_element(By.XPATH,self.ContentManagemaent_xpath).click()
