@@ -21,10 +21,10 @@ class Test_001_Webinar:
     password = "Inlink@123"
     description = "About Media Drive Module of Inlink"
     LimitSeats = "10"
-    coHost = "ava"
-    panelist = "dy"
+    coHost = "gra"
+    panelist = "oli"
     Email = "ksunik7k3@gmail.com"
-    PastTabSearch = "Webinar meeting"
+    PastTabSearch = "QA Meeting"
     EditTitle = "Automation team meeting"
     web = "Webinar "
     PTS = "Training Meeting"
@@ -43,8 +43,10 @@ class Test_001_Webinar:
     Trainingtitle = "Training meeting"
     TriningDiscription = "All modules of inlynk, code review with automation team  "
 
-    EmpMail = "ikya@yopmail.com"
+    EmpMail = "nxyonio@mailcatch.com"
     EmpPassword = "Inlink@123"
+
+    username1 = worksheet["A25"].value
 
     PartnerMail = worksheet["I3"].value
 
@@ -229,7 +231,7 @@ class Test_001_Webinar:
         self.driver.get(self.baseURL)
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserName(self.username)
+        self.lp.setUserName(self.username1)
         self.lp.setpassword(self.password)
         self.lp.clickLogin()
         # self.lp.clickNewsfeedModule()
@@ -266,6 +268,7 @@ class Test_001_Webinar:
 
     # webinar past session search bar----------------------------webinar past session search bar
     @pytest.mark.run(order=4)
+    @pytest.mark.sunitha
     # @pytest.mark.skip(reason="skipping this test")
     def test_PastSessionCardSearch(self):
         self.driver = webdriver.Chrome()
@@ -274,7 +277,7 @@ class Test_001_Webinar:
         self.driver.get(self.baseURL)
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserName(self.username)
+        self.lp.setUserName(self.username1)
         self.lp.setpassword(self.password)
         self.lp.clickLogin()
         # self.lp.clickNewsfeedModule()
@@ -312,7 +315,7 @@ class Test_001_Webinar:
         self.driver.get(self.baseURL)
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserName(self.username)
+        self.lp.setUserName(self.username1)
         self.lp.setpassword(self.password)
         self.lp.clickLogin()
         # self.lp.clickNewsfeedModule()

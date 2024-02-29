@@ -53,7 +53,7 @@ class WebinarPage:
     # Webinar Past Tab-----------------------------------------------------------------------------
     Past_tab_button_id = "past tab"
     Date_FebMonth_xpath = "//button[contains(text(),'‹')]"
-    Date_click_xpath = "//abbr[@aria-label='February 28, 2024']"
+    Date_click_xpath = "//abbr[@aria-label='February 27, 2024']"
     View_pastSession_xpath = "//button[normalize-space()='View']"
     ChatHistory_click_xpath = "//span[normalize-space()='View chat history']"
     CloseChatHistory_click_xpath = "//span[@aria-label='Close']"
@@ -350,7 +350,7 @@ class WebinarPage:
     def Schedule(self):
         time.sleep(2)
         # Scroll to bring the element into view
-        element = self.driver.find_element(By.XPATH, self.cancel_button_click_xpath)
+        element = self.driver.find_element(By.XPATH, self.Schedule_button_click_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
 
 
@@ -432,7 +432,10 @@ class WebinarPage:
         #Past Session search Bar____________________________________
     def PastSearch(self,PastTabSearch):
         time.sleep(2)
-        self.driver.find_element(By.ID,self.Search_pastSessions_id).send_keys(PastTabSearch)
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Search_pastSessions_id)))
+        element.send_keys(PastTabSearch)
+
 
 
     def SessionCard(self):
@@ -684,7 +687,6 @@ class WebinarPage:
         time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.BookSeat_linkTest_xpath)))
-        time.sleep(1)
         element.click()
 
     def CloseToaster(self):
