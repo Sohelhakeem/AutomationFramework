@@ -1043,7 +1043,7 @@ class Test_001_Resources:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryforrelationcompany.png")
             assert False
 
-    @pytest.mark.sanity
+    @pytest.mark.ishq
     @pytest.mark.regression
     @pytest.mark.run(order=6)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)

@@ -306,10 +306,12 @@ class Resources:
         network_resources_element.click()
 
     def setsearchcompanyname(self, companyname):
+        time.sleep(1)
         companyname_search_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.searchcompanyname_xpath))
         )
         companyname_search_element.send_keys(companyname)
+        time.sleep(1)
 
     def clickoncompanyselect(self):
         time.sleep(2)
@@ -434,6 +436,7 @@ class Resources:
         time.sleep(2)
 
         section_update.click()
+        time.sleep(2)
 
     def clickoncontentdelete(self):
         time.sleep(1)
