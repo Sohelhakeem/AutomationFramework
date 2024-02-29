@@ -76,7 +76,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** OEM Company Login successfully *********")
 
@@ -118,7 +117,6 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(2)
         if "Deal Opportunity Created" in self.driver.page_source:
             self.logger.info("********** Deal Created Successfully *********")
 
@@ -142,7 +140,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** partner Company Login successfully *********")
 
@@ -166,7 +163,6 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.searchmydealcompany(self.searchtwo)
         time.sleep(1)
         self.deal.dealcompany()
-        time.sleep(3)
         if "Instavc Technologies" in self.driver.page_source:
             self.logger.info("********** Latest created deal is Displaying *********")
 
@@ -208,7 +204,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** OEM Company Login successfully *********")
 
@@ -250,7 +245,6 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(3)
         if "Deal Opportunity Created" in self.driver.page_source:
             self.logger.info("********** Deal Created Successfully *********")
 
@@ -273,7 +267,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** partner Company Login successfully *********")
 
@@ -296,7 +289,6 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.searchmydealcompany(self.searchtwo)
         time.sleep(1)
         self.deal.dealcompany()
-        time.sleep(2)
         if "Instavc Technologies" in self.driver.page_source:
             self.logger.info("********** Latest created deal is Displaying *********")
 
@@ -340,7 +332,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         if "News Feed" in self.driver.page_source:
             self.logger.info("********** OEM Company Login successfully *********")
 
@@ -383,7 +374,6 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(2)
         if "Deal Opportunity Created" in self.driver.page_source:
             self.logger.info("********** Deal Created Successfully *********")
 
@@ -405,11 +395,10 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
+
         self.deal.clickonnotification()
 
         # changes excel sheet data
-        time.sleep(5)
         wb = load_workbook("TestData/LoginData.xlsx")
         ws = wb.active
         department = ws['A16'].value
@@ -444,7 +433,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal = dealregistration(self.driver)
         self.deal.clickdealtab()
         self.deal.clickonnewdeal()
@@ -473,19 +461,16 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.dealvalue(self.valueofdeal)
         time.sleep(1)
         self.deal.savedeal()
-        time.sleep(5)
         self.deal.okaybutton()
         time.sleep(2)
         self.lp.clickLogout()
-        time.sleep(2)
+        time.sleep(1)
         self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickonnotification()
 
         # changes excel sheet data
-        time.sleep(6)
         wb = load_workbook("TestData/LoginData.xlsx")
         ws = wb.active
         departmentfour = ws['C16'].value
@@ -524,7 +509,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Super admin Login successfully **********")
-        time.sleep(4)
         self.deal=dealregistration(self.driver)
         self.deal.clickdealtab()
         self.deal.clickonnewdeal()
@@ -549,24 +533,20 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(2)
         self.deal.okaybutton()
         self.lp.clickLogout()
         self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
         self.deal.dealcompany()
         self.deal.selectnewdeal()
-        time.sleep(2)
         self.lp.clickLogout()
         self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -581,7 +561,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -601,7 +580,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Super admin Login successfully **********")
-        time.sleep(4)
         self.deal = dealregistration(self.driver)
         self.deal.clickdealtab()
         self.deal.clickonnewdeal()
@@ -626,13 +604,11 @@ class Test_Create_DealwithNetworkCompany:
         # self.deal.currency(self.currencydetails)
         self.deal.dealvalue(self.valueofdeal)
         self.deal.savedeal()
-        time.sleep(2)
         self.deal.okaybutton()
         self.lp.clickLogout()
         self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -640,12 +616,10 @@ class Test_Create_DealwithNetworkCompany:
         time.sleep(1)
         self.deal.dealcompany()
         self.deal.selectnewdeal()
-        time.sleep(2)
         self.lp.clickLogout()
         self.lp.setUserName(self.username1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -661,7 +635,6 @@ class Test_Create_DealwithNetworkCompany:
         self.lp.setUserName(self.username2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         self.deal.networkdeals()
         self.deal.pendingdeals()
@@ -670,12 +643,10 @@ class Test_Create_DealwithNetworkCompany:
         self.deal.dealcompany()
         self.deal.clickonactivedeals()
         self.deal.selectnewdeal()
-        time.sleep(2)
         self.lp.clickLogout()
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(4)
         self.deal.clickdealtab()
         time.sleep(1)
         self.deal.searchmydealcompany(self.search)
