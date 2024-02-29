@@ -52,7 +52,7 @@ class TestMediaDrive(BaseClass):
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
-        # self.lp.clickLogin()
+        self.lp.clickLogin()
         self.lp.clickNewsFeed()
         self.md = mediaDrivePage(self.driver)
         self.md.clickMediaDrive()

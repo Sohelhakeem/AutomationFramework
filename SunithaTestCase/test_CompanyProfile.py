@@ -248,7 +248,7 @@ class Test_001_Login:
         self.lp.selectCity()
         self.lp.setpincode(self.pincode)
         self.lp.setdomainName(self.domainname)
-        # self.lp.setcontactPerson(self.contactperson)
+        self.lp.setcontactPerson(self.contactperson)
         self.lp.clicksave()
         time.sleep(2)  # Company profile updated
         if "Company profile updated" in self.driver.page_source:
