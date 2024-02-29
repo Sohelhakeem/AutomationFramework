@@ -128,7 +128,7 @@ class TestConfiguration(unittest.TestCase):
     @pytest.mark.test
     @pytest.mark.run(order=2)
     def test_EditDept(self):
-        self.logger.info("****Started Login Test****")
+        self.logger.info("****TC_02	Verify Edit Department****")
         # self.driver = setup
         self.driver.get(self.baseURL)
         # self.driver.maximize_window()
@@ -165,6 +165,7 @@ class TestConfiguration(unittest.TestCase):
         self.cp.clickopenDept()
         self.cp.clickDivisionsTab()
         self.cp.setsearchField(self.DivisionName)
+        self.logger.info("********* TC_07	Verify Edit the Division ***********")
         time.sleep(2)
         self.cp.clickEditDivision()
         self.cp.setEnterDescription(self.EditDivisionDescription)
@@ -186,6 +187,7 @@ class TestConfiguration(unittest.TestCase):
         self.cp.setsearchField(self.DesignationName)
         self.cp.clickEditDivision()
         time.sleep(2)
+        self.logger.info("********* TC_11	Verify Edit the Designation ***********")
         self.cp.setEnterDescription(self.EditDesignationDescription)
         self.cp.clickUpdateBtn()
         act_Text = WebDriverWait(self.driver, 10).until(
@@ -220,6 +222,7 @@ class TestConfiguration(unittest.TestCase):
         time.sleep(3)
         self.cp.setsearchField(self.DeptName + " " + self.first_name)
         time.sleep(2)
+        self.logger.info("****TC_03	Verify Delete Department****")
         self.cp.clickDeleteDepartment()
         self.cp.clickDeleteDepartmentDelete()
         act_Text = WebDriverWait(self.driver, 10).until(
@@ -236,12 +239,13 @@ class TestConfiguration(unittest.TestCase):
             assert False
 
         self.cp.clickDeleteDepartmentCancel()
-
-
         self.cp.clickopenDept()
+        self.logger.info("****TC_05	Verify by clicking on created Department****")
         self.cp.clickDivisionsTab()
+        self.logger.info("****TC_09	Verify Search Division****")
         self.cp.setsearchField(self.DivisionName)
         time.sleep(2)
+        self.logger.info("****TC_08	Verify Delete the Division****")
         self.cp.clickDeleteDivision()
         self.cp.clickDeleteDepartmentDelete()
         act_Text = WebDriverWait(self.driver, 10).until(
@@ -283,6 +287,7 @@ class TestConfiguration(unittest.TestCase):
 
         self.cp.setsearchField(self.DeptName + " " + self.first_name)
         time.sleep(2)
+        self.logger.info("*********TC_03	Verify Delete Department***********")
         self.cp.clickDeleteDepartment()
         self.cp.clickDeleteDepartmentDelete()
         act_Text = WebDriverWait(self.driver, 10).until(

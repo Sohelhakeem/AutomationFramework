@@ -6,7 +6,7 @@ from openpyxl.reader.excel import load_workbook
 # import self
 from selenium import webdriver
 from selenium.webdriver import ActionChains, Keys
-
+from pageObjects.LoginPage import LoginPage
 from sunithaPageObjects.CompanyProfile import LoginPage
 from utilities.customLogger import LogGen
 from pageObjects.randomGen import randomGen
@@ -61,7 +61,7 @@ class Test_001_Login:
     companysummary = randomGen.random_overviwDescription()
     address = randomGen.random_addressInput()
     pincode = randomGen.random_pinCode()
-    domainname = "yopmail.com"
+    domainname = "mailcatch.com"
     contactperson = randomGen.random_first_name()
     url = "https://www.instagram.com/"
 
@@ -74,7 +74,7 @@ class Test_001_Login:
     @pytest.mark.sanity
     @pytest.mark.regression
     @pytest.mark.run(order=1)
-    #@pytest.mark.skip(reason="skipping this test")
+    # @pytest.mark.skip(reason="skipping this test")
     def test_BannerImage(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -131,7 +131,7 @@ class Test_001_Login:
 
     @pytest.mark.run(order=2)
     @pytest.mark.regression
-    #@pytest.mark.skip(reason="skipping this test")
+    # @pytest.mark.skip(reason="skipping this test")
     def test_ProfileImage(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -180,7 +180,7 @@ class Test_001_Login:
     @pytest.mark.run(order=3)
     @pytest.mark.sanity
     @pytest.mark.regression
-    #@pytest.mark.skip(reason="skipping this test")
+    # @pytest.mark.skip(reason="skipping this test")
     def test_OfficialDetails(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -192,7 +192,7 @@ class Test_001_Login:
         self.lp.clickCompanyProfile()
         self.logger.info("****** TC_05	Verify the displaying all the Official details  *****")
         self.lp.ofc_details()
-        self.lp.setCompany(self.Companyname)
+        # self.lp.setCompany(self.Companyname)
         self.lp.setOrganisation(self.orgname)
         self.lp.RemoveIndustry()
         self.lp.setIndustry(self.industry)
@@ -215,7 +215,7 @@ class Test_001_Login:
     @pytest.mark.run(order=4)
     @pytest.mark.sanity
     @pytest.mark.regression
-    #@pytest.mark.skip(reason="skipping this test")
+    # @pytest.mark.skip(reason="skipping this test")
     def test_OverView(self):
 
         self.driver = webdriver.Chrome()
@@ -248,7 +248,7 @@ class Test_001_Login:
         self.lp.selectCity()
         self.lp.setpincode(self.pincode)
         self.lp.setdomainName(self.domainname)
-        self.lp.setcontactPerson(self.contactperson)
+        # self.lp.setcontactPerson(self.contactperson)
         self.lp.clicksave()
         time.sleep(2)  # Company profile updated
         if "Company profile updated" in self.driver.page_source:
@@ -263,8 +263,8 @@ class Test_001_Login:
             # assert False
 
     @pytest.mark.run(order=5)
-    @pytest.mark.krishna
-    #@pytest.mark.skip(reason="skipping this test")
+    @pytest.mark.sunitha
+    # @pytest.mark.skip(reason="skipping this test")
     def test_Awards(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -275,8 +275,8 @@ class Test_001_Login:
         self.lp.clickLogin()
         self.lp.clickCompanyProfile()
 
-        # actions = ActionChains(self.driver)
-        # actions.send_keys(Keys.PAGE_DOWN).perform()
+        actions = ActionChains(self.driver)
+        actions.send_keys(Keys.PAGE_DOWN).perform()
         self.logger.info("****** TC_13	Verify the Awards, by Add, Save and Edit *****")
         self.lp.AwardsEdit()
         self.lp.ClickPreview(self.absolute_path7)
@@ -296,7 +296,7 @@ class Test_001_Login:
 
     @pytest.mark.run(order=6)
     @pytest.mark.regression
-    #@pytest.mark.skip(reason="skipping this test")
+    # @pytest.mark.skip(reason="skipping this test")
     def test_socialMediaLinks(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -327,7 +327,7 @@ class Test_001_Login:
 
     @pytest.mark.run(order=7)
     @pytest.mark.rishna
-    #@pytest.mark.skip(reason="skipping this test")
+    # @pytest.mark.skip(reason="skipping this test")
     def test_ClickingElements(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -343,7 +343,7 @@ class Test_001_Login:
         # time.sleep(2)
         self.lp.clickCompanyProfile()
 
-        # time.sleep(3)
+        time.sleep(1)
         self.logger.info("****** TC_19	Verify Networks by click on that  *****")
         self.lp.NetworksClick()
         time.sleep(2)
@@ -388,7 +388,7 @@ class Test_001_Login:
 
         time.sleep(2)
         self.driver.back()
-        self.driver.back()
+        # self.driver.back()
         self.logger.info("****** TC_25	verify the setting tab by clicking on it *****")
         self.lp.Settings()
         self.logger.info("****** TC_24	verify the news feed by clicking on that  *****")
