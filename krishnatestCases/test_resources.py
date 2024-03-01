@@ -3,6 +3,7 @@ from telnetlib import EC
 
 import pytest
 import time
+from selenium.webdriver import ActionChains, Keys
 
 from openpyxl.reader.excel import load_workbook
 from selenium.webdriver.common.by import By
@@ -82,8 +83,8 @@ class Test_001_Resources:
 
     logger = LogGen.loggen()  # Logger
 
-    @pytest.mark.sanity
-    @pytest.mark.badhri
+    @pytest.mark.sahi
+    @pytest.mark.krishna
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -214,6 +215,13 @@ class Test_001_Resources:
         self.rs.clickonresources()
         self.rs.setresourcescategorysearch(categorytitle)
         time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//span[text()='"+categorytitle+"']").click()
         time.sleep(3)
         self.driver.find_element(By.XPATH,"//h4[normalize-space()='"+contenttitle+"']").click()
@@ -240,6 +248,13 @@ class Test_001_Resources:
         self.rs.clickoncontents()
         self.rs.setsearchcontents(contenttitle)
         time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
@@ -346,6 +361,7 @@ class Test_001_Resources:
         self.rs.clickonsubcategorynew()
         self.rs.clickoncontentnew()
         self.rs.clickonaddcategory()
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclose()
         self.rs.setcontentbannerimage(self.absolute_path1)
         self.rs.clickonbannerimagesave()
@@ -382,6 +398,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setresourcescategorysearch(categorytitle)
         time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//span[text()='" + categorytitle + "']").click()
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
@@ -407,6 +430,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setresourcescategorysearch(categorytitle)
         time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//span[text()='" + categorytitle + "']").click()
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
@@ -774,6 +804,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setresourcescategorysearch(categorytitle)
         time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//span[text()='" + categorytitle + "']").click()
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
@@ -807,6 +844,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setsearchcontents(contenttitle)
         time.sleep(3)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
@@ -914,6 +958,7 @@ class Test_001_Resources:
         self.rs.clickonsubcategorynew()
         self.rs.clickoncontentnew()
         self.rs.clickonaddcategory()
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclose()
         self.rs.setcontentbannerimage(self.absolute_path1)
         self.rs.clickonbannerimagesave()
@@ -952,6 +997,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setresourcescategorysearch(categorytitle)
         time.sleep(2)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//span[text()='" + categorytitle + "']").click()
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
@@ -985,6 +1037,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setsearchcontents(contenttitle)
         time.sleep(3)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
@@ -1033,6 +1092,13 @@ class Test_001_Resources:
         time.sleep(3)
         self.rs.setsearchcontents(contenttitle)
         time.sleep(3)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH, "//h4[normalize-space()='" + contenttitle + "']").click()
         time.sleep(3)
         if "This content description is Our free tool lets you easily create unique descriptions for your product pages." in self.driver.page_source:
@@ -1046,7 +1112,7 @@ class Test_001_Resources:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_categoryforrelationcompany.png")
             assert False
 
-    @pytest.mark.sanity
+    @pytest.mark.ishq
     @pytest.mark.regression
     @pytest.mark.run(order=6)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -1139,6 +1205,7 @@ class Test_001_Resources:
         self.rs.clickonsubcategorynew()
         self.rs.clickoncontentnew()
         self.rs.clickonaddcategory()
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclose()
         self.rs.setcontentbannerimage(self.absolute_path1)
         self.rs.clickonbannerimagesave()
@@ -1187,6 +1254,14 @@ class Test_001_Resources:
             self.logger.error("************** content creation test is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "test_Category update.png")
             assert False
+        # actions = ActionChains(self.driver)
+        #
+        # # Press the PAGE_DOWN key to scroll down
+        # actions.send_keys(Keys.PAGE_DOWN)
+        #
+        # # Perform the scrolling action
+        # actions.perform()
+        self.rs.scrollcontent()
         self.rs.clickonsubcategoryedit()
         self.rs.clickonsubcategorydisable()
         self.rs.clickonsubcategoryupdate()
@@ -1219,7 +1294,7 @@ class Test_001_Resources:
     @pytest.mark.Gang
     @pytest.mark.regression
     @pytest.mark.run(order=7)
-    @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_categorydelete(self, setup):
         self.logger.info("************* Test_007_categorycreation **********")
@@ -1309,6 +1384,7 @@ class Test_001_Resources:
         self.rs.clickonsubcategorynew()
         self.rs.clickoncontentnew()
         self.rs.clickonaddcategory()
+        self.rs.clickClosetoaster()
         self.rs.clickoncategoryclose()
         self.rs.setcontentbannerimage(self.absolute_path1)
         self.rs.clickonbannerimagesave()
@@ -1344,6 +1420,7 @@ class Test_001_Resources:
         self.rs.clickoncontentmanagementbreadcrumb()
         self.rs.setcategorysearch(categorytitle)
         self.rs.clickoncategoryclick()
+        self.rs.scrollcontent()
         self.rs.clickoncontentviewmore()
         self.rs.clickoncontentdelete()
         self.rs.clickoncontentconfirmdelete()
@@ -1357,6 +1434,7 @@ class Test_001_Resources:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_contentdelete.png")
             assert False
         time.sleep(3)
+        self.rs.scrollcontent()
         self.rs.clickonsubcategorydelete()
         self.rs.clickoncontentconfirmdelete()
         time.sleep(3)

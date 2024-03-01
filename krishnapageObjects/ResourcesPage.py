@@ -53,7 +53,7 @@ class Resources:
     contents_xpath="//button[normalize-space()='Contents']"
     searchcontents_xpath = "//input[@placeholder='Search Contents']"
     subcategoryclick_xpath = "//div[@class='flexCol CntimgOverlay pdngVSM categoryHover']"
-    categorypartner_xpath = "//div[contains(@role,'presentation')]//div[6]//div[1]//span[1]//input[1]"
+    categorypartner_xpath = "//div[contains(@role,'presentation')]//div[5]//div[1]//span[1]//input[1]"
     categoryshare_xpath = "//div[@class='flexWrap ']//div[1]//div[1]//div[1]//div[2]//div[1]//div[3]//div[1]"
     categorysharepublic_xpath = "//input[@id='public']"
     categoryshareaccessyes_xpath = "//button[normalize-space()='Yes']"
@@ -71,14 +71,13 @@ class Resources:
     contentconfirmdelete_xpath = "//button[normalize-space()='Delete']"
     subcategorydelete_xpath = "//div[@aria-label='Delete']"
     Closetoaster_xpath = "//button[@class='Toastify__close-button Toastify__close-button--light']//*[name()='svg']//*[name()='path' and contains(@fill-rule,'evenodd')]"
-<<<<<<< HEAD
-=======
+    contentscroll_xpath = "//body/div[@id='root']/div[1]/div[1]/div[2]/div[2]/div[1]/div[4]/div[1]/div[1]/div[1]"
 
 
 
 
 
->>>>>>> 057e365f99304e91739a7a6512e0e09a431c9055
+
 
     def __init__(self, driver):
         self.driver = driver
@@ -88,10 +87,15 @@ class Resources:
             EC.element_to_be_clickable((By.XPATH, self.Closetoaster_xpath))
         )
         element.click()
-<<<<<<< HEAD
+        time.sleep(2)
 
-=======
->>>>>>> 057e365f99304e91739a7a6512e0e09a431c9055
+    def scrollcontent(self):
+
+        element = self.driver.find_element(By.XPATH,self.contentscroll_xpath)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+
+
+
     def clickoncontentmanagement(self):
         self.driver.find_element(By.XPATH,self.ContentManagemaent_xpath).click()
 
@@ -313,10 +317,12 @@ class Resources:
         network_resources_element.click()
 
     def setsearchcompanyname(self, companyname):
+        time.sleep(1)
         companyname_search_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.searchcompanyname_xpath))
         )
         companyname_search_element.send_keys(companyname)
+        time.sleep(1)
 
     def clickoncompanyselect(self):
         time.sleep(2)
@@ -341,6 +347,7 @@ class Resources:
         )
         except Exception as e:
             self.driver.find_element(By.XPATH,self.searchcontents_xpath).send_keys(searchcontents)
+            time.sleep(1)
 
     def clickonsubcategoryclick(self):
         self.driver.find_element(By.XPATH,self.subcategoryclick_xpath).click()
@@ -410,7 +417,10 @@ class Resources:
 
     def clickonsubcategoryedit(self):
         time.sleep(2)
-        self.driver.find_element(By.XPATH,self.subcategoryedit_xpath).click()
+
+        element = self.driver.find_element(By.XPATH, self.subcategoryedit_xpath)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+        element.click()
 
     def clickonsubcategorydisable(self):
         time.sleep(3)
@@ -441,6 +451,7 @@ class Resources:
         time.sleep(2)
 
         section_update.click()
+        time.sleep(2)
 
     def clickoncontentdelete(self):
         time.sleep(1)
