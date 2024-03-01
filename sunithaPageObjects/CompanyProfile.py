@@ -47,8 +47,8 @@ class LoginPage:
     button_save_xpath = "//button[normalize-space()='Save']"
 
     # Overview________________________________________________________________
-    scrollIntoOverView_xpath = "//button[@aria-label='Edit']"
-    button_edit_xpath = "//button[@aria-label='Edit']"
+    scrollIntoOverView_xpath = "//span[text()='Followers']"
+    button_edit_xpath = "//button[@aria-label='Edit']//*[name()='svg']//*[name()='path' and contains(@d,'M3 17.25V2')]"
     textarea_company_summary_id = "desc"
     textarea_address_id = "address"
     country_dropdown_xpath = "//button[@id='rfs-btn']"
@@ -104,10 +104,10 @@ class LoginPage:
         time.sleep(1)
 
     def EditBanner(self):
-        time.sleep(2)
+        # time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.EditBanner_click_xpath)))
-        time.sleep(1)
+        # time.sleep(1)
         element.click()
 
     def UploadBannerImageAgain(self, absolute_path4):
@@ -136,8 +136,8 @@ class LoginPage:
         element.click()
 
     def EditProfile(self):
-        time.sleep(1)
-        wait = WebDriverWait(self.driver, 10)
+        time.sleep(3)
+        wait = WebDriverWait(self.driver, 20)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.EditProfile_click_xpath)))
         element.click()
 
@@ -274,12 +274,27 @@ class LoginPage:
         element = self.driver.find_element(By.XPATH, self.scrollIntoOverView_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         time.sleep(1)
-        element.click()
+        # element.click()
+    def scrollIntoAwards(self):
+        time.sleep(1)
+        # Scroll to bring the element into view
+        element = self.driver.find_element(By.XPATH, "//span[normalize-space()='Contact number']")
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+        time.sleep(1)
+        # element.click()
 
     def clickEdit(self):
-        time.sleep(3)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.XPATH, self.button_edit_xpath)))
+        # Wait for the element to be clickable and visible
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.button_edit_xpath)))
+
+        # Optionally, you can wait for the element to be visible as well
+        wait.until(EC.visibility_of(element))
+
+        # Scroll the element into view
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
+        # Click the element
         element.click()
 
     def setCompanySummary(self, companysummary):
@@ -436,14 +451,14 @@ class LoginPage:
 
     def clicksocilmedialist(self):
         time.sleep(1)
-        wait = WebDriverWait(self.driver, 5)
-        element = wait.until(EC.visibility_of_element_located((By.ID, self.listbox_social_media_dropdown_id)))
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable((By.ID, self.listbox_social_media_dropdown_id)))
         element.click()
 
     def clickSocialMediaName(self):
         time.sleep(1)
         wait = WebDriverWait(self.driver, 5)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.select_social_media_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.select_social_media_xpath)))
         element.click()
 
     def setUrl(self, url):
@@ -459,14 +474,16 @@ class LoginPage:
         element.click()
 
     def ResourceClick(self):
-        time.sleep(1)
-        # Scroll to bring the element into view
-        element = self.driver.find_element(By.XPATH, self.Resource_click_xpath)
+        time.sleep(2)
+
+        element = self.driver.find_element(By.XPATH, self.Certification_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
-        # Wait for a short while to ensure the element is clickable
+
         time.sleep(1)
+
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.Resource_click_xpath)))
         element.click()
-        # self.driver.find_element(By.XPATH, self.Resource_click_xpath).click()
 
     def NetworksClick(self):
         time.sleep(1)

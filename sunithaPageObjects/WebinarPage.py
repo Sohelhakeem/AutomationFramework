@@ -433,7 +433,7 @@ class WebinarPage:
     def PastSearch(self,PastTabSearch):
         time.sleep(2)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Search_pastSessions_id)))
+        element = wait.until(EC.presence_of_element_located((By.ID, self.Search_pastSessions_id)))
         element.send_keys(PastTabSearch)
 
 

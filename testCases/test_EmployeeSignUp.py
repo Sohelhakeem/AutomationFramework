@@ -341,7 +341,8 @@ class TestEmployeeSignUp:
         element.click()
 
     @pytest.mark.run(order=3)
-    @pytest.mark.test
+    @pytest.mark.tests
+    @pytest.mark.flaky(rerun=3, rerun_delay=2)
     # def test_EmployeeSignUpWithValid(self, run_number, setup):
     def test_EmployeeSignUpValidWithoutDomainAdmin(self, setup):
         self.logger = LogGen.loggen()

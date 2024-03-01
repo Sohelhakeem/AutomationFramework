@@ -48,7 +48,7 @@ class TestConfiguration(unittest.TestCase):
         self.driver.quit()
 
     @pytest.mark.regression
-    @pytest.mark.test
+    # @pytest.mark.test
     @pytest.mark.run(order=1)
     def test_createDept(self):
         self.logger.info("****Started Login Test****")
@@ -125,7 +125,7 @@ class TestConfiguration(unittest.TestCase):
             assert False
 
     @pytest.mark.regression
-    @pytest.mark.test
+    # @pytest.mark.test
     @pytest.mark.run(order=2)
     def test_EditDept(self):
         self.logger.info("****TC_02	Verify Edit Department****")
@@ -184,10 +184,11 @@ class TestConfiguration(unittest.TestCase):
             assert False
 
         self.cp.clickDesignationsTab()
+        self.logger.info(" Started TC_01 : Verify create NEW Department ")
         self.cp.setsearchField(self.DesignationName)
         self.cp.clickEditDivision()
         time.sleep(2)
-        self.logger.info("********* TC_11	Verify Edit the Designation ***********")
+        self.logger.info("********* TC_13	Verify Search Designation***********")
         self.cp.setEnterDescription(self.EditDesignationDescription)
         self.cp.clickUpdateBtn()
         act_Text = WebDriverWait(self.driver, 10).until(
@@ -205,6 +206,7 @@ class TestConfiguration(unittest.TestCase):
             assert False
 
     @pytest.mark.regression
+    # @pytest.mark.test
     @pytest.mark.run(order=3)
     def test_DeleteDept(self):
         self.logger.info("****Started Login Test****")
@@ -266,6 +268,7 @@ class TestConfiguration(unittest.TestCase):
         # time.sleep(4)
         self.cp.clickDeleteDivision()
         self.cp.clickDeleteDepartmentDelete()
+        self.logger.info("*********TC_12	Verify Delete the Designation***********")
         act_Text = WebDriverWait(self.driver, 10).until(
             lambda driver: self.cp.Text_DesignationDeletedSuccessfully()
         )
@@ -304,7 +307,8 @@ class TestConfiguration(unittest.TestCase):
             assert False
 
     @pytest.mark.regression
-    # @pytest.mark.test
+    @pytest.mark.test
+    @pytest.mark.flaky(rerun=3, reun_delay=2)
     @pytest.mark.run(order=4)
     def test_CreateConfDept(self):
         self.test_createDept()

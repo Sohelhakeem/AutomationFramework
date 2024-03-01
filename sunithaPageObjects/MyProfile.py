@@ -59,7 +59,7 @@ class MyprofilePage:
     personalDetails_click_xpath = "//div[@class='flexCol mrgnVXS']//div[3]//div[1]//div[1]//div[2]"
     personal_details_scroll="//h4[text()='Work details']"
     firstName_input_id = "firstName"
-    lastName_input_id = "lastName"
+    lastName_input_xpath = "//input[@id='lastName']"
     emailAddress_input_id = "address"
     phoneNumber_input_id  = "//input[@class='MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart css-162edyi']"
     gender_Radiobutton_xpath ="//span[normalize-space()='Male']"
@@ -349,14 +349,16 @@ class MyprofilePage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.ID, self.firstName_input_id)))
         element.send_keys(firstName)
+        time.sleep(1)
 
     def setlastName(self,lastName):
         # time.sleep(2)
         # self.driver.find_element(By.ID, self.lastName_input_id).send_keys(Keys.CONTROL + 'a')
-        # self.driver.find_element(By.ID, self.lastName_input_id).send_keys(lastName)
+        # self.driver.find_element(By.XPATH, self.lastName_input_xpath).send_keys(lastName)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.element_to_be_clickable((By.ID, self.lastName_input_id)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.lastName_input_xpath)))
         element.send_keys(lastName)
+        time.sleep(1)
 
     def setEmailAddress(self,emailAddress):
         # time.sleep(2)
@@ -365,6 +367,7 @@ class MyprofilePage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.element_to_be_clickable((By.ID, self.emailAddress_input_id)))
         element.send_keys(emailAddress)
+        time.sleep(1)
 
     def phoneNumber(self, phoneNumber):
         # time.sleep(2)
@@ -414,6 +417,7 @@ class MyprofilePage:
         # ------------------------------Educational Details
 
     def clickToScrolll(self):
+        time.sleep(1)
         element = self.driver.find_element(By.XPATH, self.unmarried_label_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
@@ -580,51 +584,26 @@ class MyprofilePage:
         time.sleep(2)
         # self.driver.find_element(By.XPATH,self.save_Button_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.save_Button_click_xpath)))
+        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.save_button_click_xpath)))
         element.click()
 
+    def scroll_to_end_of_page(self):
+        # Get initial scroll height
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
 
+        while True:
+            # Scroll down to the bottom
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+            # Wait for a short while to let content load (optional)
+            time.sleep(1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            # Calculate new scroll height and compare with the last scroll height
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                # If scroll height no longer changes, we've reached the end of the page
+                break
+            last_height = new_height
 
 
 

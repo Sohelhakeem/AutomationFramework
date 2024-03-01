@@ -192,7 +192,7 @@ class TestSignUp(unittest.TestCase):
 
     @pytest.mark.run(order=2)
     @pytest.mark.regression
-    # @pytest.mark.test
+    # @pytest.mark.skip
     # @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_ListingSignUpCompany(self):
         Url = "https://preprodanalytics.inlynk.com/license"

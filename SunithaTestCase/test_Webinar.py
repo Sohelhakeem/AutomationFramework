@@ -1,7 +1,9 @@
 import time
-
 import pytest
 from openpyxl.reader.excel import load_workbook
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from sunithaPageObjects.CompanyProfile import LoginPage
 from selenium import webdriver
@@ -21,10 +23,10 @@ class Test_001_Webinar:
     password = "Inlink@123"
     description = "About Media Drive Module of Inlink"
     LimitSeats = "10"
-    coHost = "gra"
-    panelist = "oli"
+    coHost = worksheet["A8"].value
+    panelist = worksheet["C6"].value
     Email = "ksunik7k3@gmail.com"
-    PastTabSearch = "QA Meeting"
+    PastTabSearch = "QA"
     EditTitle = "Automation team meeting"
     web = "Webinar "
     PTS = "Training Meeting"
@@ -43,7 +45,7 @@ class Test_001_Webinar:
     Trainingtitle = "Training meeting"
     TriningDiscription = "All modules of inlynk, code review with automation team  "
 
-    EmpMail = "nxyonio@mailcatch.com"
+    EmpMail = worksheet["B6"].value
     EmpPassword = "Inlink@123"
 
     username1 = worksheet["A25"].value
@@ -118,17 +120,31 @@ class Test_001_Webinar:
         self.wp.PublicEnable()
         self.logger.info("****** TC_12	Verify 'Schedule webinar button and button *****")
         self.wp.Schedule()
-        time.sleep(3)
 
-        if "Created webinar successfully" in self.driver.page_source:
-            self.logger.info("********* test_webinar Test is Passed ***********")
-            # self.driver.close()
-        else:
-            self.logger.info("********* test_webinar Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_webinar.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "//div[contains(text(),'Created webinar successfully')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
-        time.sleep(2)
+
+        # time.sleep(3)
+        #
+        # if "Created webinar successfully" in self.driver.page_source:
+        #     self.logger.info("********* test_webinar Test is Passed ***********")
+        #     # self.driver.close()
+        # else:
+        #     self.logger.info("********* test_webinar Test is failed ***********")
+        #     self.driver.save_screenshot(".\\ScreenShots\\" + "test_webinar.png")
+        #     self.logger.error("Page source:\n%s" % self.driver.page_source)
+        #     assert False
+        # time.sleep(2)
         self.driver.close()
 
     @pytest.mark.run(order=2)
@@ -154,16 +170,31 @@ class Test_001_Webinar:
         # # self.wp.UpcomingMar25()
         self.logger.info("****** TC_25	Verify Book Seat button for both Training and Webinar*****")
         self.wp.BookSeat()
-        time.sleep(2)
-        if "Your seat has been successfully booked." in self.driver.page_source:
-            self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
 
-        else:
-            self.logger.info("********* test_PastSearchBar is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath="//div[contains(text(),'Your seat has been successfully booked.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
+
+        # time.sleep(2)
+        #
+        # if "Your seat has been successfully booked." in self.driver.page_source:
+        #     self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
+        #
+        # else:
+        #     self.logger.info("********* test_PastSearchBar is failed ***********")
+        #     self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
+        #     self.logger.error("Page source:\n%s" % self.driver.page_source)
             # assert False
-        time.sleep(2)
+        time.sleep(1)
         self.wp.CloseToaster()
         self.wp.Logout()
         self.lp = LoginPage(self.driver)
@@ -180,17 +211,20 @@ class Test_001_Webinar:
         # self.wp.UpcomingMar25()
         self.logger.info("****** TC_25	Verify Book Seat button for both Training and Webinar*****")
         self.wp.BookSeat()
-        time.sleep(2)
-        if "Your seat has been successfully booked." in self.driver.page_source:
-            self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
+        xpath = "//div[contains(text(),'Your seat has been successfully booked.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
 
-        else:
-            self.logger.info("********* test_PastSearchBar is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-            # assert False
-
-        time.sleep(2)
+        time.sleep(1)
         self.wp.CloseToaster()
         self.wp.Logout()
         # self.lp = LoginPage(self.driver)
@@ -207,15 +241,18 @@ class Test_001_Webinar:
         # self.wp.UpcomingMar25()
         self.logger.info("****** TC_25	Verify Book Seat button for both Training and Webinar*****")
         self.wp.BookSeat()
-        time.sleep(2)
-        if "Your seat has been successfully booked." in self.driver.page_source:
-            self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
-
-        else:
-            self.logger.info("********* test_PastSearchBar is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-            # assert False
+        xpath = "//div[contains(text(),'Your seat has been successfully booked.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
         time.sleep(1)
         self.driver.close()
 
@@ -454,19 +491,32 @@ class Test_001_Webinar:
         self.wp.memberEMail(self.Email)
         self.logger.info("****** TC_12	Verify 'Schedule training button and 'Cancel' button *****")
         self.wp.Schedule()
-        time.sleep(2)
 
-        if "Created training successfully" in self.driver.page_source:
-            self.logger.info("********* test_TrainingCreation is Passed ***********")
-            self.driver.close()
-
-
-        else:
-            self.logger.info("********* test_TrainingSession is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_TrainingCreation.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-            # assert False
-        time.sleep(2)
+        xpath = "//div[contains(text(),'Created training successfully')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
+        # time.sleep(2)
+        #
+        # if "Created training successfully" in self.driver.page_source:
+        #     self.logger.info("********* test_TrainingCreation is Passed ***********")
+        #     self.driver.close()
+        #
+        #
+        # else:
+        #     self.logger.info("********* test_TrainingSession is failed ***********")
+        #     self.driver.save_screenshot(".\\ScreenShots\\" + "test_TrainingCreation.png")
+        #     self.logger.error("Page source:\n%s" % self.driver.page_source)
+        #     # assert False
+        # time.sleep(2)
 
     @pytest.mark.run(order=8)
     # @pytest.mark.skip(reason="skipping this test")
@@ -490,16 +540,19 @@ class Test_001_Webinar:
         self.wp.UpcomingMar25()
         self.logger.info("****** TC_25	Verify Book Seat button for both Training and Webinar*****")
         self.wp.BookSeat()
-        time.sleep(2)
-        if "Your seat has been successfully booked." in self.driver.page_source:
-            self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
-
-        else:
-            self.logger.info("********* test_PastSearchBar is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-            # assert False
-        time.sleep(2)
+        xpath = "//div[contains(text(),'Your seat has been successfully booked.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
+        time.sleep(1)
         self.wp.CloseToaster()
         self.wp.Logout()
         # self.lp = LoginPage(self.driver)
@@ -516,17 +569,20 @@ class Test_001_Webinar:
         self.wp.UpcomingMar25()
         self.logger.info("****** TC_25	Verify Book Seat button for both Training and Webinar*****")
         self.wp.BookSeat()
-        time.sleep(2)
-        if "Your seat has been successfully booked." in self.driver.page_source:
-            self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
+        xpath = "//div[contains(text(),'Your seat has been successfully booked.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
 
-        else:
-            self.logger.info("********* test_PastSearchBar is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-            # assert False
-
-        time.sleep(2)
+        time.sleep(1)
         self.wp.CloseToaster()
         self.wp.Logout()
         # self.lp = LoginPage(self.driver)
@@ -543,15 +599,18 @@ class Test_001_Webinar:
         self.wp.UpcomingMar25()
         self.logger.info("****** TC_25	Verify Book Seat button for both Training and Webinar*****")
         self.wp.BookSeat()
-        time.sleep(2)
-        if "Your seat has been successfully booked." in self.driver.page_source:
-            self.logger.info("********* test_EmployeeBookSeat is Passed ***********")
-
-        else:
-            self.logger.info("********* test_PastSearchBar is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeBookSeat.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-            # assert False
+        xpath = "//div[contains(text(),'Your seat has been successfully booked.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
         time.sleep(1)
         self.driver.close()
 
@@ -565,7 +624,6 @@ class Test_001_Webinar:
         # self.driver = setup()
         self.driver.maximize_window()
         self.driver.get(self.baseURL)
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
