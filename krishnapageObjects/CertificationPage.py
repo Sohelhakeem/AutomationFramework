@@ -90,6 +90,13 @@ class Certification:
 
     def clickoncertificationprogramme(self):
         time.sleep(1)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH,self.certificationprogramme_xpath).click()
 
     def clickonmarkingsystem(self):
@@ -140,7 +147,15 @@ class Certification:
         self.driver.find_element(By.XPATH,self.firstanswer_xpath).send_keys(firstanswer)
 
     def clickonadd(self):
-        self.driver.find_element(By.XPATH,self.add_xpath).click()
+        time.sleep(1)
+        element = self.driver.find_element(By.XPATH, self.add_xpath)
+
+        # Scroll to the element using ActionChains
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
+
+        # Click the element
+        element.click()
 
     def setsecondanswer(self,secondanswer):
         self.driver.find_element(By.XPATH,self.secondanswer_xpath).send_keys(secondanswer)

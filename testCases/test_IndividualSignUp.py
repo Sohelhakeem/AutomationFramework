@@ -74,6 +74,7 @@ class TestInividualSignUp:
     #         time.sleep(2)
     #         self.logger.info("******** Clicking on signup button ***********")
     #         self.logger.info("******** user navigated to enter OTP page ***********")
+    #         self.logger.info("********TS_5 verify that successful signup redirects to the appropriate page. ***********")
     #         self.sp.clicksignupNow()
     #         time.sleep(2)
     #
@@ -200,11 +201,14 @@ class TestInividualSignUp:
         self.sp.clicksignuplink()
         self.sp.clickIndividualSignupButton()
         self.logger.info("******** user is in Individual signup page ***********")
-        self.logger.info("******** Entering valid data into the fields ***********")
+        self.logger.info("******** TS_1 Entering valid data into the fields ***********")
 
         self.sp.setFullName(first_name)
+        self.logger.info("******** TS_2 verify the Email Field ***********")
         self.sp.setEmail(email)
+        self.logger.info("******** TS_3 verify the Phone number field ***********")
         self.sp.setPhone(phone_number)
+        self.logger.info("********TS_4  verify the Password field ***********")
         self.sp.setPassword(Password)
         self.sp.setConfirmPassword(self.password)
         time.sleep(2)
