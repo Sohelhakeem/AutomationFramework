@@ -131,6 +131,13 @@ class Certification:
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);", element)
     def clickoncertificationprogramme(self):
         time.sleep(1)
+        actions = ActionChains(self.driver)
+
+        # Press the PAGE_DOWN key to scroll down
+        actions.send_keys(Keys.PAGE_DOWN)
+
+        # Perform the scrolling action
+        actions.perform()
         self.driver.find_element(By.XPATH,self.certificationprogramme_xpath).click()
 
     def clickonmarkingsystem(self):

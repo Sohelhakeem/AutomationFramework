@@ -58,6 +58,7 @@ class TestLogin(unittest.TestCase):
     def test_login_inValid_Password(self):
 
         self.logger.info("****Started invalid Password Login Test****")
+        self.logger.info("**** TS_01  TC_03 Started invalid Password Login Test****")
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword("InLINK@!@#$")
@@ -80,6 +81,7 @@ class TestLogin(unittest.TestCase):
     def test_login_inValid_Username(self):
 
         self.logger.info("****Started invalid Username Login Test****")
+        self.logger.info("***** TS_1  TC_04	 verify the login page with invalid user name*****")
         self.lp = LoginPage(self.driver)
         self.lp.setUserName("sohel@gmailxyz.com")
         self.lp.setPassword(self.password)
@@ -105,6 +107,7 @@ class TestLogin(unittest.TestCase):
     def test_login_Valid_UsernamePassword(self):
 
         self.logger.info("****Started Login Test****")
+        self.logger.info("****TS_1	TC_01	Verify that a registered user can successfully log in with valid credentials.****")
         self.lp = LoginPage(self.driver)
         self.logger.info(
             "Entering SuperAdmin Credentials for login Username:" + self.username + " and Password:" + self.password)

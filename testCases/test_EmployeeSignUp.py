@@ -36,7 +36,7 @@ class TestEmployeeSignUp:
         self.driver = setup
         self.driver.maximize_window()
         self.driver.get(self.baseURL)
-        self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
+        self.logger.info("********TS_1	TC1_1   Verify the Signup functionality. with positive data.***********")
         self.logger.info("******** User is on Login page ***********")
 
         email = randomGen.random_email()
@@ -71,9 +71,13 @@ class TestEmployeeSignUp:
         # 1. Verify the functionality and accuracy of the Company Selection dropdown.
         self.sp.setSearchCompany(companyName)
         self.sp.ClickSelectCompany()
+        self.logger.info("******** TC1_2  Validate the Full Name field. ***********")
         self.sp.setFullName(first_name)
+        self.logger.info("********TC1_3	 validation of the Email field. ***********")
         self.sp.setEmail(email)
+        self.logger.info("********TC1_4	 Validate the Phone Number field. ***********")
         self.sp.setPhone(phone_number)
+        self.logger.info("********TC1_5	 Verify the Password field. ***********")
         self.sp.setPassword(self.password)
         self.sp.setConfirmPassword(self.password)
         self.sp.clicktermsConditions()
@@ -150,7 +154,7 @@ class TestEmployeeSignUp:
         self.sp.setOtp(getOTP)
 
         time.sleep(2)
-        self.logger.info("******** Verifying the OTP ***********")
+        self.logger.info("********TC1_6	 Test the submission of the signup form and verify that successful signup redirects to the appropriate page.***********")
         self.sp.clickVerifyButton()
         self.sp.clickContinueToLogin()
         # self.logger.info("******** Employee Sign Up successful ***********")

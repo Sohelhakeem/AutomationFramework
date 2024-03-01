@@ -51,7 +51,7 @@ class addEmployees(unittest.TestCase):
 
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_createEmployee_superAdmin(self):
-        self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
+        self.logger.info("****TC_01	Create New Employee in Super Admin and Admin Account  ****")
         first_name2 = randomGen.random_first_name()
         email = randomGen.random_email()
         phone_number = randomGen.random_phone_number()
@@ -92,7 +92,7 @@ class addEmployees(unittest.TestCase):
         self.aep.setPhoneNumber(phone_number)
 
         self.aep.setEmpId(Emp_Id)
-        self.logger.info("**** Started Create  New Department in Super Admin Account****")
+        self.logger.info("**** TC_02  Started Create  New Department in Super Admin Account****")
         self.aep.clickAddDeptButton()
         self.cp = ConfigurationPage(self.driver)
         self.cp.setDepartmentName("Department " + first_name2)
@@ -116,7 +116,7 @@ class addEmployees(unittest.TestCase):
             self.driver.quit()
             assert False
 
-        self.logger.info("**** Started Create  New Division in Super Admin Account****")
+        self.logger.info("****TC_03  Started Create  New Division in Super Admin Account****")
         self.aep.clickAddDivisionButton()
         self.aep.setDivisionName("Division " + first_name2)
         self.cp.setEnterDescription(self.DeptDescription)
@@ -139,7 +139,7 @@ class addEmployees(unittest.TestCase):
             self.driver.quit()
             assert False
 
-        self.logger.info("**** Started Create  New Designation in Super Admin Account****")
+        self.logger.info("****TC_04  Started Create  New Designation in Super Admin Account****")
         self.aep.clickAddDesignation()
         self.aep.setDivisionName("Designation " + first_name2)
         self.cp.setEnterDescription(self.DeptDescription)
@@ -278,6 +278,7 @@ class addEmployees(unittest.TestCase):
         wb = load_workbook("TestData/LoginData.xlsx")
         ws = wb.active
         first_name = ws['A11'].value
+        self.logger.info("****TC_09	Employee approve*****")
         self.aep.clickActive()
         # time.sleep(2)
         self.aep.setActiveSearchField(first_name)
@@ -298,6 +299,7 @@ class addEmployees(unittest.TestCase):
         element.click()
         self.aep.ClickEmployeeStatus()
         self.aep.ClickAdminStatus()
+        self.logger.info("****TC_06	Check Employee is getting admin access******" )
         self.aep.ClickGrantAdmin()
         xpath = "//div[contains(text(), '" + first_name + " is an admin now')]"
         # Use WebDriverWait to wait for the element to be present
@@ -318,6 +320,7 @@ class addEmployees(unittest.TestCase):
             assert False
         self.aep.ClickAdminStatus()
         self.aep.ClickEmployeesStatus()
+        self.logger.info("********TC_07	Check if we Remove admin access for Employee ***********")
         self.aep.ClickRemoveStatus()
         xpath = "//div[contains(text(), '" + first_name + " is removed as admin')]"
         # Use WebDriverWait to wait for the element to be present
@@ -338,6 +341,7 @@ class addEmployees(unittest.TestCase):
             assert False
 
         self.aep.ClickbuttonActive()
+        self.logger.info("******TC_14	Verify De-active employee******")
         self.aep.ClickbuttonDeactivate()
         self.aep.setreasonText("deleting to test the functionality")
         self.aep.ClickconfDeactivate()
@@ -375,7 +379,7 @@ class addEmployees(unittest.TestCase):
     @pytest.mark.test
     @pytest.mark.regression
     def test_Employee_StatusAdminRole(self):
-        self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
+        self.logger.info("****TC_06	Check Employee is getting admin access ****")
         first_name = randomGen.random_first_name()
         email = randomGen.random_email()
         phone_number = randomGen.random_phone_number()

@@ -394,6 +394,7 @@ class TestLogin(unittest.TestCase):
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_follow_and_unfollow_company(self):
         self.logger.info("****Started Network Connection Test****")
+        self.logger.info("****TC_05	Verify Follow tab****")
         self.lp = LoginPage(self.driver)
         self.logger.info(
             "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
@@ -479,6 +480,7 @@ class TestLogin(unittest.TestCase):
     # @pytest.mark.skip(reason="skip for now")
     def test_block_and_unblock_the_followed_company(self):
         self.logger.info("****Started Network Connection Test****")
+        self.logger.info("****TC_05	Verify Follow tab****")
         self.lp = LoginPage(self.driver)
         self.logger.info(
             "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)

@@ -38,7 +38,7 @@ class TestSignUp(unittest.TestCase):
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
-        self.logger.info("******** Starting test_Sign Up with Valid ***********")
+        self.logger.info("********TS_1	TC1_1	Verify the Signup functionality. with positive data. ***********")
         self.logger.info("******** User is on Login page ***********")
 
         email = randomGen.random_email()
@@ -85,7 +85,7 @@ class TestSignUp(unittest.TestCase):
         self.sp.clicktermsConditions()
         time.sleep(2)
         self.logger.info("******** Clicking on signup button ***********")
-        self.logger.info("******** user navigated to enter OTP page ***********")
+        self.logger.info("******** TC1_2  Verify that a User can Successfully Sign Up with OTP  ***********")
         self.sp.clicksignupNow()
         time.sleep(2)
 
@@ -156,7 +156,7 @@ class TestSignUp(unittest.TestCase):
         self.sp.setOtp(getOTP)
 
         time.sleep(2)
-        self.logger.info("******** Verifying the OTP ***********")
+        self.logger.info("******** TC3_1 Verify the Signup page OTP page,  Verify that a user can successfully verify their account with a valid OTP. ***********")
         self.sp.clickVerifyButton()
         self.sp.clickContinueToLogin()
         self.logger.info("******** Company Sign Up successful ***********")
