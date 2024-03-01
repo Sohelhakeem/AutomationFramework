@@ -5,6 +5,8 @@ import pytest
 from openpyxl.reader.excel import load_workbook
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from pageObjects.networksPage import networksPage
 
 from pageObjects.LoginPage import LoginPage
@@ -387,10 +389,12 @@ class TestLogin(unittest.TestCase):
 
     # @pytest.mark.smoke(order=3)
     @pytest.mark.run(order=2)
+    @pytest.mark.test
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_follow_and_unfollow_company(self):
         self.logger.info("****Started Network Connection Test****")
+        self.logger.info("****TC_05	Verify Follow tab****")
         self.lp = LoginPage(self.driver)
         self.logger.info(
             "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)
@@ -403,16 +407,18 @@ class TestLogin(unittest.TestCase):
         self.np.setsearchField(self.CompanyManufacture)
         # Verifying and Clicking on the company
         self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
+        time.sleep(1)
         self.np.clickFollowButton()
         time.sleep(1)
         self.driver.back()
         self.np.clickFOLLOWTab()
-        time.sleep(1)
+        self.np.setsearchField(self.CompanyManufacture)
+
         if "Following" in self.driver.page_source:
             self.logger.info("********** Following company successfully *********")
 
         else:
-                # Log and take a screenshot
+            # Log and take a screenshot
             self.logger.error("************** following company is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
             assert False
@@ -474,6 +480,7 @@ class TestLogin(unittest.TestCase):
     # @pytest.mark.skip(reason="skip for now")
     def test_block_and_unblock_the_followed_company(self):
         self.logger.info("****Started Network Connection Test****")
+        self.logger.info("****TC_05	Verify Follow tab****")
         self.lp = LoginPage(self.driver)
         self.logger.info(
             "Entering SuperAdmin Credentials for login username " + self.username + " and password " + self.password)

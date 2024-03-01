@@ -52,7 +52,7 @@ class TestMediaDrive(BaseClass):
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
-        # self.lp.clickLogin()
+        self.lp.clickLogin()
         self.lp.clickNewsFeed()
         self.md = mediaDrivePage(self.driver)
         self.md.clickMediaDrive()
@@ -81,6 +81,7 @@ class TestMediaDrive(BaseClass):
     @pytest.mark.run(order=3)
     def test_MediaDriveCreationAndUpload(self):
         self.test_MediaDrive()
+        self.logger.info("****TC_02  verify New Button****")
         self.md.clickButtonNew()
         self.md.clickCreateFolder()
         self.md.setinputFolderName(self.first_name)
@@ -101,7 +102,7 @@ class TestMediaDrive(BaseClass):
         self.md.clickClosetoaster()
             # File Upload
         self.md.clickButtonNew()
-
+        self.logger.info("****TC_03  verify upload File ***")
         self.md.setUploadFiles(self.file_path)
 
 
@@ -142,7 +143,7 @@ class TestMediaDrive(BaseClass):
 
         # # Upload folder
         # self.md.clickButtonNew()
-        #
+        # self.logger.info("****TC_03  verify upload folder***")
         # self.md.setUploadFiles(self.folder_path)
         #
         # xpath_success_message = "//div[contains(text(),'File uploaded successfully')]"
@@ -245,19 +246,23 @@ class TestMediaDrive(BaseClass):
                 self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveCreationAndUpload.png")
                 assert False
 
+
         self.md.clickClosetoaster()
+        self.logger.info("TC_08	Verify the Search bar whith valid data")
         self.md.setSearchField(self.searchFile)
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//span[text()='"+self.searchFile+"']"))
         )
         element.click()
         self.md.ClickcloseFile()
+        self.logger.info("TC_09	Verify the View Button To ensure that List view and Grid view is able to select")
         self.md.ClickViewMode()
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//span[text()='" + self.searchFile + "']"))
         )
         element.click()
         self.md.ClickcloseFile()
+        self.logger.info("TC_10	Verify the Filter buttonTo ensure that Filter's List options able to select")
         self.md.ClickFilter()
         self.md.ClickAllCheckBox()
         self.md.setSearchField(self.first_name1)
@@ -343,6 +348,7 @@ class TestMediaDrive(BaseClass):
                 assert False
 
         self.md.setSearchField(self.first_name2)
+        self.logger.info("***** TC_20 	Verify 'Share' option****")
         self.md.clickthreeDotsMenu()
         self.md.clickthreeDotsShare()
         self.md.clickdownArrow()
@@ -372,6 +378,7 @@ class TestMediaDrive(BaseClass):
         self.md.setTabSearch(self.first_name2)
         time.sleep(2)
         self.md.clickthreeDotsMenu()
+        self.logger.info("*****TC_33	Verify 'Rename' option****")
         self.md.clickthreedotsRename()
         self.md.clickCancelRename()
         self.lp.clickLogout()
@@ -384,7 +391,9 @@ class TestMediaDrive(BaseClass):
         self.md.clickMediaDrive()
         self.md.clickthreeDotsMenu()
         self.md.clickthreeDotsShare()
+        self.logger.info("***TC_22	Verify the access dropdown for each individual network company****")
         self.md.clickdownArrow()
+        self.logger.info("***TC_23	Verify the None, View and Edit options***")
         self.md.clickNone()
         self.md.clickDone()
         xpath = "//div[contains(text(),'Access updated successfully')]"
@@ -407,6 +416,7 @@ class TestMediaDrive(BaseClass):
         self.lp.clickNewsFeed()
         self.md = mediaDrivePage(self.driver)
         self.md.clickMediaDrive()
+        self.logger.info("****TC_50	Verify the Shared with me Tab****")
         self.md.clickTabSharedWithMe()
         self.md.setTabSearch(self.first_name2)
         element = WebDriverWait(self.driver, 10).until(
@@ -483,6 +493,7 @@ class TestMediaDrive(BaseClass):
         self.md.setSearchField(self.searchFile)
         time.sleep(2)
         self.md.clickthreeDotsMenu()
+        self.logger.info("***TC_15	Verify the 'Move To' option***")
         self.md.clickMoveTothreeDots()
         self.md.setMoveToSearchInput(self.first_name3)
         element = WebDriverWait(self.driver, 10).until(

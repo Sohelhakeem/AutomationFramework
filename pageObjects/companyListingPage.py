@@ -39,6 +39,8 @@ class companyListingPage:
             EC.element_to_be_clickable((By.XPATH, self.searchFiled_xpath))
         )
         element.send_keys(name)
+        time.sleep(2)
+
     def clicksubscription(self):
         # time.sleep(3)
         element = WebDriverWait(self.driver, 10).until(

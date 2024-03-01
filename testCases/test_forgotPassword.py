@@ -39,12 +39,12 @@ class TestForgotPassword(unittest.TestCase):
     @pytest.mark.regression(order=1)
     def test_forgotPasswordValid(self):
 
-        self.logger.info("Started Verify the Forgot Password Functionality Test")
+        self.logger.info("***** TS_2	TC_01  Started Verify the Forgot Password Functionality Test*****")
         self.fp = forgotPasswordPage(self.driver)
         self.fp.clickforgotPassword()
         self.fp.setEmail(self.username)
         self.fp.clickSendButton()
-        self.logger.info("TS_2 : 1.Verify that a user can successfully request a password reset email.")
+        self.logger.info("TS_2 TC_01   Verify that a user can successfully request a password reset email.")
         # Execute JavaScript to open a new tab
         self.driver.execute_script("window.open('about:blank', '_blank');")
 
@@ -73,7 +73,7 @@ class TestForgotPassword(unittest.TestCase):
         self.driver.switch_to.window(self.driver.window_handles[0])
         # self.fp.clickOtp()
         self.fp.setOtp(getOTP)
-        self.logger.info("TS_2 : 2.Verify that the user can successfully reset their password.")
+        self.logger.info("TS_2  TC_02  Verify that the user can successfully reset their password.")
         self.fp.setNewPass(self.password)
         self.fp.setConPass(self.password)
         self.fp.clickResetPass()
@@ -95,13 +95,13 @@ class TestForgotPassword(unittest.TestCase):
         self.fp.clickforgotPassword()
         self.fp.setEmail(self.username)
         self.fp.clickSendButton()
-        self.logger.info("TS_2 : 3.Verify that the user can successfully reset their password. with invalid OTP")
+        self.logger.info("TS_2 TC_03  Verify that the user can successfully reset their password. with invalid OTP")
         # self.fp.clickOtp()
         self.fp.setOtp("123456")
         self.fp.setNewPass(self.password)
         self.fp.setConPass("1234")
         self.fp.clickResetPass()
-        self.logger.info("TS_2 : 4.Verify that the password reset process fails if the new password and confirmation do not match.")
+        self.logger.info("TS_2  TC_04  Verify that the password reset process fails if the new password and confirmation do not match.")
         if "Password did not match" in self.driver.page_source:
             self.logger.info("********** Verify the Forgot Password Functionality Test is passed *********")
 
