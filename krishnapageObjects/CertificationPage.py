@@ -48,7 +48,7 @@ class Certification:
     signdesignation_xpath = "//input[@name='signDesignation']"
     templatesave_xpath = "//button[normalize-space()='Save']"
     edittemplate_xpath = "//div[@class='flexAutoRow pdngHXXS alignCntr']//span[@class='flexInline primaryTxt pointer']"
-    templatepublish_xpath = "//button[normalize-space()='Publish']"
+    templatepublish_xpath = "//button[contains(text(),'Publish')]"
     certification_xpath = "//span[normalize-space()='Certification']"
     certificationname_xpath = "//input[@type='text']"
     certificationdescription_xpath = "//textarea[@id='description']"
@@ -78,6 +78,10 @@ class Certification:
     templatedelete_xpath = "(//*[name()='svg'][@aria-label='Delete'])[1]"
     questionbankdelete_xpath = "(//span[@class='flexInline'])[4]"
     acronymdelete_xpath = "//tbody//div[2]//span[1]"
+    scrollnote_xpath = "//input[@value='QA']"
+    publishedtab_xpath = "//body/div[@id='root']/div[1]/div[1]/div[2]/div[2]/div[3]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/button[1]"
+    unpublishedtab_xpath = "//body/div[@id='root']/div[1]/div[1]/div[2]/div[2]/div[3]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/button[2]"
+    scrollupto_xpath = "//span[contains(text(),'Publish the certificate to selected relations')]"
 
 
 
@@ -87,7 +91,44 @@ class Certification:
     def __init__(self, driver):
         self.driver = driver
 
+    def scroll_to_end_of_page(self):
+        # Get initial scroll height
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
 
+        while True:
+            # Scroll down to the bottom
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+            # Wait for a short while to let content load (optional)
+            time.sleep(1)
+
+            # Calculate new scroll height and compare with the last scroll height
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                # If scroll height no longer changes, we've reached the end of the page
+                break
+            last_height = new_height
+
+    def scrollupto(self):
+        element = self.driver.find_element(By.XPATH, self.scrollupto_xpath)
+        # Scroll to the bottom of the page
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);", element)
+
+
+    def clickonpublishedtab(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.publishedtab_xpath).click()
+
+    def clickonunpublishedtab(self):
+        time.sleep(1)
+        self.driver.find_element(By.XPATH,self.unpublishedtab_xpath).click()
+
+    def scrollnote(self):
+        element = self.driver.find_element(By.XPATH, self.scrollnote_xpath)
+        # Scroll to the bottom of the page
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);", element)
     def clickoncertificationprogramme(self):
         time.sleep(1)
         self.driver.find_element(By.XPATH,self.certificationprogramme_xpath).click()
@@ -113,7 +154,7 @@ class Certification:
 
 
     def setsearch(self,search):
-        time.sleep(2)
+        # time.sleep(2)
         WebDriverWait(self.driver,10).until(
             EC.element_to_be_clickable((By.XPATH,self.search_xpath))
         )
@@ -140,7 +181,15 @@ class Certification:
         self.driver.find_element(By.XPATH,self.firstanswer_xpath).send_keys(firstanswer)
 
     def clickonadd(self):
-        self.driver.find_element(By.XPATH,self.add_xpath).click()
+        time.sleep(1)
+        element = self.driver.find_element(By.XPATH, self.add_xpath)
+
+        # Scroll to the element using ActionChains
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
+
+        # Click the element
+        element.click()
 
     def setsecondanswer(self,secondanswer):
         self.driver.find_element(By.XPATH,self.secondanswer_xpath).send_keys(secondanswer)
@@ -404,7 +453,14 @@ class Certification:
 
     def clickonpublic(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH,self.public_xpath).click()
+        self.driver.find_element(By.XPATH, self.public_xpath).click()
+
+        # Scroll to the element with smooth behavior
+        # self.driver.execute_script("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });",
+        #                            element_to_scroll)
+
+        # Click on the element
+
 
     def clickonselectmarkingsystemfield(self):
         time.sleep(1)
@@ -580,7 +636,11 @@ class Certification:
 
     def clickonexamcheckbox(self):
         time.sleep(1)
-        self.driver.find_element(By.XPATH,self.examcheckbox_xpath).click()
+        element = self.driver.find_element(By.XPATH,self.examcheckbox_xpath)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(element).perform()
+        element.click()
+
 
     def clickoncertificatedelete(self):
         time.sleep(2)

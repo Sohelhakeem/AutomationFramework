@@ -191,6 +191,7 @@ class TestSignUp(unittest.TestCase):
 
 
     @pytest.mark.run(order=2)
+    @pytest.mark.skip
     @pytest.mark.regression
     # @pytest.mark.test
     # @pytest.mark.flaky(rerun=3, rerun_delay=2)

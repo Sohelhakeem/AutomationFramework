@@ -154,6 +154,9 @@ class Test_001_Certification:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_questioncreation.png")
             assert False
         time.sleep(3)
+        self.cp.clickonpublishedtab()
+        self.cp.clickonunpublishedtab()
+        time.sleep(2)
         self.cp.setsearch(self.enterquestion)
         self.cp.clickonquestionedit()
         self.cp.clickonbuttonedit()
@@ -207,6 +210,11 @@ class Test_001_Certification:
             assert False
         time.sleep(3)
         self.cp.clickonedittemplate()
+        time.sleep(1)
+        # Scroll to the position (1200, 1200)
+        # self.driver.execute_script("window.scrollTo(1920, 1080);")
+        # self.cp.scroll_to_end_of_page()
+        self.cp.scrollnote()
         self.cp.clickontemplatepublish()
         time.sleep(3)
         if "Updated and published successfully" in self.driver.page_source:
@@ -222,6 +230,7 @@ class Test_001_Certification:
         self.cp.clickonmarkingsystemnew()
         self.cp.setcertificationname(certificationname)
         self.cp.setcertificationdescription(self.certificationdescription)
+        self.cp.scrollupto()
         self.cp.clickonpublic()
         self.cp.clickonselectmarkingsystemfield()
         self.cp.clickonacronymselect()
@@ -329,7 +338,7 @@ class Test_001_Certification:
     @pytest.mark.run(order=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_certificationcreating(self, setup):
-        self.logger.info("************* Test_002_Certification **********")
+        self.logger.info("************* Test_001_Certification **********")
         self.driver = setup
         self.driver.get(self.baseURL)
         self.driver.maximize_window()
@@ -412,6 +421,9 @@ class Test_001_Certification:
             self.driver.save_screenshot(".\\Screenshots\\" + "test_questioncreation.png")
             assert False
         time.sleep(3)
+        self.cp.clickonpublishedtab()
+        self.cp.clickonunpublishedtab()
+        time.sleep(2)
         self.cp.setsearch(self.enterquestion)
         self.cp.clickonquestionedit()
         self.cp.clickonbuttonedit()
@@ -466,6 +478,11 @@ class Test_001_Certification:
             assert False
         time.sleep(3)
         self.cp.clickonedittemplate()
+        time.sleep(1)
+        # Scroll to the position (1200, 1200)
+        # self.driver.execute_script("window.scrollTo(1920, 1080);")
+        # self.cp.scroll_to_end_of_page()
+        self.cp.scrollnote()
         self.cp.clickontemplatepublish()
         time.sleep(3)
         if "Updated and published successfully" in self.driver.page_source:
@@ -481,6 +498,7 @@ class Test_001_Certification:
         self.cp.clickonmarkingsystemnew()
         self.cp.setcertificationname(certificationname)
         self.cp.setcertificationdescription(self.certificationdescription)
+        self.cp.scrollupto()
         self.cp.clickonpublic()
         self.cp.clickonselectmarkingsystemfield()
         self.cp.clickonacronymselect()
@@ -530,8 +548,7 @@ class Test_001_Certification:
 
 
 
-
-    @pytest.mark.sanity
+    @pytest.mark.sani
     @pytest.mark.regression
     @pytest.mark.run(order=3)
     # @pytest.mark.skip(reason="Skipping this test")

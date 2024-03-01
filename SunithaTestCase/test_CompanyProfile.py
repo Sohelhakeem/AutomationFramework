@@ -6,6 +6,10 @@ from openpyxl.reader.excel import load_workbook
 # import self
 from selenium import webdriver
 from selenium.webdriver import ActionChains, Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from pageObjects.LoginPage import LoginPage
 from sunithaPageObjects.CompanyProfile import LoginPage
 from utilities.customLogger import LogGen
@@ -87,16 +91,19 @@ class Test_001_Login:
         self.logger.info("****** TC_01	Verify the Banner image/upload/save/edit/delete *****")
         self.lp.BannerImageClick(self.absolute_path3)
         self.lp.SaveBannerImage()
-        time.sleep(3)
-        if "Banner image uploaded successfully." in self.driver.page_source:
-            self.logger.info("********* test_BannerImage Test is Passed ***********")
+        # time.sleep(3)
 
-
-
-        else:
-            self.logger.error("********* test_BannerImage Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_BannerImage.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "// div[contains(text(), 'Banner image uploaded successfully.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
         time.sleep(3)
@@ -227,7 +234,7 @@ class Test_001_Login:
         self.lp.clickLogin()
         # self.lp.clickNewsfeedModule()
         self.lp.clickCompanyProfile()
-        # self.lp.scrollIntoOverView()
+        self.lp.scrollIntoOverView()
         actions = ActionChains(self.driver)
         actions.send_keys(Keys.PAGE_DOWN).perform()
         self.driver.execute_script("window.scrollBy(0, 500);")

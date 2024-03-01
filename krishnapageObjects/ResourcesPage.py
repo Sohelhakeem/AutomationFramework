@@ -72,6 +72,7 @@ class Resources:
     subcategorydelete_xpath = "//div[@aria-label='Delete']"
     Closetoaster_xpath = "//button[@class='Toastify__close-button Toastify__close-button--light']//*[name()='svg']//*[name()='path' and contains(@fill-rule,'evenodd')]"
     contentscroll_xpath = "//body/div[@id='root']/div[1]/div[1]/div[2]/div[2]/div[1]/div[4]/div[1]/div[1]/div[1]"
+    scrollpublic_xpath = "//label[@id='outlined-basic-label']"
 
 
 
@@ -93,6 +94,11 @@ class Resources:
 
         element = self.driver.find_element(By.XPATH,self.contentscroll_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+
+    def scrollpublic(self):
+        element = self.driver.find_element(By.XPATH, self.scrollpublic_xpath)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+
 
 
 
@@ -212,13 +218,6 @@ class Resources:
 
     def clickoncontentcanshare(self):
         time.sleep(2)
-        actions = ActionChains(self.driver)
-
-        # Press the PAGE_DOWN key to scroll down
-        actions.send_keys(Keys.PAGE_DOWN)
-
-        # Perform the scrolling action
-        actions.perform()
         self.driver.find_element(By.XPATH,self.contentcanshare_xpath).click()
 
     def setcontentsectionname(self,contentsectionname):
