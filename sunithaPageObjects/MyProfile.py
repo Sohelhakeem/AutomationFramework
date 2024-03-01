@@ -69,7 +69,8 @@ class MyprofilePage:
     save_button_click_xpath = "(//button[normalize-space()='Save'])[1]"
 
     # ------------------------------------Educational Details
-    unmarried_label_xpath = "//span[normalize-space()='unmarried']"
+    unmarried_label_xpath = "//h4[normalize-space()='Social media links']"
+    # unmarried_label_xpath1 = "(//span[normalize-space()='Present address'])[1]"
     educational_details_button_xpath = "(//button[@aria-label='Edit'])[4]"
     degree_input_id = "degree"
     specialization_input_id = "specialization"
@@ -94,12 +95,16 @@ class MyprofilePage:
     socialMedia_name_dropdown_id = "name"
     socialMedia_selection_xpath = "//li[normalize-space()='Instagram']"
     url_input_id = "url"
-    save_Button_click_xpath = "//button[normalize-space()='Save']"
-
-
+    Closetoaster_xpath = "//button[@class='Toastify__close-button Toastify__close-button--light']//*[name()='svg']//*[name()='path' and contains(@fill-rule,'evenodd')]"
 
     def __init__(self, driver):
         self.driver = driver
+
+    def clickClosetoaster(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.Closetoaster_xpath))
+        )
+        element.click()
 
     def setUserName(self, username):
         #time.sleep(2)
@@ -129,24 +134,23 @@ class MyprofilePage:
         self.driver.find_element(By.XPATH, self.newsFeed_click_xpath).click()
 
     def clickMyProfileModule(self):
-        time.sleep(2)
+        # Wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, self.MyProfile_click_xpath))
+        )
         # Scroll to bring the element into view
-        element = self.driver.find_element(By.XPATH, self.MyProfile_click_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
-        # Wait for a short while to ensure the element is clickable
-        time.sleep(1)
-        # Click the Company Sign Up button
+        # Click the element
         element.click()
-        time.sleep(2)
 
     # -------------------------------------Banner image uploading
     def uploadBannerImage(self,absolute3 ):
-        time.sleep(2)
+        # time.sleep(2)
         # self.driver.find_element(By.ID,self.Banner_image_click_id).send_keys(BannerPath)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.ID, self.Banner_image_click_id)))
         element.send_keys(absolute3)
-        time.sleep(2)
+        # time.sleep(2)
 
     def SaveBannerImage(self):
         # time.sleep(5)
@@ -168,7 +172,7 @@ class MyprofilePage:
 
 
     def BannerImageUpdate(self,absolute4):
-        time.sleep(1)
+        # time.sleep(1)
         # self.driver.find_element(By.XPATH, self.Banner_image_update_xpath).send_keys(self.Update_banner)
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.presence_of_element_located((By.XPATH, self.Banner_image_update_xpath)))
@@ -277,8 +281,9 @@ class MyprofilePage:
         element.click()
 
     def clickToScroll(self):
-        # Scroll to bring the element into view
-        element = self.driver.find_element(By.XPATH, self.personal_details_scroll)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.personal_details_scroll))
+        )
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
         time.sleep(1)
@@ -302,7 +307,8 @@ class MyprofilePage:
         time.sleep(1)
         # self.driver.find_element(By.XPATH, self.updateEdit_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.updateEdit_click_xpath)))
+        element = wait.until(EC.presence_of_element_located((By.XPATH, self.updateEdit_click_xpath)))
+        time.sleep(1)
         element.click()
 
     # -------------------------------------OverView
@@ -333,7 +339,7 @@ class MyprofilePage:
         # time.sleep(2)
         # self.driver.find_element(By.XPATH, self.personalDetails_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.personalDetails_click_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.personalDetails_click_xpath)))
         element.click()
 
     def setfirstName(self,firstName):
@@ -347,25 +353,25 @@ class MyprofilePage:
     def setlastName(self,lastName):
         # time.sleep(2)
         # self.driver.find_element(By.ID, self.lastName_input_id).send_keys(Keys.CONTROL + 'a')
-        self.driver.find_element(By.ID, self.lastName_input_id).send_keys(lastName)
+        # self.driver.find_element(By.ID, self.lastName_input_id).send_keys(lastName)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.ID, self.lastName_input_id)))
+        element = wait.until(EC.element_to_be_clickable((By.ID, self.lastName_input_id)))
         element.send_keys(lastName)
 
     def setEmailAddress(self,emailAddress):
         # time.sleep(2)
-        self.driver.find_element(By.ID,self.emailAddress_input_id).send_keys(Keys.CONTROL + 'a')
+        # self.driver.find_element(By.ID,self.emailAddress_input_id).send_keys(Keys.CONTROL + 'a')
         # self.driver.find_element(By.ID,self.emailAddress_input_id).send_keys(emailAddress)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.ID, self.emailAddress_input_id)))
+        element = wait.until(EC.element_to_be_clickable((By.ID, self.emailAddress_input_id)))
         element.send_keys(emailAddress)
 
     def phoneNumber(self, phoneNumber):
         # time.sleep(2)
-        self.driver.find_element(By.XPATH, self.phoneNumber_input_id).send_keys(Keys.CONTROL + 'a')
+        # self.driver.find_element(By.XPATH, self.phoneNumber_input_id).send_keys(Keys.CONTROL + 'a')
         # self.driver.find_element(By.XPATH, self.phoneNumber_input_id).send_keys(phoneNumber)
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.XPATH, self.phoneNumber_input_id)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.phoneNumber_input_id)))
         element.send_keys(phoneNumber)
 
     def genderRadiobutton(self):
@@ -400,25 +406,27 @@ class MyprofilePage:
         # time.sleep(2)
         # self.driver.find_element(By.XPATH,self.save_button_click_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.save_button_click_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.save_button_click_xpath)))
         element.click()
         time.sleep(1)
 
 
         # ------------------------------Educational Details
+
     def clickToScrolll(self):
-        # Scroll to bring the element into view
         element = self.driver.find_element(By.XPATH, self.unmarried_label_xpath)
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
         # Wait for a short while to ensure the element is clickable
         time.sleep(1)
 
+
     def educatinalDetails(self):
         # time.sleep(1)
-        self.driver.find_element(By.XPATH,self.educational_details_button_xpath).click()
-        # wait = WebDriverWait(self.driver, 10)
-        # element = wait.until(EC.visibility_of_element_located((By.XPATH, self.educational_details_button_xpath)))
-        # element.click()
+        # self.driver.find_element(By.XPATH,self.educational_details_button_xpath).click()
+        wait = WebDriverWait(self.driver, 10)
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.educational_details_button_xpath)))
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'start', inline: 'nearest'});", element)
+        element.click()
 
     def degreeField(self,degree):
         # time.sleep(2)
@@ -457,7 +465,7 @@ class MyprofilePage:
         # time.sleep(2)
         # self.driver.find_element(By.XPATH,self.Address_edit_button_xpath).click()
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Address_edit_button_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.Address_edit_button_xpath)))
         element.click()
 
     def addressField(self,addressInput):

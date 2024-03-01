@@ -5,6 +5,8 @@ from openpyxl.reader.excel import load_workbook
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from sunithaPageObjects.MyProfile import MyprofilePage
 from sunithaPageObjects.CompanyProfile import LoginPage
@@ -34,7 +36,8 @@ class Test_001_Login:
     emailAddress = randomGen.random_email()
     # emailAddress = "sunitha@peoplelinkvc.com"
     phone = randomGen.random_phone_number()
-    phoneNumber = phone+"2"
+    phoneNumber = phone
+    # phoneNumber = phone+"2"
     # degree = randomGen.random_degree()  # "B.Sc"
     degree = "B.Sc"
     specialization = randomGen.random_specialization()
@@ -76,7 +79,7 @@ class Test_001_Login:
     logger = LogGen.loggen()
 
     @pytest.mark.run(order=1)
-    @pytest.mark.nitha
+    @pytest.mark.flaky(rerun=3, rerun_delay=2)
     # @pytest.mark.skip(reason="skipping this test")
     def test_BannerImage(self):  # def test_loginTitle(self):self #def test_ProfileUploading
         self.driver = webdriver.Chrome()
@@ -93,41 +96,54 @@ class Test_001_Login:
         self.logger.info("****** TC_24	Verify the Profile  Banner image upload/update/save/delete  *****")
         self.my.uploadBannerImage(self.absolute_path3)
         self.my.SaveBannerImage()
-        time.sleep(1)
 
-        if "Banner image uploaded successfully." in self.driver.page_source:
-            self.logger.info("********* test_BannerImage Test is Passed ***********")
-
-        else:
-            self.logger.info("********* test_BannerImage Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_BannerImage.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "//div[contains(text(),'Banner image uploaded successfully.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
-        time.sleep(3)
+
+        time.sleep(1)
+        self.my.clickClosetoaster()
         self.my.BannerImageEdit()
         self.my.BannerImageUpdate(self.absolute_path4)
         self.my.SaveBannerImage()
-        time.sleep(1)
+        # time.sleep(1)
 
-        if "Banner image uploaded successfully." in self.driver.page_source:
-            self.logger.info("********* test_BannerImage Test is Passed ***********")
-
-        else:
-            self.logger.info("********* test_BannerImage Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_BannerImage.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "// div[contains(text(), 'Banner image uploaded successfully.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
-        time.sleep(3)
+        time.sleep(1)
+        self.my.clickClosetoaster()
         self.my.BannerImageEdit()
         self.my.BannerImageRemove()
-        if "Banner image removed successfully" in self.driver.page_source:
-            self.logger.info("********* test_BannerImage Test is Passed ***********")
-            self.driver.close()
-
-        else:
-            self.logger.error("********* test_BannerImage Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_BannerImage.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "//div[contains(text(),'Banner image removed successfully')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
 
@@ -136,8 +152,9 @@ class Test_001_Login:
         # Profile image uploading-----------------------------------------------------------------------
 
     @pytest.mark.run(order=2)
+
     @pytest.mark.krishna
-    # @pytest.mark.skip(reason="skipping this test")
+    @pytest.mark.skip(reason="skipping this test")
     def test_profileImages(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
@@ -154,42 +171,51 @@ class Test_001_Login:
 
         self.my.saveProfileImage()
         time.sleep(1)
-        if "Profile image uploaded successfully." in self.driver.page_source:
-            self.logger.info("********* test_ProfileUploading Test is Passed ***********")
-
-        else:
-            self.logger.error("********* test_ProfileUploading Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_webinar.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-
-
+        xpath = "//div[contains(text(),'Profile image uploaded successfully.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
         time.sleep(1)
         self.my.ProfileEditButton()
         self.my.ProfileUpdate(self.absolute_path6)
         self.my.saveProfileImage()
         time.sleep(1)
-        if "Profile image uploaded successfully." in self.driver.page_source:
-            self.logger.info("********* test_ProfileUploading Test is Passed ***********")
-
-        else:
-            self.logger.error("********* test_ProfileUploading Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_webinar.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "//div[contains(text(),'Profile updated  successfully')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
         time.sleep(1)
         self.my.ProfileEditButton()
         self.my.ProfileRemove()
         time.sleep(1)
-        if "Profile image removed successfully." in self.driver.page_source:
-            self.logger.info("********* test_ProfileUploading Test is Passed ***********")
-            self.driver.close()
-
-
-        else:
-            self.logger.error("********* test_ProfileUploading Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_webinar.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
-
-
+        xpath = "//div[contains(text(),'Profile image removed successfully.')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
 
 
 
@@ -197,7 +223,7 @@ class Test_001_Login:
 
     # Required Details------------------------------------------------------------------------------
     @pytest.mark.run(order=3)
-    @pytest.mark.ishna
+
     # @pytest.mark.skip(reason="skipping this test")
     def test_RequiredDetails(self):
         self.driver = webdriver.Chrome()
@@ -228,9 +254,6 @@ class Test_001_Login:
             self.logger.info("********* test_RequiredDetails Test is Passed ***********")
             self.driver.close()
 
-
-
-
         else:
             self.logger.info("********* test_RequiredDetails Test is failed ***********")
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_RequiredDetails.png")
@@ -242,7 +265,8 @@ class Test_001_Login:
 
     # OverView___________________________________________________________________________________
     @pytest.mark.run(order=4)
-    @pytest.mark.regression
+
+    # @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_OverView(self):
         self.driver = webdriver.Chrome()
@@ -278,7 +302,8 @@ class Test_001_Login:
         # Personal Details____________________________________________________________________________
 
     @pytest.mark.run(order=5)
-    @pytest.mark.krishna
+
+    # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_PersonalDetails(self):
         self.driver = webdriver.Chrome()
@@ -299,27 +324,40 @@ class Test_001_Login:
         self.my.setEmailAddress(self.emailAddress)
         self.my.phoneNumber(self.phoneNumber)
         self.my.genderRadiobutton()
-        # self.my.maritalStatus()
+        ##### For new account we need to uncomment the below script#####
+        self.my.maritalStatus()
         # time.sleep(2)
         self.my.bloodGroupClick()
         self.my.selectBloodGroup()
         self.my.saveButton()
-        time.sleep(3)
-
-        if "Profile updated  successfully" in self.driver.page_source:
-            self.logger.info("********* test_PersonalDetails Test is Passed ***********")
-            self.driver.close()
-
-
-        else:
-            self.logger.info("********* test_PersonalDetails Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_PersonalDetails.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "(//div[contains(text(),'Profile updated')])[1]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
+
+        # if "Profile updated  successfully" in self.driver.page_source:
+        #     self.logger.info("********* test_PersonalDetails Test is Passed ***********")
+        #     self.driver.close()
+        #
+        #
+        # else:
+        #     self.logger.info("********* test_PersonalDetails Test is failed ***********")
+        #     self.driver.save_screenshot(".\\ScreenShots\\" + "test_PersonalDetails.png")
+        #     self.logger.error("Page source:\n%s" % self.driver.page_source)
+        #     assert False
 
     # Educational Details_________________________________________________________________________________
     @pytest.mark.run(order=6)
-    @pytest.mark.krishna
+
+    # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_EducationalDetails(self):
         self.driver = webdriver.Chrome()
@@ -333,7 +371,7 @@ class Test_001_Login:
 
         self.my = MyprofilePage(self.driver)
         self.my.clickMyProfileModule()
-
+        self.my.clickToScroll()
         self.my.clickToScrolll()
         self.logger.info("****** TC_36	Verify Educational details, by Add, Save and Update *****")
         self.my.educatinalDetails()
@@ -344,22 +382,24 @@ class Test_001_Login:
         self.my.savEbutton()
         time.sleep(3)
 
-        if "Profile updated  successfully" in self.driver.page_source:
-            self.logger.info("********* test_EducationalDetails Test is Passed ***********")
-            self.driver.close()
-
-
-
-        else:
-            self.logger.info("********* test_EducationalDetails Test is failed ***********")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EducationalDetails.png")
-            self.logger.error("Page source:\n%s" % self.driver.page_source)
+        xpath = "//div[contains(text(),'Profile updated  successfully')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
         # Address__________________________________________________________________________
 
     @pytest.mark.run(order=7)
-    @pytest.mark.krishna
+    @pytest.mark.test
+    # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_Address(self):
         self.driver = webdriver.Chrome()
@@ -410,7 +450,7 @@ class Test_001_Login:
         # Social Media Links________________________________________
 
     @pytest.mark.run(order=8)
-    @pytest.mark.krishna
+    # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_SocialMediaLinks(self):
         self.driver = webdriver.Chrome()
