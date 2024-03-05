@@ -16,8 +16,9 @@ from utilities.customLogger import LogGen
 from pageObjects.randomGen import randomGen
 from utilities.readProperties import ReadConfig
 from sunithaPageObjects.MyProfile import MyprofilePage
+from GenericLib.BaseClass import BaseClass
 
-class Test_001_Login:
+class TestCompanyProfile(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     # username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
@@ -77,13 +78,9 @@ class Test_001_Login:
 
 
     @pytest.mark.regression
-
     @pytest.mark.run(order=1)
     # @pytest.mark.skip(reason="skipping this test")
     def test_BannerImage(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -147,13 +144,10 @@ class Test_001_Login:
             assert False
 
     @pytest.mark.run(order=2)
-    @pytest.mark.test
+    # @pytest.mark.test
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_ProfileImage(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -212,13 +206,9 @@ class Test_001_Login:
             assert False
 
     @pytest.mark.run(order=3)
-
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_OfficialDetails(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -255,10 +245,6 @@ class Test_001_Login:
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_OverView(self):
-
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -266,9 +252,7 @@ class Test_001_Login:
         # self.lp.clickNewsfeedModule()
         self.lp.clickCompanyProfile()
         self.lp.scrollIntoOverView()
-        # actions = ActionChains(self.driver)
-        # actions.send_keys(Keys.PAGE_DOWN).perform()
-        # self.driver.execute_script("window.scrollBy(0, 500);")
+
         self.logger.info("****** TC_11	Verify the Overview, by Add, Save and Update  *****")
         time.sleep(2)
         self.lp.clickEdit()
@@ -308,9 +292,6 @@ class Test_001_Login:
     @pytest.mark.sunitha
     # @pytest.mark.skip(reason="skipping this test")
     def test_Awards(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -340,9 +321,6 @@ class Test_001_Login:
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_socialMediaLinks(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -369,12 +347,9 @@ class Test_001_Login:
 
 
     @pytest.mark.run(order=7)
-    # @pytest.mark.test
-    # @pytest.mark.skip(reason="skipping this test")
+    @pytest.mark.falky(rerun=3, rerun_delay=2)
+    @pytest.mark.regression
     def test_ClickingElements(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         # time.sleep(2)
         self.lp.setUserName(self.username)
@@ -439,10 +414,10 @@ class Test_001_Login:
 
         time.sleep(2)
         self.driver.back()
-        self.driver.back()
+        # self.driver.back()
         self.logger.info("****** TC_25	verify the setting tab by clicking on it *****")
         self.lp.Settings()
         self.logger.info("****** TC_24	verify the news feed by clicking on that  *****")
         self.lp.NewsFeed()
-        self.driver.close()
+
 

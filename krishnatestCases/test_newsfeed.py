@@ -12,9 +12,9 @@ from pageObjects.LoginPage import LoginPage
 from krishnapageObjects.NewsfeedPage import NewsFeed
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
+from GenericLib.BaseClass import BaseClass
 
-
-class Test_001_NewsFeed:
+class TestNewsFeed(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     # username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
@@ -85,29 +85,14 @@ class Test_001_NewsFeed:
 
     logger = LogGen.loggen()  # Logger
 
-    # def setUp(self):
-    #     self.logger = LogGen.loggen()
-    #     self.driver = webdriver.Chrome()
-    #     self.driver.maximize_window()
-    #     self.logger.info("*******Opening URL*******")
-    #     self.driver.get(self.baseURL)
-    #
-    #
-    #
-    # def tearDown(self):
-    #     self.driver.quit()
 
     @pytest.mark.sanity
     @pytest.mark.regression
     @pytest.mark.run(order=1)
     @pytest.mark.flaky(reruns=3,reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedforemployees(self, setup):
+    def test_newsfeedforemployees(self):
         self.logger.info("************* Test_001_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -138,7 +123,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* EmpLogin succesful **********")
         if "Hi,gud mrng employees" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -150,12 +135,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=2)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedforempndrel(self, setup):
+    def test_newsfeedforempndrel(self):
         self.logger.info("************* Test_002_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -187,7 +168,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* relationcompanyLogin succesful **********")
         if "hii,all employees and relation companies" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -199,12 +180,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=3)
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedforpartners(self, setup):
+    def test_newsfeedforpartners(self):
         self.logger.info("************* Test_003_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -237,7 +214,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* partnerLogin succesful **********")
         if "hii,all partners schedule the meeting" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -249,18 +226,13 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=4)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedforarchived(self, setup):
+    def test_newsfeedforarchived(self):
         self.logger.info("************* Test_004_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Login succesful **********")
-
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
         self.nf.clickOnwhat()
@@ -282,7 +254,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "Hi,gud mrng employees" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -295,12 +267,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=5)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedwithimage(self, setup):
+    def test_newsfeedwithimage(self):
         self.logger.info("************* Test_005_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -331,7 +299,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "one image upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             self.logger.error("************* NewsFeed test is failed **********")
@@ -343,12 +311,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=6)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedwith5images(self, setup):
+    def test_newsfeedwith5images(self):
         self.logger.info("************* Test_006_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -384,7 +348,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "five images upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             self.logger.error("************* NewsFeed test is failed **********")
@@ -396,12 +360,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=7)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedwith6images(self, setup):
+    def test_newsfeedwith6images(self):
         self.logger.info("************* Test_007_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -421,7 +381,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "Cannot upload more than 5 images" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -434,11 +394,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=8)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedwithimages(self, setup):
+    def test_newsfeedwithimages(self):
         self.logger.info("************* Test_008_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
@@ -476,7 +433,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "five images upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             self.logger.error("************* NewsFeed test is failed **********")
@@ -489,11 +446,8 @@ class Test_001_NewsFeed:
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
 
-    def test_newsfeedforemployeesvideo(self, setup):
+    def test_newsfeedforemployeesvideo(self):
         self.logger.info("************* Test_009_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
@@ -510,7 +464,7 @@ class Test_001_NewsFeed:
         # self.nf.clickonpost()
         if "Cannot upload greater than 20MB" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -523,12 +477,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=10)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedforemployeesvideos(self, setup):
+    def test_newsfeedforemployeesvideos(self):
         self.logger.info("************* Test_010_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -560,7 +510,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* EmpLogin succesful **********")
         if "uploading videos" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -572,12 +522,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=11)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_newsfeedforempndrelvideo(self, setup):
+    def test_newsfeedforempndrelvideo(self):
         self.logger.info("************* Test_011_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -612,7 +558,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* relationcompanyLogin succesful **********")
         if "uploading youtube videos" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -624,11 +570,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=12)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_editnewsfeedforemployees(self, setup):
+    def test_editnewsfeedforemployees(self):
         self.logger.info("************* Test_012_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
@@ -675,7 +618,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* relationcompanyLogin succesful **********")
         if "Hi,gud mrng employeesEditing the feed" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -687,12 +630,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=13)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_deletenewsfeedforempndrelvideo(self, setup):
+    def test_deletenewsfeedforempndrelvideo(self):
         self.logger.info("************* Test_013_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -725,7 +664,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "News Feed deleted successfully!" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -738,12 +677,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=14)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_archivenewsfeedwith5images(self, setup):
+    def test_archivenewsfeedwith5images(self):
         self.logger.info("************* Test_014_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -788,7 +723,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "five images upload" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -801,11 +736,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=15)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_bookmarknewsfeed(self, setup):
+    def test_bookmarknewsfeed(self):
         self.logger.info("************* Test_015_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
@@ -853,7 +785,7 @@ class Test_001_NewsFeed:
 
         else:
             self.logger.info("************** NewsFeed test is passed **********")
-            self.driver.close()
+            # self.driver.close()
         time.sleep(3)
 
     @pytest.mark.sanity
@@ -861,12 +793,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=16)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_selfposts(self, setup):
+    def test_selfposts(self):
         self.logger.info("************* Test_016_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -896,7 +824,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "hii,all employees and relation companies" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -908,7 +836,7 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=17)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_sharenewsfeed(self, setup):
+    def test_sharenewsfeed(self):
         self.logger.info("************* Test_017_NewsFeed **********")
         self.driver = setup
         self.driver.get(self.baseURL)
@@ -1051,7 +979,7 @@ class Test_001_NewsFeed:
 
         if "https://www.instagram.com/" in self.driver.current_url:
             self.logger.info("********** NewsFeed test is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -1064,12 +992,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=18)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_adminfeed(self, setup):
+    def test_adminfeed(self):
         self.logger.info("************* Test_018_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.usernames3)
         self.lp.setPassword(self.password)
@@ -1101,7 +1025,7 @@ class Test_001_NewsFeed:
         self.logger.info("************* relationcompanyLogin succesful **********")
         if "hii,all employees and relation companies" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
         else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed display is failed **********")
@@ -1113,12 +1037,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=19)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_feedcomment(self, setup):
+    def test_feedcomment(self):
         self.logger.info("************* Test_019_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -1172,7 +1092,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         if "gudmorning all" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
-            self.driver.close()
+            # self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -1185,12 +1105,8 @@ class Test_001_NewsFeed:
     @pytest.mark.run(order=20)
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     # @pytest.mark.skip(reason="Skipping this test")
-    def test_editfeedcomment(self, setup):
+    def test_editfeedcomment(self):
         self.logger.info("************* Test_020_NewsFeed **********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
-        self.driver.maximize_window()
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -1232,7 +1148,7 @@ class Test_001_NewsFeed:
 
         else:
             self.logger.info("************** NewsFeed test is passed **********")
-            self.driver.close()
+            # self.driver.close()
 
-    # if __name__ == '__main__':
-    #     unittest.main(verbosity=2)
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)

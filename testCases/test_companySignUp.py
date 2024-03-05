@@ -16,25 +16,17 @@ from utilities.readProperties import ReadConfig
 from pageObjects.companySignUpPage import companySignUpPage
 from pageObjects.randomGen import randomGen
 from selenium import webdriver
+from GenericLib.BaseClass import BaseClass
 from openpyxl import workbook
 import re
 
-class TestSignUp(unittest.TestCase):
+class TestSignUp(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     setSearchIndustryType = "Information Technology"
     password = ReadConfig.getPassword()
 
-    def setUp(self):
-        self.logger = LogGen.loggen()
-        self.driver = webdriver.Chrome()  # Change to the appropriate driver
-        self.driver.maximize_window()
-        self.driver.implicitly_wait(20)
-    def tearDown(self):
-        self.driver.quit()
-
     @pytest.mark.run(order=1)
     @pytest.mark.regression
-    @pytest.mark.test
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
@@ -184,17 +176,12 @@ class TestSignUp(unittest.TestCase):
 
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']").click()
-        self.driver.close()
-
-    if __name__ == '__main__':
-        unittest.main(verbosity=2)
+        # self.driver.close()
 
 
     @pytest.mark.run(order=2)
-    @pytest.mark.skip
     @pytest.mark.regression
-    # @pytest.mark.skip
-    # @pytest.mark.flaky(rerun=3, rerun_delay=2)
+    @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_ListingSignUpCompany(self):
         Url = "https://preprodanalytics.inlynk.com/license"
         username = "sowjanyapreprod@yopmail.com"

@@ -13,7 +13,7 @@ from utilities.customLogger import LogGen
 from utilities.readProperties import ReadConfig
 
 
-class Test_001_Webinar:
+class Test_Webinar:
     workbook = load_workbook("TestData/LoginData.xlsx")
 
     # Access the active worksheet

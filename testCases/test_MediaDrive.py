@@ -33,10 +33,11 @@ class TestMediaDrive(BaseClass):
 
     workbook = load_workbook("TestData/LoginData.xlsx")
     worksheet = workbook.active
-    username = worksheet["I2"].value
+    username = worksheet["A2"].value
     username2 = worksheet["I3"].value
-    EmpName = worksheet["J2"].value
-    CompayName = worksheet["J2"].value
+    EmpName = worksheet["C6"].value
+    EmpEmail = worksheet["B6"].value
+    EmpName2 = worksheet["A6"].value
 
     password = ReadConfig.getPassword()
     workbook.close()
@@ -44,8 +45,8 @@ class TestMediaDrive(BaseClass):
     logger = LogGen.loggen()
 
     @pytest.mark.regression
-    @pytest.mark.test
-    @pytest.mark.skip("created a common method")
+    # @pytest.mark.test
+    # @pytest.mark.skip("created a common method")
     @pytest.mark.run(order=1)
     def test_MediaDrive(self):
         self.logger.info("****Started Login Test****")
@@ -182,8 +183,7 @@ class TestMediaDrive(BaseClass):
         #         assert False
 
     @pytest.mark.regression
-    @pytest.mark.test
-
+    # @pytest.mark.test
     # @pytest.mark.flaky(rerun=3, rerun_delay=2)
     @pytest.mark.run(order=4)
     def test_MediaDriveSearchViewFilter(self):
@@ -742,6 +742,145 @@ class TestMediaDrive(BaseClass):
             self.logger.info(f"Text Not Found")
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
+
+    @pytest.mark.test
+    @pytest.mark.run(order=10)
+    def test_MediaDriveEmployeeCreateMedia(self):
+        self.logger.info("****Started Login Test****")
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(self.EmpEmail)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.md = mediaDrivePage(self.driver)
+        self.md.clickMediaDrive()
+        self.md.clickButtonNew()
+        self.md.clickCreateFolder()
+        self.md.setinputFolderName(self.first_name1)
+        self.md.clickbuttonCreate()
+        xpath = "//div[contains(text(),'Folder created successfully')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
+
+        self.md.clickClosetoaster()
+
+        self.md.setSearchField(self.first_name1)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[text()='" + self.first_name1 + "']"))
+        )
+        element.click()
+
+        # File Upload
+        self.md.clickButtonNew()
+
+        self.md.setUploadFiles(self.file_path)
+
+        xpath_success_message = "//div[contains(text(),'File uploaded successfully')]"
+        xpath_popup = "//body/div[@role='presentation']/div[@role='presentation']/div[@role='dialog']/div[@class='MuiDialogContent-root css-1ty026z']/p[@class='MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiDialogContentText-root css-o3d33y']/div[@class='MuiFormControl-root css-13sljp9']/div[@role='radiogroup']/label[1]/span[1]"
+        xpath_upload = "//button[normalize-space()='Upload']"
+
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath_success_message))
+            )
+            self.logger.info(f"Text Found: {element.text}")
+            assert True
+
+        except TimeoutException:
+            self.logger.info("Success Message Not Found")
+
+            try:
+                popup_element = WebDriverWait(self.driver, 5).until(
+                    EC.presence_of_element_located((By.XPATH, xpath_popup))
+                )
+                popup_element.click()
+                popup_element1 = WebDriverWait(self.driver, 5).until(
+                    EC.presence_of_element_located((By.XPATH, xpath_upload))
+                )
+                popup_element1.click()
+
+                element = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, xpath_success_message))
+                )
+                self.logger.info(f"Text Found: {element.text}")
+                assert True
+
+            except TimeoutException:
+                self.logger.info("Pop-up or Success Message Not Found")
+                self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveCreationAndUpload.png")
+                assert False
+
+
+    @pytest.mark.test
+    @pytest.mark.run(order=11)
+    def test_TrashEmployeeMedia(self):
+        self.test_MediaDrive()
+        self.md.clickTabEmployee()
+        self.md.setSearchField(self.EmpName2)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[text()='" + self.EmpName2 + "']"))
+        )
+        element.click()
+        self.md.setSearchField(self.first_name1)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[text()='" + self.first_name1 + "']"))
+        )
+        element.click()
+        self.md.setSearchField(self.searchFile)
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[text()='" + self.searchFile + "']"))
+        )
+        element.click()
+        self.md.ClickcloseFile()
+        self.md.clickonMainFile()
+        self.md.clickDeleteEmpFolder()
+        self.md.ClickconfTrash()
+        xpath = "//div[contains(text(),'File/Folder moved to trash')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
+            assert False
+
+        self.lp.clickLogout()
+        self.logger.info("****Started Login Test****")
+        self.lp.setUserName(self.EmpEmail)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.md = mediaDrivePage(self.driver)
+        self.md.clickMediaDrive()
+        xpath = "//span[text()='There are no items']"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_MediaDriveVerify.png")
+            assert False
+
+
+
+
+
+
 
 if __name__ == "__main__":
     unittest.main()

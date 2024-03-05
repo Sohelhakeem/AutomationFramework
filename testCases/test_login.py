@@ -11,9 +11,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from pageObjects.LoginPage import LoginPage
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
+from GenericLib.BaseClass import BaseClass
 
 
-class TestLogin(unittest.TestCase):
+class TestLogin(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     workbook = load_workbook("TestData/LoginData.xlsx")
 
@@ -27,16 +28,6 @@ class TestLogin(unittest.TestCase):
 
     logger=LogGen.loggen()
 
-    def setUp(self):
-        self.logger = LogGen.loggen()
-        self.driver = webdriver.Chrome()  # Change to the appropriate driver
-        self.driver.maximize_window()
-        self.logger.info("****Opening URL****")
-        self.driver.get(self.baseURL)
-
-    def tearDown(self):
-        self.driver.quit()
-
     @pytest.mark.run(order=2)
     @pytest.mark.regression
     def test_homePageTitle(self):
@@ -45,12 +36,10 @@ class TestLogin(unittest.TestCase):
 
         if act_title=="InLynk - Business Digital Eco System":
             self.logger.info("**** Home page title test passed ****")
-            self.driver.close()
             assert True
         else:
             self.logger.error("**** Home page title test failed****")
             self.driver.save_screenshot(".\\Screenshots\\"+"test_homePageTitle.png")
-            self.driver.close()
             assert False
 
     @pytest.mark.run(order=3)
@@ -73,7 +62,6 @@ class TestLogin(unittest.TestCase):
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_homePageTitle.png")
             self.logger.error("********* ivalid Login password Test is Failed ***********")
-            self.driver.close()
             assert False
 
     @pytest.mark.run(order=4)
@@ -96,7 +84,6 @@ class TestLogin(unittest.TestCase):
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_homePageTitle.png")
             self.logger.error("********* ivalid Login Username Test is Failed ***********")
-            self.driver.close()
             assert False
 
 
@@ -124,14 +111,12 @@ class TestLogin(unittest.TestCase):
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_homePageTitle.png")
             self.logger.error("********* Login Test is Failed ***********")
-            self.driver.close()
             assert False
 
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']"))
         )
         element.click()
-        self.driver.close()
 
     if __name__ == '__main__':
         unittest.main(verbosity=2)

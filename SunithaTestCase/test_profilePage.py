@@ -14,9 +14,9 @@ from pageObjects.randomGen import randomGen
 from utilities.customLogger import LogGen
 from utilities.readProperties import ReadConfig
 from pageObjects.EmployeeModulePage import EmployeeModulePage
+from GenericLib.BaseClass import BaseClass
 
-
-class Test_001_Login:
+class TestMyProfile(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     # username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
@@ -53,21 +53,16 @@ class Test_001_Login:
     # overviewTest = "PeopleLink provides solutions for various room types, including personal, huddle, conference, training & board that facilitate local or remote meetings using high-quality AV solutions, plug & play, remote control, and instant content sharing."
     empid = "8679"
     workbook = load_workbook("TestData/LoginData.xlsx")
-
     # Access the active worksheet
     worksheet = workbook.active
-
     username = worksheet["A2"].value
     usernames4 = worksheet["E2"].value
     usernames5 = worksheet["I2"].value
-
     workbook.close()
     # Load the existing workbook
     wb = load_workbook("TestData/LoginData.xlsx")
-
     # Select the active worksheet
     ws = wb.active
-
     # Update the existing cells with new data
     ws['A2'] = username
     ws['E2'] = usernames4
@@ -79,13 +74,10 @@ class Test_001_Login:
     logger = LogGen.loggen()
 
     @pytest.mark.run(order=1)
-
+    @pytest.mark.regression
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     # @pytest.mark.skip(reason="skipping this test")
     def test_BannerImage(self):  # def test_loginTitle(self):self #def test_ProfileUploading
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -153,13 +145,10 @@ class Test_001_Login:
         # Profile image uploading-----------------------------------------------------------------------
 
     @pytest.mark.run(order=2)
-
+    @pytest.mark.regression
     @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_profileImages(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -224,12 +213,9 @@ class Test_001_Login:
 
     # Required Details------------------------------------------------------------------------------
     @pytest.mark.run(order=3)
-
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_RequiredDetails(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
 
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
@@ -264,14 +250,10 @@ class Test_001_Login:
 
     # OverView___________________________________________________________________________________
     @pytest.mark.run(order=4)
-
+    @pytest.mark.regression
     # @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_OverView(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -301,13 +283,10 @@ class Test_001_Login:
         # Personal Details____________________________________________________________________________
 
     @pytest.mark.run(order=5)
-
+    @pytest.mark.regression
     # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_PersonalDetails(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -345,14 +324,10 @@ class Test_001_Login:
 
     # Educational Details_________________________________________________________________________________
     @pytest.mark.run(order=6)
-
+    @pytest.mark.regression
     # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
     def test_EducationalDetails(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -387,14 +362,10 @@ class Test_001_Login:
         # Address__________________________________________________________________________
 
     @pytest.mark.run(order=7)
-    @pytest.mark.test
+    @pytest.mark.regression
     # @pytest.mark.krishna
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_Address(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)
@@ -443,13 +414,9 @@ class Test_001_Login:
         # Social Media Links________________________________________
 
     @pytest.mark.run(order=8)
-    # @pytest.mark.test
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_SocialMediaLinks(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
-
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setpassword(self.password)

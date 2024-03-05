@@ -14,9 +14,9 @@ from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
 from pageObjects.randomGen import randomGen
 from pageObjects.companySignUpPage import companySignUpPage
+from GenericLib.BaseClass import BaseClass
 
-
-class addEmployees(unittest.TestCase):
+class addEmployees(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     DeptName = "Emp creation QA"
     DeptDescription = "Emp creation Software Testing"
@@ -33,17 +33,6 @@ class addEmployees(unittest.TestCase):
     workbook.close()
 
     logger = LogGen.loggen()
-
-    def setUp(self):
-        self.logger = LogGen.loggen()
-        self.driver = webdriver.Chrome()  # Change to the appropriate driver
-        self.driver.maximize_window()
-        self.driver.implicitly_wait(10)
-        self.logger.info("****Opening URL****")
-        self.driver.get(self.baseURL)
-
-    def tearDown(self):
-        self.driver.quit()
 
     @pytest.mark.run(order=1)
     # @pytest.mark.test

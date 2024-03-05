@@ -1,11 +1,9 @@
 import re
 import time
-# from telnetlib3 import EC
-
+import unittest
 
 import pytest
 from openpyxl.reader.excel import load_workbook
-from openpyxl.workbook import Workbook
 from selenium.common import NoSuchElementException, StaleElementReferenceException, TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -18,24 +16,19 @@ from pageObjects.companySignUpPage import companySignUpPage
 from pageObjects.randomGen import randomGen
 from pageObjects.AddEmployeesPage import AddEmployeesPage
 from pageObjects.EmployeeModulePage import EmployeeModulePage
-from selenium import webdriver
-from openpyxl import workbook
 from selenium.webdriver.support import expected_conditions as EC
-class TestEmployeeSignUp:
+from GenericLib.BaseClass import BaseClass
+
+class TestEmployeeSignUp(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     password = ReadConfig.getPassword()
 
     @pytest.mark.run(order=1)
-
     # @pytest.mark.parametrize("run_number", range(1, 2))
-    @pytest.mark.skip(reason="skip for now")
-    # def test_EmployeeSignUpWithValid(self, run_number, setup):
-    def test_EmployeeSignUpValidWithoutDomain(self, setup):
+    @pytest.mark.regression
+    @pytest.mark.skip
+    def test_EmployeeSignUpValidWithoutDomain(self):
         self.logger = LogGen.loggen()
-        self.logger.info("****Opening URL****")
-        self.driver = setup
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
         self.logger.info("******** User is on Login page ***********")
 
@@ -57,8 +50,6 @@ class TestEmployeeSignUp:
         ws['A6'] = first_name
         ws['B6'] = email
         # ws['C6'] = phone_number
-
-
 
         # Save the workbook
         wb.save("TestData/LoginData.xlsx")
@@ -181,14 +172,9 @@ class TestEmployeeSignUp:
         # self.driver.close()
 
     @pytest.mark.run(order=2)
-    # @pytest.mark.test
-    # @pytest.mark.skip(reason="Skipping this test")
-    def test_EmployeeSignUpWith_inValid_Data(self, setup):
+    @pytest.mark.regression
+    def test_EmployeeSignUpWith_inValid_Data(self):
         self.logger = LogGen.loggen()
-        self.logger.info("****Opening URL****")
-        self.driver = setup
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
         self.logger.info("******** User is on Login page ***********")
 
@@ -251,23 +237,10 @@ class TestEmployeeSignUp:
                 assert False
 
     @pytest.mark.run(order=5)
-    @pytest.mark.test
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
-    def test_ApproveSignedUpEmployee(self, setup):
-        # to use same class different test method
-        self.test_EmployeeSignUpValidWithoutDomain(setup)
-        # Create an instance of LoginTestClass
-        # login_test_instance = LoginTestClass()
-        # # Call the test method from LoginTestClass
-        # login_test_instance.test_EmployeeSignUpWith_inValid_Data(setup)
-
-        # self.logger = LogGen.loggen()
-        # self.logger.info("****Opening URL****")
-        # self.driver = setup
-        # self.driver.maximize_window()
-        # self.driver.get(self.baseURL)
-        # self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
-        # self.logger.info("******** User is on Login page ***********")
+    def test_ApproveSignedUpEmployee(self):
+        self.test_EmployeeSignUpValidWithoutDomain()
         wb = load_workbook("TestData/LoginData.xlsx")
 
         # Select the active worksheet
@@ -341,15 +314,12 @@ class TestEmployeeSignUp:
         element.click()
 
     @pytest.mark.run(order=3)
-    @pytest.mark.tests
+    @pytest.mark.regression
+    @pytest.mark.test
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     # def test_EmployeeSignUpWithValid(self, run_number, setup):
-    def test_EmployeeSignUpValidWithoutDomainAdmin(self, setup):
+    def test_EmployeeSignUpValidWithoutDomainAdmin(self):
         self.logger = LogGen.loggen()
-        self.logger.info("****Opening URL****")
-        self.driver = setup
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
         self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
         self.logger.info("******** User is on Login page ***********")
 
@@ -501,13 +471,12 @@ class TestEmployeeSignUp:
             if error_elements:
                 self.logger.info(f"Found Toast Message: {text}")
                 assert True
-                # self.logger.info("********* Validation of Error message with invalid data test is Passed ***********")
-                # Additional actions can be performed here if needed
+
             else:
                 self.logger.info(f"Toast Message not found: {text}")
                 self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee.png")
                 # self.logger.error("********* Validation of Error message with invalid data test is Failed ***********")
-                self.driver.quit()
+                # self.driver.quit()
                 assert False
 
         # Verify active tab
@@ -526,7 +495,7 @@ class TestEmployeeSignUp:
         else:
             self.logger.info(f"Employee name not found: {element.text}")
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee.png")
-            self.driver.close()
+            # self.driver.close()
             assert False
         element.click()
         self.aep.ClickEmployeeStatus()
@@ -547,27 +516,16 @@ class TestEmployeeSignUp:
         else:
             self.logger.info(f"Employee name not found: {element.text}")
             self.driver.save_screenshot(".\\ScreenShots\\" + "AdminSignedUpEmployeeWithDomain.png")
-            self.driver.close()
-            self.driver.quit()
+            # self.driver.close()
+            # self.driver.quit()
             assert False
 
     @pytest.mark.run(order=4)
-    # @pytest.mark.skip(reason="skip for now")
-    def test_RejectSignedUpEmployee(self, setup):
-        # to use same class different test method
-        self.test_EmployeeSignUpValidWithoutDomain(setup)
-        # Create an instance of LoginTestClass
-        # login_test_instance = LoginTestClass()
-        # # Call the test method from LoginTestClass
-        # login_test_instance.test_EmployeeSignUpWith_inValid_Data(setup)
+    @pytest.mark.regression
+    # @pytest.mark.test
+    def test_RejectSignedUpEmployee(self):
+        self.test_EmployeeSignUpValidWithoutDomain()
 
-        # self.logger = LogGen.loggen()
-        # self.logger.info("****Opening URL****")
-        # self.driver = setup
-        # self.driver.maximize_window()
-        # self.driver.get(self.baseURL)
-        # self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
-        # self.logger.info("******** User is on Login page ***********")
         wb = load_workbook("TestData/LoginData.xlsx")
 
         # Select the active worksheet
@@ -601,13 +559,12 @@ class TestEmployeeSignUp:
             if error_elements:
                 self.logger.info(f"Found Toast Message: {text}")
                 assert True
-                # self.logger.info("********* Validation of Error message with invalid data test is Passed ***********")
-                # Additional actions can be performed here if needed
+
             else:
                 self.logger.info(f"Toast Message not found: {text}")
                 self.driver.save_screenshot(".\\ScreenShots\\" + "test_RejectSignedUpEmployee.png")
                 # self.logger.error("********* Validation of Error message with invalid data test is Failed ***********")
-                self.driver.close()
+                # self.driver.close()
                 assert False
 
         # Verify active tab
@@ -616,12 +573,12 @@ class TestEmployeeSignUp:
         time.sleep(1)
         self.em.setRejectedSearchField(first_name)
         element = self.driver.find_element(By.XPATH, "//span[contains(text(),'" + first_name + "')]")
-        # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
+
 
         if element:
             self.logger.info(f"Found Employee name : {element.text}")
             assert True
-            self.driver.quit()
+            # self.driver.quit()
         else:
             self.logger.info(f"Employee name not found: {element.text}")
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee_Valid_Data.png")
@@ -630,15 +587,11 @@ class TestEmployeeSignUp:
 
     @pytest.mark.smoke
     # change credentials to run
-    # @pytest.mark.skip(reason="skip for now")
+    @pytest.mark.regression
     @pytest.mark.run(order=6)
-    def test_EmployeeSignUpValidWithDomain(self, setup):
+    def test_EmployeeSignUpValidWithDomain(self):
         self.logger = LogGen.loggen()
-        self.logger.info("****Opening URL****")
-        self.driver = setup
-        self.driver.maximize_window()
-        self.driver.get(self.baseURL)
-        self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
+        self.logger.info("******** Starting test_Employee Sign Up Valid With domain***********")
         self.logger.info("******** User is on Login page ***********")
 
         # email = randomGen.random_email()
@@ -767,11 +720,9 @@ class TestEmployeeSignUp:
     @pytest.mark.run(order=7)
     @pytest.mark.regression
     # Change credentials to run
-    # @pytest.mark.flaky(rerun=3, rerun_delay=2)
-    # @pytest.mark.skip(reason="skip for now")
-    def test_ActiveSignedUpEmployeeWithDomain(self, setup):
+    def test_ActiveSignedUpEmployeeWithDomain(self):
         # to use same class different test method
-        self.test_EmployeeSignUpValidWithDomain(setup)
+        self.test_EmployeeSignUpValidWithDomain()
 
         wb = load_workbook("TestData/LoginData.xlsx")
 
@@ -808,11 +759,10 @@ class TestEmployeeSignUp:
         element.click()
 
     @pytest.mark.run(order=8)
-    # @pytest.mark.test
-    # @pytest.mark.flaky(rerun=3, rerun_delay=2)
-    # @pytest.mark.skip(reason="skip for now")
-    def test_AdminSignedUpEmployeeWithDomain(self, setup):
-        self.test_ActiveSignedUpEmployeeWithDomain(setup)
+    @pytest.mark.regression
+
+    def test_AdminSignedUpEmployeeWithDomain(self):
+        self.test_ActiveSignedUpEmployeeWithDomain()
         self.aep.ClickEmployeeStatus()
         self.aep.ClickAdminStatus()
         self.aep.ClickGrantAdmin()
@@ -858,12 +808,11 @@ class TestEmployeeSignUp:
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, adminxpath))
         )
-        # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
 
         if element:
             self.logger.info(f"Found Employee Role : {element.text}")
             assert True
-            self.driver.quit()
+
         else:
             self.logger.info(f"Employee Role not found: {element.text}")
             self.driver.save_screenshot(".\\ScreenShots\\" + "VerifyAdminRole.png")
@@ -871,6 +820,6 @@ class TestEmployeeSignUp:
             self.driver.quit()
             assert False
 
-    # @pytest.mark.parametrize("run_number", range(1, 2))
-    # @pytest.mark.skip(reason="skip for now")
+if __name__ == "__main__":
+    unittest.main()
 

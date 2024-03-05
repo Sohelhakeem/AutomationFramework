@@ -85,7 +85,9 @@ class mediaDrivePage:
     More_Option_xpath = "//button[@aria-label='More Option']"
     AllConfDelete_xpath = "//button[contains(text(),'Delete')]"
 
-
+    # Employees
+    MainFile_xpath = "//span[text()='Main']"
+    DeleteEmpFolder_xpath = "//tbody/tr[1]/td[2]/div[1]/span[1]"
 
 
     def __init__(self, driver):
@@ -270,6 +272,8 @@ class mediaDrivePage:
             EC.element_to_be_clickable((By.XPATH, self.Tab_Employee_xpath))
         )
         element.click()
+
+
     def clickTabTrash(self):
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.Tab_Trash_xpath))
@@ -419,6 +423,16 @@ class mediaDrivePage:
     def clickAllConfDelete(self):
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.AllConfDelete_xpath))
+        )
+        element.click()
+    def clickonMainFile(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.MainFile_xpath))
+        )
+        element.click()
+    def clickDeleteEmpFolder(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.DeleteEmpFolder_xpath))
         )
         element.click()
 

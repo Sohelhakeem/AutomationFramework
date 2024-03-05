@@ -141,6 +141,7 @@ class Certification:
         self.driver.find_element(By.XPATH,self.certificationprogramme_xpath).click()
 
     def clickonmarkingsystem(self):
+        time.sleep(1)
         self.driver.find_element(By.XPATH,self.markingsystem_xpath).click()
 
     def clickonmarkingsystemnew(self):

@@ -4,6 +4,7 @@ import unittest
 import pytest
 from openpyxl.reader.excel import load_workbook
 from selenium import webdriver
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -13,8 +14,9 @@ from pageObjects.LoginPage import LoginPage
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
 
+from GenericLib.BaseClass import BaseClass
 
-class TestLogin(unittest.TestCase):
+class TestNetworks(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     workbook = load_workbook("TestData/LoginData.xlsx")
 
@@ -39,21 +41,10 @@ class TestLogin(unittest.TestCase):
 
     logger = LogGen.loggen()
 
-    def setUp(self):
-        self.logger = LogGen.loggen()
-        self.driver = webdriver.Chrome()  # Change to the appropriate driver
-        self.driver.maximize_window()
-        self.driver.implicitly_wait(10)
-        self.logger.info("****Opening URL****")
-        self.driver.get(self.baseURL)
 
-    def tearDown(self):
-        self.driver.quit()
-
-    # @pytest.mark.smoke(order=1)
-    # @pytest.mark.skip(reason="skip for now")
-    # @order(1)
     @pytest.mark.run(order=1)
+    @pytest.mark.regression
+    @pytest.mark.skip
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_RejectConnectionCompanyAsManufacturer(self):
         self.logger.info("****Started Network Connection Test****")
@@ -90,16 +81,19 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
         self.np.clickOKButton()
@@ -123,15 +117,15 @@ class TestLogin(unittest.TestCase):
         if act_Text == "Connection rejected successfully":
             assert True
             self.logger.info("********* Company Connection rejected Successfully ***********")
-            self.driver.close()
+            # self.driver.close()
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "connection_reject_fail.png")
             self.logger.error("********* Company reject fail ***********")
-            self.driver.close()
+            # self.driver.close()
             assert False
 
     @pytest.mark.run(order=4)
-    # @pytest.mark.smoke(order=2)
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_ConnectionCompanyAsManufacturer(self):
@@ -167,16 +161,19 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
         self.np.clickOKButton()
@@ -201,20 +198,22 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
-
     @pytest.mark.run(order=5)
-    # @pytest.mark.smoke(order=2)
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_ConnectionCompanyAsPartner(self):
@@ -251,16 +250,19 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
         self.np.clickOKButton()
@@ -287,20 +289,23 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
     @pytest.mark.run(order=6)
-    # @pytest.mark.smoke(order=2)
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_ConnectionCompanyAsShareHolder(self):
@@ -337,16 +342,19 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
         self.np.clickOKButton()
@@ -373,23 +381,26 @@ class TestLogin(unittest.TestCase):
 
         # Find elements containing error texts and validate
         for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+            try:
+                # Wait up to 10 seconds until at least one element with the specified text is present
+                error_elements = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+                )
 
-            if error_elements:
-                self.logger.info(f"Found error text: {text}")
-                assert True
+                if error_elements:
+                    self.logger.info(f"Found error text: {text}")
+                    assert True
 
-            else:
-                self.logger.info(f"Error text not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ConnectionCompanyAsManufacturer.png")
-                self.driver.close()
+            except TimeoutException:
+                self.logger.info(f"Error text not found within the specified time: {text}")
+                self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
 
 
     # @pytest.mark.smoke(order=3)
     @pytest.mark.run(order=2)
-    @pytest.mark.test
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_follow_and_unfollow_company(self):
@@ -477,6 +488,7 @@ class TestLogin(unittest.TestCase):
         time.sleep(2)
 
     @pytest.mark.run(order=3)
+    @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     def test_block_and_unblock_the_followed_company(self):
         self.logger.info("****Started Network Connection Test****")
@@ -556,13 +568,6 @@ class TestLogin(unittest.TestCase):
             self.logger.error("************** following company is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
             assert False
-
-
-
-
-
-
-
 
 
         if __name__ == '__main__':
