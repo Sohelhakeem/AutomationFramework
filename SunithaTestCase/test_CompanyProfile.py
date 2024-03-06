@@ -78,7 +78,7 @@ class TestCompanyProfile(BaseClass):
 
 
     @pytest.mark.regression
-    @pytest.mark.run(order=1)
+    @pytest.mark.run(order=36)
     # @pytest.mark.skip(reason="skipping this test")
     def test_BannerImage(self):
         self.lp = LoginPage(self.driver)
@@ -143,7 +143,7 @@ class TestCompanyProfile(BaseClass):
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=37)
     # @pytest.mark.test
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
@@ -205,7 +205,7 @@ class TestCompanyProfile(BaseClass):
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=38)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_OfficialDetails(self):
@@ -240,7 +240,7 @@ class TestCompanyProfile(BaseClass):
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
-    @pytest.mark.run(order=4)
+    @pytest.mark.run(order=39)
     # @pytest.mark.test
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
@@ -287,7 +287,7 @@ class TestCompanyProfile(BaseClass):
             assert False
 
 
-    @pytest.mark.run(order=5)
+    @pytest.mark.run(order=40)
     # @pytest.mark.test
     @pytest.mark.sunitha
     # @pytest.mark.skip(reason="skipping this test")
@@ -316,7 +316,7 @@ class TestCompanyProfile(BaseClass):
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_MediaDriveVerify.png")
             assert False
 
-    @pytest.mark.run(order=6)
+    @pytest.mark.run(order=41)
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
@@ -346,7 +346,7 @@ class TestCompanyProfile(BaseClass):
             assert False
 
 
-    @pytest.mark.run(order=7)
+    @pytest.mark.run(order=42)
     @pytest.mark.falky(rerun=3, rerun_delay=2)
     @pytest.mark.regression
     def test_ClickingElements(self):

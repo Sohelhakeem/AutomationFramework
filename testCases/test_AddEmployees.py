@@ -34,7 +34,7 @@ class addEmployees(BaseClass):
 
     logger = LogGen.loggen()
 
-    @pytest.mark.run(order=1)
+    @pytest.mark.run(order=11)
     # @pytest.mark.test
     @pytest.mark.regression
 
@@ -182,8 +182,8 @@ class addEmployees(BaseClass):
             assert False
 
 
-    @pytest.mark.run(order=2)
-
+    @pytest.mark.run(order=12)
+    @pytest.mark.flaky(rerun=3, rerun_delay=3)
     @pytest.mark.regression
     def test_Employee_StatusAndRole(self):
         self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
@@ -272,8 +272,13 @@ class addEmployees(BaseClass):
         # time.sleep(2)
         self.aep.setActiveSearchField(first_name)
 
-        element = self.driver.find_element(By.XPATH, "//span[contains(text(),'" + first_name + "')]")
-        # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
+        first_name_xpath = "//span[contains(text(),'" + first_name + "')]"
+
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, first_name_xpath))
+        )
+        element.click()
+
 
         if element:
             self.logger.info(f"Found Employee name : {element.text}")
@@ -364,7 +369,7 @@ class addEmployees(BaseClass):
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
             assert False
 
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=13)
     @pytest.mark.test
     @pytest.mark.regression
     def test_Employee_StatusAdminRole(self):

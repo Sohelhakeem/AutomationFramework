@@ -73,7 +73,7 @@ class TestMyProfile(BaseClass):
 
     logger = LogGen.loggen()
 
-    @pytest.mark.run(order=1)
+    @pytest.mark.run(order=28)
     @pytest.mark.regression
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     # @pytest.mark.skip(reason="skipping this test")
@@ -144,7 +144,7 @@ class TestMyProfile(BaseClass):
 
         # Profile image uploading-----------------------------------------------------------------------
 
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=29)
     @pytest.mark.regression
     @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
@@ -212,7 +212,7 @@ class TestMyProfile(BaseClass):
 
 
     # Required Details------------------------------------------------------------------------------
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=30)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_RequiredDetails(self):
@@ -249,7 +249,7 @@ class TestMyProfile(BaseClass):
             assert False
 
     # OverView___________________________________________________________________________________
-    @pytest.mark.run(order=4)
+    @pytest.mark.run(order=31)
     @pytest.mark.regression
     # @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
@@ -282,7 +282,7 @@ class TestMyProfile(BaseClass):
 
         # Personal Details____________________________________________________________________________
 
-    @pytest.mark.run(order=5)
+    @pytest.mark.run(order=32)
     @pytest.mark.regression
     # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
@@ -323,7 +323,7 @@ class TestMyProfile(BaseClass):
 
 
     # Educational Details_________________________________________________________________________________
-    @pytest.mark.run(order=6)
+    @pytest.mark.run(order=33)
     @pytest.mark.regression
     # @pytest.mark.krishna
     # @pytest.mark.skip(reason="skipping this test")
@@ -361,7 +361,7 @@ class TestMyProfile(BaseClass):
 
         # Address__________________________________________________________________________
 
-    @pytest.mark.run(order=7)
+    @pytest.mark.run(order=34)
     @pytest.mark.regression
     # @pytest.mark.krishna
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
@@ -413,7 +413,7 @@ class TestMyProfile(BaseClass):
 
         # Social Media Links________________________________________
 
-    @pytest.mark.run(order=8)
+    @pytest.mark.run(order=35)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skipping this test")
     def test_SocialMediaLinks(self):

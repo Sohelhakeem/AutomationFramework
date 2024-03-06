@@ -20,6 +20,7 @@ from GenericLib.BaseClass import BaseClass
 from openpyxl import workbook
 import re
 
+
 class TestSignUp(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
     setSearchIndustryType = "Information Technology"
@@ -148,7 +149,8 @@ class TestSignUp(BaseClass):
         self.sp.setOtp(getOTP)
 
         time.sleep(2)
-        self.logger.info("******** TC3_1 Verify the Signup page OTP page,  Verify that a user can successfully verify their account with a valid OTP. ***********")
+        self.logger.info(
+            "******** TC3_1 Verify the Signup page OTP page,  Verify that a user can successfully verify their account with a valid OTP. ***********")
         self.sp.clickVerifyButton()
         self.sp.clickContinueToLogin()
         self.logger.info("******** Company Sign Up successful ***********")
@@ -177,7 +179,6 @@ class TestSignUp(BaseClass):
         time.sleep(3)
         self.driver.find_element(By.XPATH, "//div[@class='flexAutoRow alignCntr pdngHXS']").click()
         # self.driver.close()
-
 
     @pytest.mark.run(order=2)
     @pytest.mark.regression
@@ -239,3 +240,6 @@ class TestSignUp(BaseClass):
             self.driver.close()
             self.driver.quit()
             assert False
+
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)

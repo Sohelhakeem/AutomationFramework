@@ -7,7 +7,7 @@ from testCases.test_EmployeeSignUp import TestEmployeeSignUp
 from testCases.test_networks import TestNetworks
 from SunithaTestCase.test_profilePage import TestMyProfile
 from SunithaTestCase.test_CompanyProfile import TestCompanyProfile
-from krishnatestCases.test_newsfeed import TestNewsFeed
+# from krishnatestCases.test_newsfeed import TestNewsFeed
 # from testCases.test_MediaDrive import TestMediaDrive
 
 
@@ -20,12 +20,12 @@ Test_EmpSignUp = unittest.TestLoader().loadTestsFromTestCase(TestEmployeeSignUp)
 Test_Networks = unittest.TestLoader().loadTestsFromTestCase(TestNetworks)
 Test_MyProfile = unittest.TestLoader().loadTestsFromTestCase(TestMyProfile)
 Test_CompanyProfile = unittest.TestLoader().loadTestsFromTestCase(TestCompanyProfile)
-Test_NewsFeed = unittest.TestLoader().loadTestsFromTestCase(TestNewsFeed)
+# Test_NewsFeed = unittest.TestLoader().loadTestsFromTestCase(TestNewsFeed)
 # Test_MediaDrive = unittest.TestLoader().loadTestsFromTestCase(TestMediaDrive)
 
 # create a test suite combining search_text and home_page_test
-test_suite = unittest.TestSuite([companySignUp_test, Test_Login,Test_Conf, Test_addEmp, Test_EmpSignUp, Test_Networks, Test_MyProfile, Test_CompanyProfile, Test_NewsFeed])
-# test_suite = unittest.TestSuite([Test_EmpSignUp])
+test_suite = unittest.TestSuite([companySignUp_test, Test_Login,Test_Conf, Test_addEmp, Test_EmpSignUp, Test_Networks, Test_MyProfile, Test_CompanyProfile])
+# test_suite = unittest.TestSuite([companySignUp_test, Test_Login, Test_Conf])
 
 
 

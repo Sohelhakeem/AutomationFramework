@@ -115,12 +115,13 @@ class AddEmployeesPage:
         element.click()
 
     def setActiveSearchField(self, activeSearchField):
-        time.sleep(1)
+
         element = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.text_activeSearchField_xpath))
         )
         element.clear()
         element.send_keys(activeSearchField)
+        # time.sleep(3)
         # self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).clear()
         # self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).send_keys(activeSearchField)
 

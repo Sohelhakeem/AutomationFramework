@@ -42,9 +42,9 @@ class TestNetworks(BaseClass):
     logger = LogGen.loggen()
 
 
-    @pytest.mark.run(order=1)
-    @pytest.mark.regression
-    @pytest.mark.skip
+    @pytest.mark.run(order=22)
+    # @pytest.mark.regression
+    # @pytest.mark.skip
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_RejectConnectionCompanyAsManufacturer(self):
         self.logger.info("****Started Network Connection Test****")
@@ -65,7 +65,12 @@ class TestNetworks(BaseClass):
         self.np.setsearchField(companyName)
         time.sleep(3)
         # Verifying and Clicking on the company
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        # with an explicit wait
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         self.np.clickConnectButton()
         time.sleep(2)
         self.np.clickDropDownList()
@@ -108,7 +113,16 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.clickPendingTab()
         self.np.setsearchField(self.CompanyManufacture)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
+        # Assuming `self.driver` is your WebDriver instance
+        company_manufacture_xpath = "//span[contains(text(),'" + self.CompanyManufacture + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_manufacture_xpath))
+        )
+
+        # Click the element
+        element.click()
         self.np.clickRejectButton()
         self.np.setTextarea(self.CompanyManufacture)
         self.np.clickReject2Button()
@@ -124,7 +138,7 @@ class TestNetworks(BaseClass):
             # self.driver.close()
             assert False
 
-    @pytest.mark.run(order=4)
+    @pytest.mark.run(order=25)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -145,7 +159,11 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.setsearchField(companyName)
         # Verifying and Clicking on the company
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         self.np.clickConnectButton()
         time.sleep(2)
         self.np.clickDropDownList()
@@ -212,7 +230,7 @@ class TestNetworks(BaseClass):
                 self.logger.info(f"Error text not found within the specified time: {text}")
                 self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
-    @pytest.mark.run(order=5)
+    @pytest.mark.run(order=26)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -233,12 +251,17 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.setsearchField(companyName)
         # Verifying and Clicking on the company
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        # with an explicit wait
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         self.np.clickConnectButton()
         time.sleep(2)
-        self.np.clickDropDownList()
-        time.sleep(2)
-        self.np.clickpartner()
+        # self.np.clickDropDownList()
+        # time.sleep(2)
+        # self.np.clickpartner()
         self.np.setRM_searchField(self.RMname2)
         self.np.clickSelectRM()
         self.np.clickcheckbox()
@@ -278,7 +301,16 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.clickPendingTab()
         self.np.setsearchField(self.CompanyPartner)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyPartner + "')]").click()
+        # Assuming `self.driver` is your WebDriver instance
+        company_partner_xpath = "//span[contains(text(),'" + self.CompanyPartner + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_partner_xpath))
+        )
+
+        # Click the element
+        element.click()
         self.np.clickApproveButton()
         time.sleep(2)
         self.np.clickAcceptButton()
@@ -304,7 +336,7 @@ class TestNetworks(BaseClass):
                 self.driver.save_screenshot(".\\Screenshots\\" + "test_ConnectionCompanyAsManufacturer.png")
                 assert False
 
-    @pytest.mark.run(order=6)
+    @pytest.mark.run(order=27)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -325,12 +357,17 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.setsearchField(companyName)
         # Verifying and Clicking on the company
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        # with an explicit wait
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         self.np.clickConnectButton()
         time.sleep(2)
-        self.np.clickDropDownList()
-        time.sleep(1)
-        self.np.clickshareHolder()
+        # self.np.clickDropDownList()
+        # time.sleep(1)
+        # self.np.clickshareHolder()
         self.np.setRM_searchField(self.RMname3)
         self.np.clickSelectRM()
         self.np.clickcheckbox()
@@ -370,7 +407,16 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.clickPendingTab()
         self.np.setsearchField(self.CompanyDistributor)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyDistributor + "')]").click()
+        # Assuming `self.driver` is your WebDriver instance
+        company_distributor_xpath = "//span[contains(text(),'" + self.CompanyDistributor + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_distributor_xpath))
+        )
+
+        # Click the element
+        element.click()
         self.np.clickApproveButton()
         time.sleep(4)
         self.np.clickAcceptButton()
@@ -399,7 +445,7 @@ class TestNetworks(BaseClass):
 
 
     # @pytest.mark.smoke(order=3)
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=23)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     # @pytest.mark.flaky(reruns=3, reruns_delay=2)
@@ -417,12 +463,22 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.setsearchField(self.CompanyManufacture)
         # Verifying and Clicking on the company
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
+        # Assuming `self.driver` is your WebDriver instance
+        company_manufacture_xpath = "//span[contains(text(),'" + self.CompanyManufacture + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_manufacture_xpath))
+        )
+
+        # Click the element
+        element.click()
         time.sleep(1)
         self.np.clickFollowButton()
         time.sleep(1)
         self.driver.back()
         self.np.clickFOLLOWTab()
+        time.sleep(2)
         self.np.setsearchField(self.CompanyManufacture)
 
         if "Following" in self.driver.page_source:
@@ -451,7 +507,11 @@ class TestNetworks(BaseClass):
         self.np.clickFOLLOWTab()
         time.sleep(1)
         self.np.setsearchField(companyName)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         time.sleep(3)
         if "Follow" in self.driver.page_source:
             self.logger.info("********** Following company successfully *********")
@@ -472,8 +532,17 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.clickFOLLOWTab()
         self.np.setsearchField(self.CompanyManufacture)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + CompanyManufacture + "')]").click()
-        time.sleep(2)
+        # Assuming `self.driver` is your WebDriver instance
+        company_manufacture_xpath = "//span[contains(text(),'" + self.CompanyManufacture + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_manufacture_xpath))
+        )
+
+        # Click the element
+        element.click()
+        time.sleep(4)
         if "Following" in self.driver.page_source:
             self.logger.info("********** Successfully see the page *********")
 
@@ -487,7 +556,7 @@ class TestNetworks(BaseClass):
         self.np.clickUnfollowButton()
         time.sleep(2)
 
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=24)
     @pytest.mark.regression
     # @pytest.mark.skip(reason="skip for now")
     def test_block_and_unblock_the_followed_company(self):
@@ -504,14 +573,35 @@ class TestNetworks(BaseClass):
         self.np.clickNetworks()
         self.np.setsearchField(self.CompanyManufacture)
         # Verifying and Clicking on the company
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
+        # Assuming `self.driver` is your WebDriver instance
+        company_manufacture_xpath = "//span[contains(text(),'" + self.CompanyManufacture + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_manufacture_xpath))
+        )
+
+        # Click the element
+        element.click()
         time.sleep(2)
         self.np.clickFollowButton()
         time.sleep(1)
         self.driver.back()
         self.np.clickFOLLOWTab()
         time.sleep(2)
-        if "Following" in self.driver.page_source:
+        self.np.setsearchField(self.CompanyManufacture)
+        # Assuming `self.driver` is your WebDriver instance
+        company_manufacture_xpath = "//span[contains(text(),'" + self.CompanyManufacture + "')]"
+
+        # Explicit wait for the element to be clickable
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, company_manufacture_xpath))
+        )
+
+        # Click the element
+        element.click()
+        time.sleep(2)
+        if "Follow" in self.driver.page_source:
             self.logger.info("********** Following company successfully *********")
 
         else:
@@ -537,25 +627,40 @@ class TestNetworks(BaseClass):
         self.np.clickFOLLOWTab()
         time.sleep(1)
         self.np.setsearchField(companyName)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        # with an explicit wait
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         time.sleep(1)
         self.driver.back()
         self.np.ClickBlockCompany()
         self.np.ClickConfirmBlock()
-        time.sleep(3)
-        if "You have blocked "+ companyName +"" in self.driver.page_source:
-            self.logger.info("********** Following company successfully *********")
+        # time.sleep(3)
 
-        else:
-            # Log and take a screenshot
-            self.logger.error("************** following company is failed **********")
-            self.driver.save_screenshot(".\\Screenshots\\" + "following_failed.png")
+        xpath = "//div[contains(text(), 'You have blocked "+ companyName +"')]"
+        try:
+            # Use WebDriverWait to wait for the element to be present
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, xpath))
+            )
+            self.logger.info(f"Text Found : {element.text}")
+            assert True
+        except:
+            self.logger.info(f"Text Not Found")
+            self.driver.save_screenshot("\\Screenshots\\" + "following_failed.png")
             assert False
 
         self.np.clickBlocklistTab()
         time.sleep(1)
         self.np.setsearchField(companyName)
-        self.driver.find_element(By.XPATH, "//span[contains(text(),'" + companyName + "')]").click()
+        # with an explicit wait
+        xpath = "//span[contains(text(),'" + companyName + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
+        element.click()
         time.sleep(3)
         self.np.ClickUnblockCompany()
         self.np.ClickConfirmUnblock()

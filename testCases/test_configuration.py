@@ -42,7 +42,7 @@ class TestConfiguration(BaseClass):
     # @pytest.mark.test
 
     @pytest.mark.flaky(rerun=3, reun_delay=2)
-    @pytest.mark.run(order=1)
+    @pytest.mark.run(order=7)
     def test_createDept(self):
         self.logger.info("****Started Login Test****")
         # self.driver = setup
@@ -74,7 +74,7 @@ class TestConfiguration(BaseClass):
             self.logger.error("********* TC_01 : Verify create NEW Department Test is Failed ***********")
 
             assert False
-
+        time.sleep(2)
         self.logger.info(" Started TC_04 : Verify Search Department ")
         self.cp.setsearchField(self.DeptName + " " + self.first_name)
         self.cp.clickopenDept()
@@ -116,7 +116,7 @@ class TestConfiguration(BaseClass):
 
     @pytest.mark.regression
     # @pytest.mark.test
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=8)
     def test_EditDept(self):
         self.logger.info("****TC_02	Verify Edit Department****")
         # self.driver = setup
@@ -195,7 +195,7 @@ class TestConfiguration(BaseClass):
 
     @pytest.mark.regression
     # @pytest.mark.test
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=9)
     def test_DeleteDept(self):
         self.logger.info("****Started Login Test****")
         # self.driver = setup
@@ -294,7 +294,7 @@ class TestConfiguration(BaseClass):
 
     @pytest.mark.regression
     @pytest.mark.flaky(rerun=3, reun_delay=2)
-    @pytest.mark.run(order=4)
+    @pytest.mark.run(order=10)
     def test_CreateConfDept(self):
         self.logger.info("****Started Login Test****")
         # self.driver = setup

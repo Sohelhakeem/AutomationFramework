@@ -28,7 +28,7 @@ class TestLogin(BaseClass):
 
     logger=LogGen.loggen()
 
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=4)
     @pytest.mark.regression
     def test_homePageTitle(self):
         self.logger.info("****Started Home page title test ****")
@@ -42,7 +42,7 @@ class TestLogin(BaseClass):
             self.driver.save_screenshot(".\\Screenshots\\"+"test_homePageTitle.png")
             assert False
 
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=5)
     @pytest.mark.regression
     def test_login_inValid_Password(self):
 
@@ -64,7 +64,7 @@ class TestLogin(BaseClass):
             self.logger.error("********* ivalid Login password Test is Failed ***********")
             assert False
 
-    @pytest.mark.run(order=4)
+    @pytest.mark.run(order=6)
     @pytest.mark.regression
     def test_login_inValid_Username(self):
 
@@ -88,7 +88,7 @@ class TestLogin(BaseClass):
 
 
 
-    @pytest.mark.run(order=1)
+    @pytest.mark.run(order=3)
     @pytest.mark.regression
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_login_Valid_UsernamePassword(self):
