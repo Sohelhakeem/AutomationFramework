@@ -16,11 +16,11 @@ from GenericLib.BaseClass import BaseClass
 
 class TestLogin(BaseClass):
     baseURL = ReadConfig.getApplicationURL()
+
     workbook = load_workbook("TestData/LoginData.xlsx")
 
     # Access the active worksheet
     worksheet = workbook.active
-
     username = worksheet["A2"].value
     password = ReadConfig.getPassword()
 
@@ -90,6 +90,7 @@ class TestLogin(BaseClass):
 
     @pytest.mark.run(order=3)
     @pytest.mark.regression
+    @pytest.mark.test
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_login_Valid_UsernamePassword(self):
 

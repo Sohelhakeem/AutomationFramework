@@ -3,7 +3,7 @@ import string
 
 class randomGen:
     @staticmethod
-    def random_email(size=7, chars=string.ascii_lowercase + string.digits):
+    def random_email(size=8, chars=string.ascii_lowercase + string.digits):
         prefix = random.choice(string.ascii_lowercase)  # Ensure the first character is an alphabet
         prefix += ''.join(random.choice(chars) for _ in range(size - 1))  # Generate remaining characters
         suffix = "@mailcatch.com"

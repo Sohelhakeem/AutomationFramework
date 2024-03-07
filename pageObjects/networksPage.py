@@ -99,7 +99,7 @@ class networksPage:
         wait = WebDriverWait(self.driver, 10)
         element = wait.until(EC.visibility_of_element_located((By.XPATH, self.Button_Follow_xpath)))
         element.click()
-        # time.sleep(2)
+        time.sleep(2)
         # self.driver.find_element(By.XPATH, self.Button_Follow_xpath).click()
 
     def clickFollowingButton(self):

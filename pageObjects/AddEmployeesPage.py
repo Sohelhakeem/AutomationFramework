@@ -121,7 +121,7 @@ class AddEmployeesPage:
         )
         element.clear()
         element.send_keys(activeSearchField)
-        # time.sleep(3)
+        time.sleep(2)
         # self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).clear()
         # self.driver.find_element(By.XPATH, self.text_activeSearchField_xpath).send_keys(activeSearchField)
 
@@ -147,7 +147,7 @@ class AddEmployeesPage:
 
     def ClickEmployeeStatus(self):
         wait = WebDriverWait(self.driver, 10)
-        element = wait.until(EC.visibility_of_element_located((By.XPATH, self.EmployeeStatus_xpath)))
+        element = wait.until(EC.element_to_be_clickable((By.XPATH, self.EmployeeStatus_xpath)))
         element.click()
     def ClickAdminStatus(self):
         wait = WebDriverWait(self.driver, 10)

@@ -26,7 +26,8 @@ class TestEmployeeSignUp(BaseClass):
     @pytest.mark.run(order=14)
     # @pytest.mark.parametrize("run_number", range(1, 2))
     @pytest.mark.regression
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    # @pytest.mark.test
     def test_EmployeeSignUpValidWithoutDomain(self):
         self.logger = LogGen.loggen()
         self.logger.info("******** Starting test_Employee Sign Up with Valid ***********")
@@ -238,6 +239,7 @@ class TestEmployeeSignUp(BaseClass):
 
     @pytest.mark.run(order=18)
     @pytest.mark.regression
+    # @pytest.mark.test
     # @pytest.mark.skip(reason="skip for now")
     def test_ApproveSignedUpEmployee(self):
         self.test_EmployeeSignUpValidWithoutDomain()
@@ -270,27 +272,23 @@ class TestEmployeeSignUp(BaseClass):
         self.em.ClickDesignationDD()
         self.em.ClickSelectDD()
         self.em.ClickApproveButton()
-        time.sleep(3)
-        Verify_texts = [
-            "Employee approved successfully"
-            # Add more error texts if needed
-        ]
+        xpath = "//div[contains(text(), 'Employee approved successfully')]"
+        # Use WebDriverWait to wait for the element to be present
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
 
-        # Find elements containing error texts and validate
-        for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
+        if element:
+            self.logger.info(f"Found Toast Message : {element.text}")
+            assert True
+            # self.driver.quit()
+        else:
+            self.logger.info(f"Toast Message not found: {element.text}")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee.png")
+            self.driver.close()
+            self.driver.quit()
+            assert False
 
-            if error_elements:
-                self.logger.info(f"Found Toast Message: {text}")
-                assert True
-                # self.logger.info("********* Validation of Error message with invalid data test is Passed ***********")
-                # Additional actions can be performed here if needed
-            else:
-                self.logger.info(f"Toast Message not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee.png")
-                # self.logger.error("********* Validation of Error message with invalid data test is Failed ***********")
-                self.driver.quit()
-                assert False
 
         # Verify active tab
         self.logger.info("Verifying the Approved Employee in Active Tab")
@@ -458,35 +456,32 @@ class TestEmployeeSignUp(BaseClass):
         self.em.ClickDesignationDD()
         self.em.ClickSelectDD()
         self.em.ClickApproveButton()
-        time.sleep(3)
-        Verify_texts = [
-            "Employee approved successfully"
-            # Add more error texts if needed
-        ]
+        xpath = "//div[contains(text(), 'Employee approved successfully')]"
+        # Use WebDriverWait to wait for the element to be present
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, xpath))
+        )
 
-        # Find elements containing error texts and validate
-        for text in Verify_texts:
-            error_elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{text}')]")
-
-            if error_elements:
-                self.logger.info(f"Found Toast Message: {text}")
-                assert True
-
-            else:
-                self.logger.info(f"Toast Message not found: {text}")
-                self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee.png")
-                # self.logger.error("********* Validation of Error message with invalid data test is Failed ***********")
-                # self.driver.quit()
-                assert False
+        if element:
+            self.logger.info(f"Found Toast Message : {element.text}")
+            assert True
+            # self.driver.quit()
+        else:
+            self.logger.info(f"Toast Message not found: {element.text}")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_EmployeeSignUpValidWithoutDomainAdmin.png")
+            self.driver.close()
+            self.driver.quit()
+            assert False
 
         # Verify active tab
         self.logger.info("Verifying the Approved Employee in Active Tab")
         self.aep.clickActive()
         time.sleep(1)
         self.aep.setActiveSearchField(first_name1)
-        element = self.driver.find_element(By.XPATH, "//span[contains(text(),'" + first_name1 + "')]")
-        # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
-
+        element_xpath = "//span[contains(text(),'" + first_name1 + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, element_xpath))
+        )
         if element:
             self.logger.info(f"Found Employee name : {element.text}")
             assert True
@@ -585,7 +580,7 @@ class TestEmployeeSignUp(BaseClass):
             self.driver.close()
             assert False
 
-    @pytest.mark.tests
+    # @pytest.mark.test
     # change credentials to run
     # @pytest.mark.flaky(rerun=35, rerun_delay=3)
     @pytest.mark.regression
@@ -721,6 +716,8 @@ class TestEmployeeSignUp(BaseClass):
 
     @pytest.mark.run(order=20)
     @pytest.mark.regression
+    # @pytest.mark.test
+    # @pytest.mark.flaky(rerun=3, rerun_delay=2)
     # Change credentials to run
     def test_ActiveSignedUpEmployeeWithDomain(self):
         # to use same class different test method
@@ -743,10 +740,55 @@ class TestEmployeeSignUp(BaseClass):
         self.em = EmployeeModulePage(self.driver)
 
         self.aep.clickActive()
-        time.sleep(2)
+
         self.aep.setActiveSearchField(first_name)
-        element = self.driver.find_element(By.XPATH, "//span[contains(text(),'" + first_name + "')]")
-        # assert element.text == first_name, f"Expected '{first_name}' but found '{element.text}'"
+
+        element_xpath = "//span[contains(text(),'" + first_name + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, element_xpath))
+        )
+
+        if element:
+            self.logger.info(f"Found Employee name : {element.text}")
+            assert True
+            # self.driver.quit()
+        else:
+            self.logger.info(f"Employee name not found: {element.text}")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_ApproveSignedUpEmployee.png")
+            self.driver.close()
+            assert False
+
+    @pytest.mark.run(order=21)
+    @pytest.mark.regression
+    # @pytest.mark.test
+    def test_AdminSignedUpEmployeeWithDomain(self):
+        # to use same class different test method
+        self.test_EmployeeSignUpValidWithDomain()
+
+        wb = load_workbook("TestData/LoginData.xlsx")
+
+        # Select the active worksheet
+        ws = wb.active
+        email = ws['B10'].value
+        first_name = ws['C10'].value
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(email)
+        self.lp.setPassword("Inlink@123")
+        # self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.lp.clickNewsFeed()
+        self.aep = AddEmployeesPage(self.driver)
+        self.aep.clickEmployeesModule()
+        self.em = EmployeeModulePage(self.driver)
+
+        self.aep.clickActive()
+
+        self.aep.setActiveSearchField(first_name)
+
+        element_xpath = "//span[contains(text(),'" + first_name + "')]"
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, element_xpath))
+        )
 
         if element:
             self.logger.info(f"Found Employee name : {element.text}")
@@ -759,12 +801,6 @@ class TestEmployeeSignUp(BaseClass):
             assert False
 
         element.click()
-
-    @pytest.mark.run(order=21)
-    @pytest.mark.regression
-
-    def test_AdminSignedUpEmployeeWithDomain(self):
-        self.test_ActiveSignedUpEmployeeWithDomain()
         self.aep.ClickEmployeeStatus()
         self.aep.ClickAdminStatus()
         self.aep.ClickGrantAdmin()

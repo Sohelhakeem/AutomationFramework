@@ -26,53 +26,59 @@ class TestSignUp(BaseClass):
     setSearchIndustryType = "Information Technology"
     password = ReadConfig.getPassword()
 
+    email = randomGen.random_email()
+    first_name = randomGen.random_first_name()
+    company_name = randomGen.random_company_name()
+    phone_number = randomGen.random_phone_number()
+    # Load the existing workbook
+    workbook = load_workbook("TestData/LoginData.xlsx")
+
+    # Select the active worksheet
+    worksheet = workbook.active
+
+    # Update the existing cells with new data
+    worksheet['A2'] = email
+    worksheet['B2'] = first_name
+    worksheet['C2'] = company_name
+    worksheet['D2'] = phone_number
+
+    # Save the workbook
+    workbook.save("TestData/LoginData.xlsx")
+    workbook.close()
+    time.sleep(5)
+
     @pytest.mark.run(order=1)
     @pytest.mark.regression
-    @pytest.mark.flaky(rerun=3, rerun_delay=2)
+    @pytest.mark.test
+    # @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
         self.logger.info("********TS_1	TC1_1	Verify the Signup functionality. with positive data. ***********")
         self.logger.info("******** User is on Login page ***********")
-
-        email = randomGen.random_email()
-        first_name = randomGen.random_first_name()
-        company_name = randomGen.random_company_name()
-        phone_number = randomGen.random_phone_number()
-
-        self.logger.info("******** Generating and storing data into excel sheet ***********")
-        # Load the existing workbook
-        wb = load_workbook("TestData/LoginData.xlsx")
-
-        # Select the active worksheet
-        ws = wb.active
-
-        # Update the existing cells with new data
-        ws['A2'] = email
-        ws['B2'] = first_name
-        ws['C2'] = company_name
-        ws['D2'] = phone_number
-
-        # Save the workbook
-        wb.save("TestData/LoginData.xlsx")
-
         self.sp = companySignUpPage(self.driver)
         self.sp.clicksignuplink()
         self.sp.clickCompanysignupButton()
         self.logger.info("******** user is in company signup page ***********")
         self.logger.info("******** Entering valid data into the fields ***********")
-        self.sp.setCompanyName(company_name)
+        self.sp.setCompanyName(self.company_name)
 
         self.sp.setSearchIndustryType(self.setSearchIndustryType)
         self.sp.selectCompany()
-        self.sp.setContactName(first_name)
-        self.sp.setEmail(email)
+        self.sp.setContactName(self.first_name)
+        self.sp.setEmail(self.email)
         self.sp.clickcountrydd()
         self.sp.clickindia()
+        workbook = load_workbook("TestData/LoginData.xlsx")
+
+        # Select the active worksheet
+        worksheet = workbook.active
+        email = worksheet["A2"].value
+
         self.sp.clickstatedd()
         self.sp.clickTelangana()
         self.sp.clickcitydd()
         self.sp.clickHyderabad()
-        self.sp.setPhone(phone_number)
+        self.sp.setPhone(self.phone_number)
         self.sp.setPassword(self.password)
         self.sp.setConfirmPassword(self.password)
         self.sp.clicktermsConditions()
@@ -155,9 +161,9 @@ class TestSignUp(BaseClass):
         self.sp.clickContinueToLogin()
         self.logger.info("******** Company Sign Up successful ***********")
         self.logger.info("******** Entering the sig up credentials for Login ***********")
-        # Read data from specific cells
-        email = ws['A2'].value
 
+        # Read data from specific cells
+        email = worksheet['A2'].value
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(email)
         self.lp.setPassword(self.password)
@@ -182,6 +188,7 @@ class TestSignUp(BaseClass):
 
     @pytest.mark.run(order=2)
     @pytest.mark.regression
+    # @pytest.mark.test
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_ListingSignUpCompany(self):
         Url = "https://preprodanalytics.inlynk.com/license"
@@ -195,11 +202,11 @@ class TestSignUp(BaseClass):
         self.lp.clickLogin()
 
         self.clp.clickLicense()
-        wb = load_workbook("TestData/LoginData.xlsx")
+        workbook = load_workbook("TestData/LoginData.xlsx")
 
         # Select the active worksheet
-        ws = wb.active
-        company = ws['C2'].value
+        worksheet = workbook.active
+        company = worksheet['C2'].value
         self.clp.setsearchFiled(company)
         xpath = "//span[contains(text(),'" + company + "')]"
         # Use WebDriverWait to wait for the element to be present

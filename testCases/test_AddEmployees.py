@@ -38,7 +38,7 @@ class addEmployees(BaseClass):
     # @pytest.mark.test
     @pytest.mark.regression
 
-    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_createEmployee_superAdmin(self):
         self.logger.info("****TC_01	Create New Employee in Super Admin and Admin Account  ****")
         first_name2 = randomGen.random_first_name()
@@ -176,7 +176,7 @@ class addEmployees(BaseClass):
             # self.driver.quit()
         else:
             self.logger.info(f"Employee name not found: {element.text}")
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_Employee_StatusAndRole.png")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "test_createEmployee_superAdmin.png")
             self.driver.close()
             self.driver.quit()
             assert False
@@ -277,8 +277,7 @@ class addEmployees(BaseClass):
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, first_name_xpath))
         )
-        element.click()
-
+        # element.click()
 
         if element:
             self.logger.info(f"Found Employee name : {element.text}")

@@ -1,3 +1,4 @@
+import time
 import unittest
 from testCases.test_companySignUp import TestSignUp
 from testCases.test_login import TestLogin
@@ -25,7 +26,7 @@ Test_CompanyProfile = unittest.TestLoader().loadTestsFromTestCase(TestCompanyPro
 
 # create a test suite combining search_text and home_page_test
 test_suite = unittest.TestSuite([companySignUp_test, Test_Login,Test_Conf, Test_addEmp, Test_EmpSignUp, Test_Networks, Test_MyProfile, Test_CompanyProfile])
-# test_suite = unittest.TestSuite([companySignUp_test, Test_Login, Test_Conf])
+# test_suite = unittest.TestSuite([companySignUp_test, Test_Login])
 
 
 
